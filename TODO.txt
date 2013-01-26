@@ -18,19 +18,16 @@ Replace HasFlag
 Make NewFrame delegate instead of event
 Rename IEye.Initialize to something else
 Switch context in ObjectGL
-RTVs and DSVs over non-0 mipmaps for D3D9
-Fill present params with DisplayMode.Format instead of SwapChainDescription.Format
 Validate D3D9 view creation on unsupported parameters in view desc
-Samples
 Complete DDS loading everywhere
-Stream Output
-Format checks for OGL
-Validation
+Format and sampling checks for OGL 4.2+
 Comment Framework
-HLSL functions in OGL
 All Draw*** in OGL
 UAVs in OGL
 
+(D) Validation
+(D) HLSL functions in OGL
+(D) RTVs and DSVs over non-0 mipmaps for D3D9
 (D) OGL Fullscreen
 (D) Tesselation Shaders
 (D) Geometry Shaders
@@ -41,3 +38,4 @@ UAVs in OGL
 
 <s> SubresourceIndex -> ArrayIndex, MipLevel
 <s> Allow any valid null parameters on Flush
+<s> Fill present params with DisplayMode.Format instead of SwapChainDescription.Format
