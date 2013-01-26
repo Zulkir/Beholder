@@ -278,15 +278,12 @@ float4 Color : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
                 var meshSubset = cubeMesh.Subsets[0];
 
                 // Render Target
-                ImmediateContext.OutputMerger.RenderTargets.Set(SwapChain.GetCurrentColorBuffer());
-                ImmediateContext.OutputMerger.DepthStencil = SwapChain.GetCurrentDepthStencilBuffer();
-                ImmediateContext.Rasterizer.Viewports.Set(new Viewport(SwapChain.Width, SwapChain.Height));
-                //ImmediateContext.OutputMerger.RenderTargets.Set(targetRtv);
-                //ImmediateContext.OutputMerger.DepthStencil = targetDsv;
-                //ImmediateContext.Rasterizer.Viewports.Set(new Viewport(TargetSize, TargetSize));
+                ImmediateContext.OutputMerger.RenderTargets.Set(targetRtv);
+                ImmediateContext.OutputMerger.DepthStencil = targetDsv;
+                ImmediateContext.Rasterizer.Viewports.Set(new Viewport(TargetSize, TargetSize));
 
-                //ImmediateContext.ClearRenderTargetView(targetRtv, Color4.CornflowerBlue);
-                //ImmediateContext.ClearDepthStencilView(targetDsv, ClearDepthStencilFlags.All, 1.0f, 0);
+                ImmediateContext.ClearRenderTargetView(targetRtv, Color4.CornflowerBlue);
+                ImmediateContext.ClearDepthStencilView(targetDsv, ClearDepthStencilFlags.All, 1.0f, 0);
 
                 var cameraVertex = new CameraVertex
                 {
