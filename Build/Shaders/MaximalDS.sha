@@ -1,0 +1,44 @@
+%meta
+Name = MaximalDS
+Stage = Hull
+ProfileDX10 = ds_5_0
+ProfileGL3 = 400
+Domain = Quad
+InputControlPoints = 4
+
+%ubuffers
+ubuffer FirstUBuffer : slot = 0, slotGL3 = 4
+	float4 Param1First
+	float2 Param1Second
+	int3 Param1Third
+ubuffer SecondUBuffer : slot = 1, slotGL3 = 5
+	float3x4 Param2First
+	uint4 Param2Second
+
+%input
+	float3 Position : SDX10 = %name, SGL3 = gl_Position
+
+%input_extra
+	float2 TessCoord : SDX10 = SV_DomainLocation, SGL3 = gl_TessCoord
+
+%input_patch
+	float EdgeTess   : SDX10 = SV_TessFactor,       SGL3 = gl_TessLevelOuter
+	float InsideTess : SDX10 = SV_InsideTessFactor, SGL3 = gl_TessLevelInner
+	
+%output
+	float4 Position : SDX10 = SV_Position, SGL3 = gl_Position
+	float3 Color    : SDX10 = %name, SGL3 = %name
+
+%code_global
+	static const int TessFactor = 3;
+	
+%code_main
+	float3 v1  = lerp(INPUT(0, Position), INPUT(1, Position), INPUT_EXTRA(TessCoord).x);
+	float3 v2  = lerp(INPUT(2, Position), INPUT(3, Position), INPUT_EXTRA(TessCoord).x);
+	float3  p   = lerp(v1, v2, INPUT_EXTRA(TessCoord).y);
+	float  red = (INPUT_PATCH(EdgeTess)[0] + INPUT_PATCH(EdgeTess)[1] + 
+				  INPUT_PATCH(EdgeTess)[2] + INPUT_PATCH(EdgeTess)[3] +
+				  INPUT_PATCH(InsideTess)[0] + INPUT_PATCH(InsideTess)[1]) / 64.0;
+	
+	OUTPUT(Position) = float4(p, 1.0);
+	OUTPUT(Color) = float3(red, 0.0, 0.0);

@@ -1,0 +1,1 @@
+textureQueryLevels: "gsampler2DShadow"

@@ -1,0 +1,415 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0C3E4959-2E29-4AF9-9570-C2216DF28E43}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Beholder</RootNamespace>
+    <AssemblyName>Beholder</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Build\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Build\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Basic\MeshSubset.cs" />
+    <Compile Include="Core\ClearDepthStencilFlags.cs" />
+    <Compile Include="Core\DeviceContextType.cs" />
+    <Compile Include="Core\IDeviceContextAccumulativeArrayBinding.cs" />
+    <Compile Include="Core\IDeviceContextResettingArrayBinding.cs" />
+    <Compile Include="Core\IDeviceContextComputeShaderStage.cs" />
+    <Compile Include="Core\IDeviceContextShaderStage.cs" />
+    <Compile Include="Core\IDeviceContextInputAssembler.cs" />
+    <Compile Include="Core\IDeviceContextOutputMerger.cs" />
+    <Compile Include="Core\IDeviceContextRasterizer.cs" />
+    <Compile Include="Core\IDeviceContextStreamOutput.cs" />
+    <Compile Include="Core\IndexFormat.cs" />
+    <Compile Include="Core\IndexSource.cs" />
+    <Compile Include="Core\StreamOutputTarget.cs" />
+    <Compile Include="Core\IVertexLayout.cs" />
+    <Compile Include="IDeviceChild.cs" />
+    <Compile Include="IDeviceChildCreator.cs" />
+    <Compile Include="IReleasable.cs" />
+    <Compile Include="Platform\Api.cs" />
+    <Compile Include="Platform\ApiVersion.cs" />
+    <Compile Include="Platform\ColorAlphaFormatFlags.cs" />
+    <Compile Include="Platform\FeatureLevel.cs" />
+    <Compile Include="Platform\FullscreenState.cs" />
+    <Compile Include="Platform\ICapabilities.cs" />
+    <Compile Include="Platform\IFormatInfo.cs" />
+    <Compile Include="Platform\IFileSystem.cs" />
+    <Compile Include="Platform\IAdapterRestrictions.cs" />
+    <Compile Include="Platform\IWindowHandle.cs" />
+    <Compile Include="Platform\ModeRotation.cs" />
+    <Compile Include="Platform\PlatformExtensionMethods.cs" />
+    <Compile Include="Core\ExplicitFormat.cs" />
+    <Compile Include="Platform\WindowDescription.cs" />
+    <Compile Include="Resources\ITexture.cs" />
+    <Compile Include="Resources\ResourceDimension.cs" />
+    <Compile Include="Shaders\Reflection\GeometryShaderInputPrimitiveType.cs" />
+    <Compile Include="Shaders\Reflection\GeometryShaderOutputPrimitiveType.cs" />
+    <Compile Include="Shaders\Reflection\TesselationTopology.cs" />
+    <Compile Include="Shaders\Reflection\IShaderReflection.cs" />
+    <Compile Include="Shaders\Reflection\ShaderObjectTypeClassExtensions.cs" />
+    <Compile Include="Shaders\Reflection\ShaderReflection.cs" />
+    <Compile Include="Shaders\Reflection\ShaderUniformBufferVariable.cs" />
+    <Compile Include="Shaders\Reflection\ShaderObjectType.cs" />
+    <Compile Include="Shaders\Reflection\ShaderObjectVariable.cs" />
+    <Compile Include="Shaders\Reflection\ShaderSamplerVariable.cs" />
+    <Compile Include="Shaders\Reflection\ShaderSpecialParametersHolder.cs" />
+    <Compile Include="Shaders\Reflection\ShaderStructureElementCollection.cs" />
+    <Compile Include="Shaders\Reflection\ShaderValueBaseTypeExtensions.cs" />
+    <Compile Include="Shaders\Reflection\ShaderValueMatrixDimensionExtensions.cs" />
+    <Compile Include="Shaders\Reflection\ShaderValueVectorDimensionEtensions.cs" />
+    <Compile Include="Shaders\Reflection\TesselationDomain.cs" />
+    <Compile Include="Shaders\Reflection\TesselationPartitioning.cs" />
+    <Compile Include="Shaders\Reflection\ShaderValueType.cs" />
+    <Compile Include="Shaders\Reflection\ShaderIOVariableInterpolation.cs" />
+    <Compile Include="Shaders\Reflection\ShaderValueBaseType.cs" />
+    <Compile Include="Shaders\Reflection\ShaderValueMatrixDimension.cs" />
+    <Compile Include="Shaders\Reflection\ShaderValueTypeClass.cs" />
+    <Compile Include="Shaders\Reflection\ShaderIOVariable.cs" />
+    <Compile Include="Shaders\Reflection\ShaderValueVectorDimension.cs" />
+    <Compile Include="Shaders\Reflection\ShaderObjectTypeClass.cs" />
+    <Compile Include="Shaders\Reflection\ShaderReflectionExtensions.cs" />
+    <Compile Include="Shaders\Reflection\ShaderFixedSamplingPair.cs" />
+    <Compile Include="Shaders\IComputeShader.cs" />
+    <Compile Include="Resources\BufferDescription.cs" />
+    <Compile Include="Resources\DepthStencilViewDescription.cs" />
+    <Compile Include="Resources\DepthStencilViewDimension.cs" />
+    <Compile Include="Resources\DepthStencilViewFlags.cs" />
+    <Compile Include="Resources\ExtraFlags.cs" />
+    <Compile Include="Resources\IDepthStencilView.cs" />
+    <Compile Include="Resources\IRenderTargetView.cs" />
+    <Compile Include="Core\VertexLayoutClassification.cs" />
+    <Compile Include="Shaders\IShader.cs" />
+    <Compile Include="Utility\Collections\ConcurrentHashSet.cs" />
+    <Compile Include="Utility\Collections\SortedIntSet.cs" />
+    <Compile Include="Utility\Collections\TightConcurrentDictionary.cs" />
+    <Compile Include="Utility\DataProcessing\ArrayReader.cs" />
+    <Compile Include="Utility\DataProcessing\ArrayWriter.cs" />
+    <Compile Include="Utility\Delegates\FuncTry.cs" />
+    <Compile Include="Utility\ForImplementations\Core\BlendStateBase.cs" />
+    <Compile Include="Utility\ForImplementations\Core\DepthStencilStateBase.cs" />
+    <Compile Include="Utility\ForImplementations\Core\DeviceContextBase.cs" />
+    <Compile Include="Utility\ForImplementations\Core\DeviceContextBaseAccumulativeArrayBinding.cs" />
+    <Compile Include="Utility\ForImplementations\Core\DeviceContextBaseComputeShaderStage.cs" />
+    <Compile Include="Utility\ForImplementations\Core\DeviceContextBaseInputAssembler.cs" />
+    <Compile Include="Utility\ForImplementations\Core\DeviceContextBaseOutputMerger.cs" />
+    <Compile Include="Utility\ForImplementations\Core\DeviceContextBaseRasterizer.cs" />
+    <Compile Include="Utility\ForImplementations\Core\DeviceContextBaseResettingArrayBinding.cs" />
+    <Compile Include="Utility\ForImplementations\Core\DeviceContextBaseShaderStage.cs" />
+    <Compile Include="Utility\ForImplementations\Core\DeviceContextBaseStreamOutput.cs" />
+    <Compile Include="Utility\ForImplementations\Core\RasterizerStateBase.cs" />
+    <Compile Include="Utility\ForImplementations\Core\SamplerStateBase.cs" />
+    <Compile Include="Utility\ForImplementations\Core\VertexLayoutBase.cs" />
+    <Compile Include="Utility\ForImplementations\DeviceChildBase.cs" />
+    <Compile Include="Utility\ForImplementations\Platform\AdapterRestrictions.cs" />
+    <Compile Include="Utility\ForImplementations\Platform\FormatInfo.cs" />
+    <Compile Include="Utility\ForImplementations\Platform\StraightforwardFileSystem.cs" />
+    <Compile Include="Utility\ForImplementations\Platform\WindowHandle.cs" />
+    <Compile Include="Utility\ForImplementations\Resources\BufferBase.cs" />
+    <Compile Include="Utility\ForImplementations\Resources\CreatorHelper.cs" />
+    <Compile Include="Utility\ForImplementations\Resources\DepthStencilViewBase.cs" />
+    <Compile Include="Utility\ForImplementations\Resources\DictionaryExtensionMethods.cs" />
+    <Compile Include="Utility\ForImplementations\Resources\RenderTargetViewBase.cs" />
+    <Compile Include="Utility\ForImplementations\Resources\ShaderResourceViewBase.cs" />
+    <Compile Include="Utility\ForImplementations\Resources\Texture1DBase.cs" />
+    <Compile Include="Utility\ForImplementations\Resources\Texture2DBase.cs" />
+    <Compile Include="Utility\ForImplementations\Resources\Texture3DBase.cs" />
+    <Compile Include="Utility\ForImplementations\Resources\UnorderedAccessViewBase.cs" />
+    <Compile Include="Utility\ForImplementations\Shaders\SpecificShaderReflectionBase.cs" />
+    <Compile Include="Utility\ForImplementations\Shaders\SlotTranslation.cs" />
+    <Compile Include="Utility\Helpers\GeneralHelper.cs" />
+    <Compile Include="Utility\Helpers\ShaderHelper.cs" />
+    <Compile Include="Utility\Patterns\DirtyProperty.cs" />
+    <Compile Include="Shaders\ShaderParser.cs" />
+    <Compile Include="Shaders\Reflection\ShaderValueArrayType.cs" />
+    <Compile Include="Shaders\Reflection\ShaderValueMatrixType.cs" />
+    <Compile Include="Shaders\Reflection\ShaderValueScalarType.cs" />
+    <Compile Include="Shaders\Reflection\ShaderValueStructureElement.cs" />
+    <Compile Include="Shaders\Reflection\ShaderValueStructureType.cs" />
+    <Compile Include="Shaders\Reflection\ShaderValueVectorType.cs" />
+    <Compile Include="Utility\Helpers\DataHelper.cs" />
+    <Compile Include="Utility\Helpers\TextureHelper.cs" />
+    <Compile Include="Utility\Helpers\FormatHelper.cs" />
+    <Compile Include="Utility\DataProcessing\IDataWriter.cs" />
+    <Compile Include="IDeviceChildLoader.cs" />
+    <Compile Include="Utility\Patterns\IDisposableOnce.cs" />
+    <Compile Include="Utility\Patterns\ISimpleObservable.cs" />
+    <Compile Include="Utility\Patterns\ISimpleObserver.cs" />
+    <Compile Include="Utility\DataProcessing\MetaText.cs" />
+    <Compile Include="Utility\Patterns\SimpleObservableList.cs" />
+    <Compile Include="Utility\Structures\SmallArray.cs" />
+    <Compile Include="Resources\IShaderResourceView.cs" />
+    <Compile Include="Resources\IUnorderedAccessView.cs" />
+    <Compile Include="Resources\IResourceView.cs" />
+    <Compile Include="Resources\RenderTargetViewDescription.cs" />
+    <Compile Include="Resources\RenderTargetViewDimension.cs" />
+    <Compile Include="Resources\ResourceBindingException.cs" />
+    <Compile Include="Resources\SubresourceData.cs" />
+    <Compile Include="Resources\ShaderResourceViewDescription.cs" />
+    <Compile Include="Resources\ShaderResourceViewDimension.cs" />
+    <Compile Include="Resources\ShaderResourceViewExtendedBufferFlags.cs" />
+    <Compile Include="Resources\Texture2DDescription.cs" />
+    <Compile Include="Resources\UnorderedAccessViewBufferFlags.cs" />
+    <Compile Include="Resources\UnorderedAccessViewDescription.cs" />
+    <Compile Include="Resources\UnorderedAccessViewDimension.cs" />
+    <Compile Include="Shaders\IPixelShader.cs" />
+    <Compile Include="Shaders\IVertexShader.cs" />
+    <Compile Include="Shaders\ShaderStage.cs" />
+    <Compile Include="Core\RenderTargetBlendDescription.cs" />
+    <Compile Include="IDevice.cs" />
+    <Compile Include="Math\Bool32Vector2.cs" />
+    <Compile Include="Math\Bool32Vector3.cs" />
+    <Compile Include="Math\Bool32Vector4.cs" />
+    <Compile Include="Math\IntVector3.cs" />
+    <Compile Include="Math\IntVector4.cs" />
+    <Compile Include="Platform\DeviceInitializationFlags.cs" />
+    <Compile Include="Math\IntSize.cs" />
+    <Compile Include="Math\IntVector2.cs" />
+    <Compile Include="Platform\IAdditionalSwapChain.cs" />
+    <Compile Include="Utility\Structures\StructEnumerable.cs" />
+    <Compile Include="Platform\IPrimarySwapChain.cs" />
+    <Compile Include="Platform\PreventEventArgs.cs" />
+    <Compile Include="Resources\IResource.cs" />
+    <Compile Include="Shaders\IDomainShader.cs" />
+    <Compile Include="Shaders\IGeometryShader.cs" />
+    <Compile Include="Shaders\IHullShader.cs" />
+    <Compile Include="Math\Bool32.cs" />
+    <Compile Include="Utility\Patterns\Cleanable.cs" />
+    <Compile Include="Utility\Patterns\CleanableArrayBase.cs" />
+    <Compile Include="Utility\Patterns\CleanableArrayFixed.cs" />
+    <Compile Include="Utility\Patterns\CleanableBase.cs" />
+    <Compile Include="Utility\Patterns\CleanableRef.cs" />
+    <Compile Include="Utility\Delegates\FuncRef.cs" />
+    <Compile Include="Utility\Patterns\IRedundant.cs" />
+    <Compile Include="Utility\Collections\OneWayLinkedList.cs" />
+    <Compile Include="Utility\Collections\OneWayLinkedListNode.cs" />
+    <Compile Include="Utility\Patterns\Redundant.cs" />
+    <Compile Include="Utility\Patterns\RedundantBase.cs" />
+    <Compile Include="Utility\Patterns\RedundantEquatable.cs" />
+    <Compile Include="Utility\Patterns\RedundantObject.cs" />
+    <Compile Include="Utility\Patterns\RedundantRef.cs" />
+    <Compile Include="Platform\FormatElementType.cs" />
+    <Compile Include="Resources\ITexture1D.cs" />
+    <Compile Include="Resources\ITexture3D.cs" />
+    <Compile Include="Resources\Texture1DDescription.cs" />
+    <Compile Include="Resources\Texture3DDescription.cs" />
+    <Compile Include="Platform\RealTime.cs" />
+    <Compile Include="Platform\FormatSupport.cs" />
+    <Compile Include="Core\IDeviceContext.cs" />
+    <Compile Include="Core\Blend.cs" />
+    <Compile Include="Core\BlendDescription.cs" />
+    <Compile Include="Core\BlendOperation.cs" />
+    <Compile Include="Math\Color3.cs" />
+    <Compile Include="Math\Color4.cs" />
+    <Compile Include="Core\ColorMask.cs" />
+    <Compile Include="Validation\Platform\Adapter.cs" />
+    <Compile Include="Validation\Platform\AdditionalSwapChain.cs" />
+    <Compile Include="Validation\Core\BlendState.cs" />
+    <Compile Include="Validation\Resources\Buffer.cs" />
+    <Compile Include="Validation\Check.cs" />
+    <Compile Include="Validation\Shaders\ComputeShader.cs" />
+    <Compile Include="Validation\Core\DepthStencilState.cs" />
+    <Compile Include="Validation\Resources\DepthStencilView.cs" />
+    <Compile Include="Validation\Device.cs" />
+    <Compile Include="Validation\DeviceChild.cs" />
+    <Compile Include="Validation\DeviceChildCreator.cs" />
+    <Compile Include="Validation\DeviceChildLoader.cs" />
+    <Compile Include="Validation\Core\DeviceContext.cs" />
+    <Compile Include="Validation\Core\DeviceContextComputeShaderStage.cs" />
+    <Compile Include="Validation\Core\DeviceContextComputeShaderStageUnorderedAccessResources.cs" />
+    <Compile Include="Validation\Core\DeviceContextInputAssembler.cs" />
+    <Compile Include="Validation\Core\DeviceContextInputAssemblerVertexSources.cs" />
+    <Compile Include="Validation\Core\DeviceContextOutputMerger.cs" />
+    <Compile Include="Validation\Core\DeviceContextOutputMergerRenderTargets.cs" />
+    <Compile Include="Validation\Core\DeviceContextOutputMergerUnorderedAccessResources.cs" />
+    <Compile Include="Validation\Core\DeviceContextRasterizer.cs" />
+    <Compile Include="Validation\Core\DeviceContextRasterizerScissorRectangles.cs" />
+    <Compile Include="Validation\Core\DeviceContextRasterizerViewports.cs" />
+    <Compile Include="Validation\Core\DeviceContextShaderStage.cs" />
+    <Compile Include="Validation\Core\DeviceContextShaderStageSamplers.cs" />
+    <Compile Include="Validation\Core\DeviceContextShaderStageShaderResources.cs" />
+    <Compile Include="Validation\Core\DeviceContextShaderStageUniformBuffers.cs" />
+    <Compile Include="Validation\Wrappers.cs" />
+    <Compile Include="Validation\Shaders\DomainShader.cs" />
+    <Compile Include="Validation\Eye.cs" />
+    <Compile Include="Validation\Shaders\GeometryShader.cs" />
+    <Compile Include="Validation\Shaders\HullShader.cs" />
+    <Compile Include="Validation\Input\InputHandler.cs" />
+    <Compile Include="Validation\IWrapper.cs" />
+    <Compile Include="Validation\Input\KeyboardHandler.cs" />
+    <Compile Include="Validation\Input\MouseHandler.cs" />
+    <Compile Include="Validation\ObjectExtensions.cs" />
+    <Compile Include="Validation\Platform\Output.cs" />
+    <Compile Include="Validation\Shaders\PixelShader.cs" />
+    <Compile Include="Validation\Platform\PrimarySwapChain.cs" />
+    <Compile Include="Validation\Core\RasterizerState.cs" />
+    <Compile Include="Validation\Releasable.cs" />
+    <Compile Include="Validation\Resources\RenderTargetView.cs" />
+    <Compile Include="Validation\Resources\Resource.cs" />
+    <Compile Include="Validation\Resources\ResourceView.cs" />
+    <Compile Include="Validation\Core\SamplerState.cs" />
+    <Compile Include="Validation\Shaders\Shader.cs" />
+    <Compile Include="Validation\Shaders\ShaderCombination.cs" />
+    <Compile Include="Validation\Shaders\ShaderReflectionExtensions.cs" />
+    <Compile Include="Validation\Resources\ShaderResourceView.cs" />
+    <Compile Include="Validation\Platform\SwapChain.cs" />
+    <Compile Include="Validation\Resources\Texture.cs" />
+    <Compile Include="Validation\Resources\Texture1D.cs" />
+    <Compile Include="Validation\Resources\Texture2D.cs" />
+    <Compile Include="Validation\Resources\Texture3D.cs" />
+    <Compile Include="Validation\Resources\UnorderedAccessView.cs" />
+    <Compile Include="Validation\Core\VertexLayout.cs" />
+    <Compile Include="Validation\Shaders\VertexShader.cs" />
+    <Compile Include="Validation\Platform\Window.cs" />
+    <Compile Include="Validation\Platform\WindowHandle.cs" />
+    <Compile Include="Validation\Wrapper.cs" />
+    <Compile Include="Resources\IBuffer.cs" />
+    <Compile Include="Core\ISamplerState.cs" />
+    <Compile Include="Core\VertexSource.cs" />
+    <Compile Include="Math\Rational.cs" />
+    <Compile Include="Platform\AdapterDescription.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\AdapterFlags.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\WindowInitializationArgs.cs" />
+    <Compile Include="Platform\IAdapter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\IOutput.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\ISwapChain.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\IWindow.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\DisplayMode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\OutputDescription.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\IRealTime.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\Sampling.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Platform\SwapChainDescription.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Resources\BindFlags.cs" />
+    <Compile Include="Resources\CpuAccessFlags.cs" />
+    <Compile Include="Resources\MiscFlags.cs" />
+    <Compile Include="Resources\Usage.cs" />
+    <Compile Include="Core\Filter.cs" />
+    <Compile Include="Core\Comparison.cs" />
+    <Compile Include="Core\Cull.cs" />
+    <Compile Include="Core\DepthStencilDescription.cs" />
+    <Compile Include="Core\DepthStencilOperationDescription.cs" />
+    <Compile Include="Core\FillMode.cs" />
+    <Compile Include="Core\IBlendState.cs" />
+    <Compile Include="Core\IDepthStencilState.cs" />
+    <Compile Include="Core\SamplerDescription.cs" />
+    <Compile Include="Core\TextureAddressMode.cs" />
+    <Compile Include="Utility\Patterns\CleanableArray.cs" />
+    <Compile Include="Core\IRasterizerState.cs" />
+    <Compile Include="Shaders\IShaderCombination.cs" />
+    <Compile Include="Resources\ITexture2D.cs" />
+    <Compile Include="Basic\Mesh.cs" />
+    <Compile Include="Basic\MeshFactory.cs" />
+    <Compile Include="Core\PrimitiveTopology.cs" />
+    <Compile Include="Core\RasterizerDescription.cs" />
+    <Compile Include="Core\StencilOperation.cs" />
+    <Compile Include="Basic\VertexPositionNormalTexture.cs" />
+    <Compile Include="Core\VertexLayoutElement.cs" />
+    <Compile Include="Core\Viewport.cs" />
+    <Compile Include="Math\Winding.cs" />
+    <Compile Include="IEye.cs" />
+    <Compile Include="Input\IInputHandler.cs" />
+    <Compile Include="Input\IKeyboardHandler.cs" />
+    <Compile Include="Input\IMouseHandler.cs" />
+    <Compile Include="Input\Keys.cs" />
+    <Compile Include="Input\MouseButtons.cs" />
+    <Compile Include="Input\MouseEventInfo.cs" />
+    <Compile Include="Input\MouseEventType.cs" />
+    <Compile Include="Math\ByteVector2.cs" />
+    <Compile Include="Math\ByteVector4.cs" />
+    <Compile Include="Math\QuaternionBasedTransform.cs" />
+    <Compile Include="Math\Handedness.cs" />
+    <Compile Include="Math\IntRectangle.cs" />
+    <Compile Include="Math\MathHelper.cs" />
+    <Compile Include="Math\Matrix3x3.cs" />
+    <Compile Include="Math\Matrix4x4.cs" />
+    <Compile Include="Math\Matrix4x3.cs" />
+    <Compile Include="Math\Quaternion.cs" />
+    <Compile Include="Math\Rectangle.cs" />
+    <Compile Include="Math\MatrixBasedTransform.cs" />
+    <Compile Include="Math\ShortVector2.cs" />
+    <Compile Include="Math\ShortVector4.cs" />
+    <Compile Include="Math\Vector2.cs" />
+    <Compile Include="Math\Vector3.cs" />
+    <Compile Include="Math\Vector4.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\Delegates\ActionRef.cs" />
+    <Compile Include="Utility\Patterns\CleanableObject.cs" />
+    <Compile Include="Utility\Patterns\CleanableEquatable.cs" />
+    <Compile Include="Utility\Delegates\FuncOut.cs" />
+    <Compile Include="Utility\Patterns\ICleanable.cs" />
+    <Compile Include="Utility\Patterns\ICleanableObserver.cs" />
+    <Compile Include="Utility\Collections\IndexValuePair.cs" />
+    <Compile Include="Utility\Collections\Readonly\IReadonlyDictionary.cs" />
+    <Compile Include="Utility\Collections\Readonly\IReadonlyList.cs" />
+    <Compile Include="Utility\Collections\LazyList.cs" />
+    <Compile Include="Utility\Structures\Pair.cs" />
+    <Compile Include="Utility\Structures\Quadruple.cs" />
+    <Compile Include="Utility\Collections\Readonly\ReadonlyArrayWrapper.cs" />
+    <Compile Include="Utility\Collections\Readonly\ReadonlyDictionaryWrapper.cs" />
+    <Compile Include="Utility\Collections\Readonly\ReadonlyListWrapper.cs" />
+    <Compile Include="Utility\ShouldNeverHappenException.cs" />
+    <Compile Include="Utility\DataProcessing\TextParsingException.cs" />
+    <Compile Include="Utility\Structures\ThreeTuple.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

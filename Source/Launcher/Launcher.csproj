@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{96311B6B-5469-49BD-AAAA-6FB8D80B25B2}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Launcher</RootNamespace>
+    <AssemblyName>Launcher</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Build\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Build\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClearScreenScene.cs" />
+    <Compile Include="ColorfulSpaceScene.cs" />
+    <Compile Include="CubeScene.cs" />
+    <Compile Include="CurveTesselationScene.cs" />
+    <Compile Include="FullscreenQuadScene.cs" />
+    <Compile Include="RenderToTextureScene.cs" />
+    <Compile Include="TriangleScene.cs" />
+    <Compile Include="Scene.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Beholder.Eyes.SharpDX11.Winforms\Beholder.Eyes.SharpDX11.Winforms.csproj">
+      <Project>{951296AD-705F-4057-9FC7-C2DDF39318CA}</Project>
+      <Name>Beholder.Eyes.SharpDX11.Winforms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Beholder.Eyes.SharpDX9.Winforms\Beholder.Eyes.SharpDX9.Winforms.csproj">
+      <Project>{B18622C5-53FB-4C23-A5FB-7DCAA60B596F}</Project>
+      <Name>Beholder.Eyes.SharpDX9.Winforms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Beholder.Eyes.ObjectGL4.Default\Beholder.Eyes.ObjectGL4.Default.csproj">
+      <Project>{FEE8382A-7BBE-4A02-B2C5-586A1A2FF12E}</Project>
+      <Name>Beholder.Eyes.ObjectGL4.Default</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Beholder\Beholder.csproj">
+      <Project>{0C3E4959-2E29-4AF9-9570-C2216DF28E43}</Project>
+      <Name>Beholder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Beholder.Libraries.Windows.Forms\Beholder.Libraries.Windows.Forms.csproj">
+      <Project>{37BF68D2-5886-499F-B68E-937995F0C092}</Project>
+      <Name>Beholder.Libraries.Windows.Forms</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

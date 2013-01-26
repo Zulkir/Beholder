@@ -1,0 +1,50 @@
+%meta
+Name = MaximalHS
+ProfileDX10 = hs_5_0
+ProfileGL3 = 400
+InputControlPoints = 4
+OutputControlPoints = 4
+Domain = Quad
+Partitioning = Integer
+OutputTopology = TriangleCW
+MaxTessFactor = 64.0
+
+%ubuffers
+ubuffer FirstUBuffer : slot = 0, slotGL3 = 2
+	float4 Param1First
+	float2 Param1Second
+	int3 Param1Third
+ubuffer SecondUBuffer : slot = 1, slotGL3 = 3
+	float3x4 Param2First
+	uint4 Param2Second
+	
+%input
+	float4 Position : SDX10 = SV_Position, SGL3 = gl_Position
+
+%input_extra
+	int ControlPointID : SDX10 = SV_OutputControlPointID, SGL3 = gl_InvocationID
+	int PatchID        : SDX10 = SV_PrimitiveID,          SGL3 = gl_PrimitiveID
+
+%input_patch_extra
+	int PatchID : SDX10 = SV_PrimitiveID, SGL3 = gl_PrimitiveID
+	
+%output
+	float4 Position : SDX10 = %name, SGL3 = gl_Position
+
+%output_patch
+	float EdgeTess   : SDX10 = SV_TessFactor,       SGL3 = gl_TessLevelOuter
+	float InsideTess : SDX10 = SV_InsideTessFactor, SGL3 = gl_TessLevelInner
+
+%code_global
+	static const int TessFactor = 3;
+	
+%code_patch
+	OUTPUT_PATCH(EdgeTess)[0] = TessFactor;
+	OUTPUT_PATCH(EdgeTess)[1] = TessFactor;
+	OUTPUT_PATCH(EdgeTess)[2] = TessFactor;
+	OUTPUT_PATCH(EdgeTess)[3] = TessFactor;
+	OUTPUT_PATCH(InsideTess)[0] = TessFactor;
+	OUTPUT_PATCH(InsideTess)[1] = TessFactor;
+	
+%code_main
+	OUTPUT(Position) = INPUT(INPUT_EXTRA(ControlPointID), Position);

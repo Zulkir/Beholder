@@ -1,0 +1,61 @@
+%meta
+Name = MaximalGS
+Stage = Geometry
+ProfileDX10 = gs_5_0
+ProfileGL3 = 400
+MaxVertexCount = 3
+InputPrimitiveType = Triangle
+OutputPrimitiveType = Point
+
+%ubuffers
+ubuffer FirstUBuffer : slot = 0, slotGL3 = 6
+	float4 ParamFirst
+	float2 ParamSecond
+	int4x4 ParamThird
+ubuffer SecondUBuffer : slot = 1, slotGL3 = 7
+	float3x4 ParamFirst
+	uint4 ParamSecond
+	snorm ParamSecond
+
+%input
+	float4 Position : semanticDX10 = SV_Position, semanticGL3 = gl_Position
+	float3 Normal
+	float2 TexCoord
+	float3 Color
+
+%input_extra
+	uint PrimitiveID : semanticDX = SV_PrimitiveID, semanticGL3 = gl_PrimitiveIDIn
+	
+%output_streams
+stream 0
+	float4 Position : semanticDX10 = SV_Position, semanticGL3 = gl_Position
+	float2 TexCoord
+stream 1
+	float3 Normal
+	float3 Color
+	uint PrimitiveID
+
+%code_global
+
+	float3 AverageVector(float3 v1, float3 v2, float3 v3)
+	{
+		return (v1 + v2 + v3) / 3.0;
+	}
+	
+%code_main
+	OUTPUT(0, Position) = INPUT(0, Position);
+	OUTPUT(0, TexCoord) = INPUT(0, TexCoord);
+	EMIT(0)
+	
+	OUTPUT(0, Position) = INPUT(1, Position);
+	OUTPUT(0, TexCoord) = INPUT(1, TexCoord);
+	EMIT(0)
+	
+	OUTPUT(0, Position) = INPUT(2, Position);
+	OUTPUT(0, TexCoord) = INPUT(2, TexCoord);
+	EMIT(0)
+	
+	OUTPUT(1, Normal) = normalize(AverageVector(INPUT(0, Normal), INPUT(1, Normal), INPUT(2, Normal))));
+	OUTPUT(1, Color) = AverageVector(INPUT(0, Color), INPUT(1, Color), INPUT(2, Color));
+	OUTPUT(1, PrimitiveID) = INPUT(PrimitiveID);
+	EMIT(1)

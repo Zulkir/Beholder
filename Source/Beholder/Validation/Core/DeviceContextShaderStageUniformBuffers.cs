@@ -1,0 +1,69 @@
+﻿/*
+Copyright (c) 2010-2013 Beholder Project - Daniil Rodin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Beholder.Core;
+using Beholder.Resources;
+using Beholder.Utility.Helpers;
+using Buffer = Beholder.Validation.Resources.Buffer;
+
+namespace Beholder.Validation.Core
+{
+    class DeviceContextShaderStageUniformBuffers : Wrapper<IDeviceContextAccumulativeArrayBinding<IBuffer>>, IDeviceContextAccumulativeArrayBinding<IBuffer>
+    {
+        public DeviceContextShaderStageUniformBuffers(IDeviceContextAccumulativeArrayBinding<IBuffer> real)
+            : base(real)
+        {
+            
+        }
+
+        public IEnumerator<IBuffer> GetEnumerator()
+        {
+            return Real.Select(Wrappers.Get).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public int Count
+        {
+            get { return Real.Count; }
+        }
+
+        public IBuffer this[int index]
+        {
+            get { return Wrappers.Get(Real[index]); } 
+            set
+            {
+                Check.NullOrInternal(value, "value");
+                if (value != null && !value.BindFlags.HasFlag(BindFlags.UniformBuffer))
+                    throw new ArgumentException("A buffer must have a UniformBuffer bind flag to be used as a uniform buffer");
+                Real[index] = GeneralHelper.NullOrChild(value, b => ((Buffer)b).Real);
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+%meta
+Name = PassthroughLineGS
+ProfileDX10 = gs_4_0
+ProfileGL3 = 150
+MaxVertexCount = 4
+InputPrimitiveType = Line
+OutputPrimitiveType = Line
+
+%input
+	float4 Position : SDX10 = SV_Position, SGL3 = gl_Position
+
+%output
+	float4 Position : SDX10 = SV_Position, SGL3 = gl_Position
+	
+%code_main
+	OUTPUT(Position) = INPUT(0, Position);
+	EMIT
+	OUTPUT(Position) = INPUT(1, Position);
+	EMIT

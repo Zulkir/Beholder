@@ -1,0 +1,43 @@
+Use GetReal everywhere in validation
+Remove null checks from shader reflection validation since they cannot be null
+unique ubuffer name validation in OGL
+D3D9 instancing
+snorm and unorm in shaders
+Throw exceptions on different control point count in OGL
+AlphaTest & PixelDiscard
+Viewport (and such) output from GS
+Make sure about consumation order for D3D11 (SO vs IA / OM.RT vs SRV)
+Full use of SRV description in OGL
+Decide on full type names in CtXxxx 
+Make sure that DepthEnable affect DepthWrite the same way on OGL and D3D
+Make RTV and UAV compete for slots in Draw pipeline
+Validate resource that is not released in Views
+Separate Max SRV slots (esp for OGL)
+Better StreamOutput API (with StreamOutputLayout and such)
+Replace HasFlag
+Make NewFrame delegate instead of event
+Rename IEye.Initialize to something else
+Switch context in ObjectGL
+RTVs and DSVs over non-0 mipmaps for D3D9
+Fill present params with DisplayMode.Format instead of SwapChainDescription.Format
+Validate D3D9 view creation on unsupported parameters in view desc
+Samples
+Complete DDS loading everywhere
+Stream Output
+Format checks for OGL
+Validation
+Comment Framework
+HLSL functions in OGL
+All Draw*** in OGL
+UAVs in OGL
+
+(D) OGL Fullscreen
+(D) Tesselation Shaders
+(D) Geometry Shaders
+(D) OGL SetSubresourceData
+(D) Unattach Alt+Enter
+(D) Initial values in OGL CDeviceContext
+(D) Remove 'force' parameters from OGL pipeline consuming
+
+<s> SubresourceIndex -> ArrayIndex, MipLevel
+<s> Allow any valid null parameters on Flush

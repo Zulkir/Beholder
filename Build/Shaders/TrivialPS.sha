@@ -1,0 +1,31 @@
+%meta
+Name = TrivialPS
+Syntax = C100
+
+Stage = Pixel
+ProfileDX9 = ps_2_0
+ProfileDX10 = ps_4_0
+ProfileGL3 = 150
+
+%samplers
+sampler TextureMapSampler : slot = 0
+
+%srvs
+Texture2D <float4> DiffuseTexture : slot = 0, slotGL3 = 0
+
+%fixed_sampling
+DiffuseTexture : TextureMapSampler
+
+%input
+float4 Position : semanticDX9 = %unused, semanticDX10 = SV_Position, semanticGL3 = %unused
+float4 Color    : semanticDX9 = COLOR
+float2 TexCoord : semanticDX9 = TEXCOORD
+
+%output
+float4 Color : semanticDX9 = COLOR, semanticDX10 = SV_Target
+
+%code
+MAIN
+	float4 texColor = pow(fsample(DiffuseTexture, TextureMapSampler, INPUT(TexCoord)), 2.2);
+    OUTPUT(Color) = pow(texColor * INPUT(Color), 1.0 / 2.2);
+ENDMAIN

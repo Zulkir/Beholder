@@ -1,7 +1,11 @@
-_ReSharper*
-*.suo
-*.user
 [Bb]in/
 [Oo]bj/
 [Dd]ebug/
 [Rr]elease/
+_ReSharper*
+*.suo
+*.user
+*.orig
+*.rej
+*.InstallLog
+desktop.ini

@@ -1,0 +1,5 @@
+texelFetchOffset: offset types are int everywhere
+textureOffset( sampler2DArrayShadow ) offset parameter type should be int2
+texture( samplerCubeShadow ) P parameter should be vec4 (as in spec)
+textureGather: "gsampler2DShadow"
+textureGatherOffset: "gsampler2DShadow"

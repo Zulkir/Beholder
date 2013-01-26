@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5803C731-4076-4AB4-B10C-8FF818817AE3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Beholder.Libraries.SharpDX9</RootNamespace>
+    <AssemblyName>Beholder.Libraries.SharpDX9</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Build\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Build\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SharpDX, Version=2.3.1.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\SharpDX\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.D3DCompiler, Version=2.3.1.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\SharpDX\SharpDX.D3DCompiler.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9">
+      <HintPath>..\..\Dependencies\SharpDX\SharpDX.Direct3D9.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Platform\CAdapter.cs" />
+    <Compile Include="Platform\CAdditionalSwapChain.cs" />
+    <Compile Include="Resources\CAutoDepthStencil.cs" />
+    <Compile Include="Resources\CBackBuffer.cs" />
+    <Compile Include="Core\CBlendState.cs" />
+    <Compile Include="Resources\CBuffer.cs" />
+    <Compile Include="Resources\CBufferGpu.cs" />
+    <Compile Include="Resources\CBufferIndex.cs" />
+    <Compile Include="Resources\CBufferUniform.cs" />
+    <Compile Include="Resources\CBufferVertex.cs" />
+    <Compile Include="Core\CDepthStencilState.cs" />
+    <Compile Include="Resources\CDepthStencilView.cs" />
+    <Compile Include="CDeviceChildCreator.cs" />
+    <Compile Include="CDeviceChildLoader.cs" />
+    <Compile Include="Core\CDeviceContext.cs" />
+    <Compile Include="Core\ConstantVariablesSetter.cs" />
+    <Compile Include="Core\CRasterizerState.cs" />
+    <Compile Include="Resources\CRenderTargetView.cs" />
+    <Compile Include="Core\CSamplerState.cs" />
+    <Compile Include="Resources\CShaderResourceView.cs" />
+    <Compile Include="CtBeholder.cs" />
+    <Compile Include="Resources\CTexture.cs" />
+    <Compile Include="Resources\CTexture3D.cs" />
+    <Compile Include="Resources\CTextureSurface.cs" />
+    <Compile Include="Resources\CTextureTexture.cs" />
+    <Compile Include="Resources\CTextureTextureCube.cs" />
+    <Compile Include="Resources\CTextureTextureSingle.cs" />
+    <Compile Include="CtSharpDX9.cs" />
+    <Compile Include="Core\CVertexLayout.cs" />
+    <Compile Include="ICDevice.cs" />
+    <Compile Include="Resources\ICResource.cs" />
+    <Compile Include="Resources\IDefaultPoolResource.cs" />
+    <Compile Include="LocalHelpers.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shaders\CPixelShader.cs" />
+    <Compile Include="Shaders\CShader.cs" />
+    <Compile Include="Shaders\CShaderCombination.cs" />
+    <Compile Include="Shaders\CShaderFixedSamplingPair.cs" />
+    <Compile Include="Shaders\CShaderIOVariable.cs" />
+    <Compile Include="Shaders\CShaderObjectVariable.cs" />
+    <Compile Include="Shaders\CShaderReflection.cs" />
+    <Compile Include="Shaders\CShaderUniformBufferVariable.cs" />
+    <Compile Include="Shaders\CVertexShader.cs" />
+    <Compile Include="Shaders\PixelShaderProfile.cs" />
+    <Compile Include="Shaders\ShaderRegisterType.cs" />
+    <Compile Include="Shaders\ShaderRegisterTypeExtensions.cs" />
+    <Compile Include="Shaders\VertexShaderProfile.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Beholder.Libraries.Windows\Beholder.Libraries.Windows.csproj">
+      <Project>{A6B06CCC-3C3C-4C50-8B2C-F7D763FD8D01}</Project>
+      <Name>Beholder.Libraries.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Beholder\Beholder.csproj">
+      <Project>{0C3E4959-2E29-4AF9-9570-C2216DF28E43}</Project>
+      <Name>Beholder</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

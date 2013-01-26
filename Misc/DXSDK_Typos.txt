@@ -1,0 +1,2 @@
+HLSL TextureObject::Load Offset: Texture2DArray appears in two rows
+

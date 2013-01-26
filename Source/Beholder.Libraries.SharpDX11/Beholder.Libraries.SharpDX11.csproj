@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{ED020B26-4AFC-4CBF-9C67-7021893F0662}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Beholder.Libraries.SharpDX11</RootNamespace>
+    <AssemblyName>Beholder.Libraries.SharpDX11</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Build\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Build\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SharpDX">
+      <HintPath>..\..\Dependencies\SharpDX\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.D3DCompiler">
+      <HintPath>..\..\Dependencies\SharpDX\SharpDX.D3DCompiler.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11">
+      <HintPath>..\..\Dependencies\SharpDX\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI">
+      <HintPath>..\..\Dependencies\SharpDX\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Platform\CAdapter.cs" />
+    <Compile Include="Resources\CAutoDepthStencil.cs" />
+    <Compile Include="Resources\CBackBuffer.cs" />
+    <Compile Include="Core\CBlendState.cs" />
+    <Compile Include="Resources\CBuffer.cs" />
+    <Compile Include="Core\CDepthStencilState.cs" />
+    <Compile Include="Resources\CDepthStencilView.cs" />
+    <Compile Include="CDeviceChildCreator.cs" />
+    <Compile Include="CDeviceChildLoader.cs" />
+    <Compile Include="Core\CDeviceContext.cs" />
+    <Compile Include="Platform\COutput.cs" />
+    <Compile Include="Core\CRasterizerState.cs" />
+    <Compile Include="Resources\CRenderTargetView.cs" />
+    <Compile Include="Core\CSamplerState.cs" />
+    <Compile Include="Resources\CShaderResourceView.cs" />
+    <Compile Include="Platform\CSwapChain.cs" />
+    <Compile Include="CtBeholder.cs" />
+    <Compile Include="Resources\CTexture1D.cs" />
+    <Compile Include="Resources\CTexture2D.cs" />
+    <Compile Include="Resources\CTexture3D.cs" />
+    <Compile Include="CtSharpDX11.cs" />
+    <Compile Include="Resources\CUnorderedAccessView.cs" />
+    <Compile Include="Core\CVertexLayout.cs" />
+    <Compile Include="ICDevice.cs" />
+    <Compile Include="Resources\ICResource.cs" />
+    <Compile Include="LocalHelpers.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shaders\CComputeShader.cs" />
+    <Compile Include="Shaders\CDomainShader.cs" />
+    <Compile Include="Shaders\CGeometryShader.cs" />
+    <Compile Include="Shaders\CHullShader.cs" />
+    <Compile Include="Shaders\ComputeShaderProfile.cs" />
+    <Compile Include="Shaders\CPixelShader.cs" />
+    <Compile Include="Shaders\CShader.cs" />
+    <Compile Include="Shaders\CShaderCombination.cs" />
+    <Compile Include="Shaders\CShaderIOVariable.cs" />
+    <Compile Include="Shaders\CShaderObjectVariable.cs" />
+    <Compile Include="Shaders\CShaderReflection.cs" />
+    <Compile Include="Shaders\CShaderSamplerVariable.cs" />
+    <Compile Include="Shaders\CShaderUniformBufferVariable.cs" />
+    <Compile Include="Shaders\CVertexShader.cs" />
+    <Compile Include="Shaders\DomainShaderProfile.cs" />
+    <Compile Include="Shaders\GeometryShaderProfile.cs" />
+    <Compile Include="Shaders\HullShaderProfile.cs" />
+    <Compile Include="Shaders\PixelShaderProfile.cs" />
+    <Compile Include="Shaders\SpecialParameterHolderExtensions.cs" />
+    <Compile Include="Shaders\VertexShaderProfile.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Beholder.Libraries.Windows\Beholder.Libraries.Windows.csproj">
+      <Project>{A6B06CCC-3C3C-4C50-8B2C-F7D763FD8D01}</Project>
+      <Name>Beholder.Libraries.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Beholder\Beholder.csproj">
+      <Project>{0C3E4959-2E29-4AF9-9570-C2216DF28E43}</Project>
+      <Name>Beholder</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

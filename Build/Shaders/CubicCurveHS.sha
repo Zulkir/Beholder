@@ -1,0 +1,25 @@
+%meta
+Name = CubicCurveHS
+ProfileDX10 = hs_5_0
+ProfileGL3 = 400
+OutputControlPoints = 4
+
+%ubuffers
+ubuffer TessFactor : slot = 0, slotGL3 = 0
+	int NumSegments
+
+%input
+	float4 Position : SDX10 = SV_Position, SGL3 = gl_Position
+
+%output_constant
+	float Tess : SDX10 = SV_TessFactor, SGL3 = gl_TessLevelOuter
+
+%output
+	float4 Position : SDX10 = %name, SGL3 = gl_Position
+
+%code_patch
+	OUTPUT(Tess, 0) = float(NumSegments);
+	OUTPUT(Tess, 1) = 1.0;
+
+%code_main
+	OUTPUT(Position) = INPUT(Position);
