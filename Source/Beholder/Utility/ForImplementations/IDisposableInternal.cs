@@ -20,22 +20,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-using System;
-
-namespace Beholder.Validation
+namespace Beholder.Utility.ForImplementations
 {
-    class Releasable : Wrapper<IReleasable>, IReleasable
+    public interface IDisposableInternal
     {
-        public Releasable(IReleasable real) : base(real) {}
-
-        public bool IsReleased { get; private set; }
-        
-        public void Release()
-        {
-            if (IsReleased)
-                throw new InvalidOperationException("Trying to release a resource for the second time.");
-            IsReleased = true;
-            Real.Release();
-        }
+        void DisposeInternal();
     }
 }

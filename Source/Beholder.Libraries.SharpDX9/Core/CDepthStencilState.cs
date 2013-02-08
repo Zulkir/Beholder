@@ -20,16 +20,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-using System;
 using Beholder.Core;
 using Beholder.Libraries.SharpDX9.Resources;
+using Beholder.Utility.ForImplementations;
 using Beholder.Utility.ForImplementations.Core;
 using SharpDX.Direct3D9;
 using StencilOperation = SharpDX.Direct3D9.StencilOperation;
 
 namespace Beholder.Libraries.SharpDX9.Core
 {
-    class CDepthStencilState : DepthStencilStateBase<ICDevice>, IDefaultPoolResource, IDisposable
+    class CDepthStencilState : DepthStencilStateBase<ICDevice>, IDefaultPoolResource, IDisposableInternal
     {
         StateBlock stateBlockCw;
         StateBlock stateBlockCcw;
@@ -64,7 +64,7 @@ namespace Beholder.Libraries.SharpDX9.Core
             stateBlockCcw = CreateStateBlock(true);
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             stateBlockCcw.Dispose();
             stateBlockCw.Dispose();

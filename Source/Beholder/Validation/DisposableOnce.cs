@@ -22,10 +22,19 @@ THE SOFTWARE.
 
 using System;
 
-namespace Beholder.Utility.Patterns
+namespace Beholder.Validation
 {
-    public interface IDisposableOnce : IDisposable
+    class DisposableOnce : Wrapper<IDisposableOnce>, IDisposableOnce
     {
-        bool Disposed { get; }
+        public DisposableOnce(IDisposableOnce real) : base(real) { }
+
+        public bool IsDisposed { get { return Real.IsDisposed; } }
+
+        public void Dispose()
+        {
+            if (Real.IsDisposed)
+                throw new InvalidOperationException("Trying to dispose of a resource for the second time.");
+            Real.Dispose();
+        }
     }
 }

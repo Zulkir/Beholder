@@ -27,7 +27,7 @@ using Beholder.Resources;
 
 namespace Beholder.Utility.ForImplementations.Resources
 {
-    public abstract class Texture2DBase<TDevice> : DeviceChildBase<TDevice>, ITexture2D, IDisposable where TDevice : IDevice
+    public abstract class Texture2DBase<TDevice> : DeviceChildBase<TDevice>, ITexture2D, IDisposableInternal where TDevice : IDevice
     {
         protected Texture2DDescription desc;
 
@@ -35,8 +35,8 @@ namespace Beholder.Utility.ForImplementations.Resources
         readonly List<IDepthStencilView> dsvs;
         readonly List<IShaderResourceView> srvs;
         readonly List<IUnorderedAccessView> uavs;
-        readonly Action<ITexture2D> onRelease;
-        bool isReleased;
+        readonly Action<ITexture2D> onDispose;
+        bool isDisposed;
 
         public ResourceDimension Dimension { get { return ResourceDimension.Texture2D; } }
         public int Width { get { return desc.Width; } }
@@ -50,13 +50,13 @@ namespace Beholder.Utility.ForImplementations.Resources
         public MiscFlags MiscFlags { get { return desc.MiscFlags; } }
         public ExtraFlags ExtraFlags { get { return desc.ExtraFlags; } }
         public void GetDescription(out Texture2DDescription texture2DDesc) { texture2DDesc = desc; }
-        public bool IsReleased { get { return isReleased; } }
+        public bool IsDisposed { get { return isDisposed; } }
 
-        protected Texture2DBase(TDevice device, ref Texture2DDescription desc, Action<ITexture2D> onRelease)
+        protected Texture2DBase(TDevice device, ref Texture2DDescription desc, Action<ITexture2D> onDispose)
             : base(device)
         {
             this.desc = desc;
-            this.onRelease = onRelease;
+            this.onDispose = onDispose;
             rtvs = new List<IRenderTargetView>();
             dsvs = new List<IDepthStencilView>();
             srvs = new List<IShaderResourceView>();
@@ -69,20 +69,20 @@ namespace Beholder.Utility.ForImplementations.Resources
         protected abstract void DisposeSrv(IShaderResourceView view);
         protected abstract void DisposeUav(IUnorderedAccessView view);
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             foreach (var v in rtvs) { DisposeRtv(v); }
             foreach (var v in dsvs) { DisposeDsv(v); }
             foreach (var v in srvs) { DisposeSrv(v); }
             foreach (var v in uavs) { DisposeUav(v); }
             DisposeOfNative();
-            isReleased = true;
+            isDisposed = true;
         }
 
-        public void Release()
+        public void Dispose()
         {
-            onRelease(this);
-            Dispose();
+            onDispose(this);
+            DisposeInternal();
         }
 
         #region View as Render Target

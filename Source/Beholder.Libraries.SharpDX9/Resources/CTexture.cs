@@ -24,12 +24,13 @@ using System;
 using System.Collections.Generic;
 using Beholder.Platform;
 using Beholder.Resources;
+using Beholder.Utility.ForImplementations;
 using SharpDX.Direct3D9;
 using Usage = Beholder.Resources.Usage;
 
 namespace Beholder.Libraries.SharpDX9.Resources
 {
-    abstract class CTexture : ITexture1D, ITexture2D, ICResource, IDefaultPoolResource, IDisposable
+    abstract class CTexture : ITexture1D, ITexture2D, ICResource, IDefaultPoolResource, IDisposableInternal
     {
         readonly protected ICDevice device;
         readonly protected ResourceDimension dimension;
@@ -38,15 +39,15 @@ namespace Beholder.Libraries.SharpDX9.Resources
         readonly protected List<CShaderResourceView> srvs;
         protected Texture2DDescription desc;
 
-        readonly Action<CTexture> onRelease;
-        bool isReleased;
+        readonly Action<CTexture> onDispose;
+        bool isDisposed;
 
-        protected CTexture(ICDevice device, ResourceDimension dimension, Texture2DDescription description, Action<CTexture> onRelease)
+        protected CTexture(ICDevice device, ResourceDimension dimension, Texture2DDescription description, Action<CTexture> onDispose)
         {
             this.device = device;
             this.dimension = dimension;
             this.desc = description;
-            this.onRelease = onRelease;
+            this.onDispose = onDispose;
 
             if (desc.BindFlags.HasFlag(BindFlags.RenderTarget))
                 rtvs = new List<CRenderTargetView>();
@@ -56,16 +57,16 @@ namespace Beholder.Libraries.SharpDX9.Resources
                 srvs = new List<CShaderResourceView>();
         }
 
-        public void Release()
-        {
-            onRelease(this);
-            Dispose();
-        }
-
         public void Dispose()
         {
+            onDispose(this);
+            DisposeInternal();
+        }
+
+        public void DisposeInternal()
+        {
             DisposeConcrete();
-            isReleased = true;
+            isDisposed = true;
         }
 
         #region Abstract
@@ -80,7 +81,7 @@ namespace Beholder.Libraries.SharpDX9.Resources
         #region ICResource, IDeviceChild, and IReleasable
         public ICDevice Device { get { return device; } }
         IDevice IDeviceChild.Device { get { return device; } }
-        public bool IsReleased { get { return isReleased; } }
+        public bool IsDisposed { get { return isDisposed; } }
         #endregion
 
         #region Resource Description

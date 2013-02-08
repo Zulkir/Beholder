@@ -24,12 +24,13 @@ using System;
 using System.IO;
 using System.Text;
 using Beholder.Shaders;
+using Beholder.Utility.ForImplementations;
 using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;
 
 namespace Beholder.Libraries.SharpDX11.Shaders
 {
-    sealed class CPixelShader : CShader, IPixelShader, IDisposable
+    sealed class CPixelShader : CShader, IPixelShader, IDisposableInternal
     {
         public override ShaderStage Stage { get { return ShaderStage.Pixel; } }
         public PixelShader D3DPixelShader { get; private set; }
@@ -53,7 +54,7 @@ namespace Beholder.Libraries.SharpDX11.Shaders
             D3DPixelShader = new PixelShader(device.D3DDevice, bytecode);
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             D3DPixelShader.Dispose();
         }

@@ -20,15 +20,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-using System;
 using Beholder.Core;
+using Beholder.Utility.ForImplementations;
 using Beholder.Utility.ForImplementations.Core;
 using SharpDX.Direct3D11;
 using RenderTargetBlendDescription = Beholder.Core.RenderTargetBlendDescription;
 
 namespace Beholder.Libraries.SharpDX11.Core
 {
-    class CBlendState : BlendStateBase<ICDevice>, IDisposable
+    class CBlendState : BlendStateBase<ICDevice>, IDisposableInternal
     {
         readonly BlendState d3dBlendState;
 
@@ -65,7 +65,7 @@ namespace Beholder.Libraries.SharpDX11.Core
             d3dBlendState = new BlendState(device.D3DDevice, ref d3dDesc);
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             d3dBlendState.Dispose();
         }

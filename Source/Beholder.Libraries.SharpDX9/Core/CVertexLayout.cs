@@ -20,16 +20,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-using System;
 using Beholder.Core;
 using Beholder.Libraries.SharpDX9.Resources;
 using Beholder.Libraries.SharpDX9.Shaders;
+using Beholder.Utility.ForImplementations;
 using Beholder.Utility.ForImplementations.Core;
 using SharpDX.Direct3D9;
 
 namespace Beholder.Libraries.SharpDX9.Core
 {
-    class CVertexLayout : VertexLayoutBase<ICDevice>, IDefaultPoolResource, IDisposable
+    class CVertexLayout : VertexLayoutBase<ICDevice>, IDefaultPoolResource, IDisposableInternal
     {
         readonly VertexElement[] d3dElements;
         VertexDeclaration d3dVertexDeclaration;
@@ -43,7 +43,7 @@ namespace Beholder.Libraries.SharpDX9.Core
             CreateNative();
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             DisposeOfNative();
         }

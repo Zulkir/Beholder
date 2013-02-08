@@ -30,16 +30,16 @@ namespace Beholder.Validation.Resources
     {
         public Texture2D(ITexture2D real) : base(real) { }
 
-        public int Width { get { CheckNotReleased(); return Real.Width; } }
-        public int Height { get { CheckNotReleased(); return Real.Height; } }
-        public int ArraySize { get { CheckNotReleased(); return Real.ArraySize; } }
-        public Sampling Sampling { get { CheckNotReleased(); return Real.Sampling; } }
-        public void GetDescription(out Texture2DDescription texture2DDesc){ CheckNotReleased(); Real.GetDescription(out texture2DDesc); }
+        public int Width { get { CheckNotDisposed(); return Real.Width; } }
+        public int Height { get { CheckNotDisposed(); return Real.Height; } }
+        public int ArraySize { get { CheckNotDisposed(); return Real.ArraySize; } }
+        public Sampling Sampling { get { CheckNotDisposed(); return Real.Sampling; } }
+        public void GetDescription(out Texture2DDescription texture2DDesc){ CheckNotDisposed(); Real.GetDescription(out texture2DDesc); }
 
         #region View As
         public IRenderTargetView ViewAsRenderTarget(int formatID, int mipSlice)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckRenderTargetBinding();
             RenderTargetView.ValidateTexture2D(this, formatID, mipSlice);
             return Wrappers.Get(Real.ViewAsRenderTarget(formatID, mipSlice));
@@ -47,7 +47,7 @@ namespace Beholder.Validation.Resources
 
         public IRenderTargetView ViewAsRenderTargetArray(int formatID, int mipSlice, int firstArraySlice, int arraySize)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckRenderTargetBinding();
             RenderTargetView.ValidateTexture2DArray(this, formatID, mipSlice, firstArraySlice, arraySize);
             return Wrappers.Get(Real.ViewAsRenderTargetArray(formatID, mipSlice, firstArraySlice, arraySize));
@@ -55,7 +55,7 @@ namespace Beholder.Validation.Resources
 
         public IRenderTargetView ViewAsRenderTargetMultisampled(int formatID)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckRenderTargetBinding();
             RenderTargetView.ValidateTexture2DMultisampled(this, formatID);
             return Wrappers.Get(Real.ViewAsRenderTargetMultisampled(formatID));
@@ -63,7 +63,7 @@ namespace Beholder.Validation.Resources
 
         public IRenderTargetView ViewAsRenderTargetMultisampledArray(int formatID, int firstArraySlice, int arraySize)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckRenderTargetBinding();
             RenderTargetView.ValidateTexture2DMultisampledArray(this, formatID, firstArraySlice, arraySize);
             return Wrappers.Get(Real.ViewAsRenderTargetMultisampledArray(formatID, firstArraySlice, arraySize));
@@ -71,7 +71,7 @@ namespace Beholder.Validation.Resources
 
         public IDepthStencilView ViewAsDepthStencil(int formatID, DepthStencilViewFlags flags, int mipSlice)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckDepthStencilBinding();
             DepthStencilView.ValidateTexture2D(this, formatID, flags, mipSlice);
             return Wrappers.Get(Real.ViewAsDepthStencil(formatID, flags, mipSlice));
@@ -79,7 +79,7 @@ namespace Beholder.Validation.Resources
 
         public IDepthStencilView ViewAsDepthStencilArray(int formatID, DepthStencilViewFlags flags, int mipSlice, int firstArraySlice, int arraySize)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckDepthStencilBinding();
             DepthStencilView.ValidateTexture2DArray(this, formatID, flags, mipSlice, firstArraySlice, arraySize);
             return Wrappers.Get(Real.ViewAsDepthStencilArray(formatID, flags, mipSlice, firstArraySlice, arraySize));
@@ -87,7 +87,7 @@ namespace Beholder.Validation.Resources
 
         public IDepthStencilView ViewAsDepthStencilMultisampled(int formatID, DepthStencilViewFlags flags)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckDepthStencilBinding();
             DepthStencilView.ValidateTexture2DMultisampled(this, formatID, flags);
             return Wrappers.Get(Real.ViewAsDepthStencilMultisampled(formatID, flags));
@@ -95,7 +95,7 @@ namespace Beholder.Validation.Resources
 
         public IDepthStencilView ViewAsDepthStencilMultisampledArray(int formatID, DepthStencilViewFlags flags, int firstArraySlice, int arraySize)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckDepthStencilBinding();
             DepthStencilView.ValidateTexture2DMultisampledArray(this, formatID, flags, firstArraySlice, arraySize);
             return Wrappers.Get(Real.ViewAsDepthStencilMultisampledArray(formatID, flags, firstArraySlice, arraySize));
@@ -103,7 +103,7 @@ namespace Beholder.Validation.Resources
 
         public IShaderResourceView ViewAsShaderResource(int formatID, int mostDetailedMip, int mipLevels)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckShaderResourceBinding();
             ShaderResourceView.ValidateTexture2D(this, formatID, mostDetailedMip, mipLevels);
             return Wrappers.Get(Real.ViewAsShaderResource(formatID, mostDetailedMip, mipLevels));
@@ -111,7 +111,7 @@ namespace Beholder.Validation.Resources
 
         public IShaderResourceView ViewAsShaderResourceArray(int formatID, int mostDetailedMip, int mipLevels, int firstArraySlice, int arraySize)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckShaderResourceBinding();
             ShaderResourceView.ValidateTexture2DArray(this, formatID, mostDetailedMip, mipLevels, firstArraySlice, arraySize);
             return Wrappers.Get(Real.ViewAsShaderResourceArray(formatID, mostDetailedMip, mipLevels, firstArraySlice, arraySize));
@@ -119,7 +119,7 @@ namespace Beholder.Validation.Resources
 
         public IShaderResourceView ViewAsShaderResourceMultisampled(int formatID)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckShaderResourceBinding();
             ShaderResourceView.ValidateTexture2DMultisampled(this, formatID);
             return Wrappers.Get(Real.ViewAsShaderResourceMultisampled(formatID));
@@ -127,7 +127,7 @@ namespace Beholder.Validation.Resources
 
         public IShaderResourceView ViewAsShaderResourceMultisampledArray(int formatID, int firstArraySlice, int arraySize)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckShaderResourceBinding();
             ShaderResourceView.ValidateTexture2DMultisampledArray(this, formatID, firstArraySlice, arraySize);
             return Wrappers.Get(Real.ViewAsShaderResourceMultisampledArray(formatID, firstArraySlice, arraySize));
@@ -135,7 +135,7 @@ namespace Beholder.Validation.Resources
 
         public IShaderResourceView ViewAsShaderResourceCube(int formatID, int mostDetailedMip, int mipLevels)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckShaderResourceBinding();
             ShaderResourceView.ValidateTextureCube(this, formatID, mostDetailedMip, mipLevels);
             return Wrappers.Get(Real.ViewAsShaderResourceCube(formatID, mostDetailedMip, mipLevels));
@@ -143,7 +143,7 @@ namespace Beholder.Validation.Resources
 
         public IShaderResourceView ViewAsShaderResourceCubeArray(int formatID, int mostDetailedMip, int mipLevels, int first2DArrayFace, int cubeCount)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckShaderResourceBinding();
             ShaderResourceView.ValidateTextureCubeArray(this, formatID, mostDetailedMip, mipLevels, first2DArrayFace, cubeCount);
             return Wrappers.Get(Real.ViewAsShaderResourceCubeArray(formatID, mostDetailedMip, mipLevels, first2DArrayFace, cubeCount));
@@ -151,7 +151,7 @@ namespace Beholder.Validation.Resources
 
         public IUnorderedAccessView ViewAsUnorderedAccessResource(int formatID, int mipSlice)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckUnorderedAccessBinding();
             UnorderedAccessView.ValidateTexture2D(this, formatID, mipSlice);
             return Wrappers.Get(Real.ViewAsUnorderedAccessResource(formatID, mipSlice));
@@ -159,7 +159,7 @@ namespace Beholder.Validation.Resources
 
         public IUnorderedAccessView ViewAsUnorderedAccessResourceArray(int formatID, int mipSlice, int firstArraySlice, int arraySize)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckUnorderedAccessBinding();
             UnorderedAccessView.ValidateTexture2DArray(this, formatID, mipSlice, firstArraySlice, arraySize);
             return Wrappers.Get(Real.ViewAsUnorderedAccessResourceArray(formatID, mipSlice, firstArraySlice, arraySize));

@@ -26,15 +26,15 @@ using Beholder.Resources;
 
 namespace Beholder.Utility.ForImplementations.Resources
 {
-    public abstract class BufferBase<TDevice> : DeviceChildBase<TDevice>, IBuffer, IDisposable where TDevice : IDevice
+    public abstract class BufferBase<TDevice> : DeviceChildBase<TDevice>, IBuffer, IDisposableInternal where TDevice : IDevice
     {
         protected BufferDescription desc;
 
         readonly List<IRenderTargetView> rtvs;
         readonly List<IShaderResourceView> srvs;
         readonly List<IUnorderedAccessView> uavs;
-        readonly Action<IBuffer> onRelease;
-        bool isReleased;
+        readonly Action<IBuffer> onDispose;
+        bool isDisposed;
 
         public ResourceDimension Dimension { get { return ResourceDimension.Buffer; } }
         public int SizeInBytes { get { return desc.SizeInBytes; } }
@@ -44,13 +44,13 @@ namespace Beholder.Utility.ForImplementations.Resources
         public int StructureByteStride { get { return desc.StructureByteStride; } }
         public ExtraFlags ExtraFlags { get { return desc.ExtraFlags; } }
         public void GetDescription(out BufferDescription description) { description = desc; }
-        public bool IsReleased { get { return isReleased; } }
+        public bool IsDisposed { get { return isDisposed; } }
 
-        protected BufferBase(TDevice device, ref BufferDescription desc, Action<IBuffer> onRelease)
+        protected BufferBase(TDevice device, ref BufferDescription desc, Action<IBuffer> onDispose)
             : base(device)
         {
             this.desc = desc;
-            this.onRelease = onRelease;
+            this.onDispose = onDispose;
             rtvs = new List<IRenderTargetView>();
             srvs = new List<IShaderResourceView>();
             uavs = new List<IUnorderedAccessView>();
@@ -61,19 +61,19 @@ namespace Beholder.Utility.ForImplementations.Resources
         protected abstract void DisposeSrv(IShaderResourceView view);
         protected abstract void DisposeUav(IUnorderedAccessView view);
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             foreach (var v in rtvs) { DisposeRtv(v); }
             foreach (var v in srvs) { DisposeSrv(v); }
             foreach (var v in uavs) { DisposeUav(v); }
             DisposeOfNative();
-            isReleased = true;
+            isDisposed = true;
         }
 
-        public void Release()
+        public void Dispose()
         {
-            onRelease(this);
-            Dispose();
+            onDispose(this);
+            DisposeInternal();
         }
 
         #region View as Render Target

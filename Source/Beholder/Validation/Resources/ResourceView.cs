@@ -37,9 +37,9 @@ namespace Beholder.Validation.Resources
 
         public IResource Resource { get { return Wrappers.Get(Real.Resource); } }
 
-        protected void CheckResourceNotReleased()
+        protected void CheckResourceNotDisposed()
         {
-            if (Real.Resource.IsReleased)
+            if (Real.Resource.IsDisposed)
                 throw new InvalidOperationException("Trying to use a view of an already released resource");
         }
     }

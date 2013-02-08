@@ -34,7 +34,7 @@ namespace Beholder.Libraries.ObjectGL4.Resources
         readonly Renderbuffer glRenderbuffer;
         readonly CDepthStencilView depthStencilView;
         readonly Texture2DDescription desc;
-        bool isReleased;
+        bool isDisposed;
 
         public IResource GLResource { get { return glRenderbuffer; } }
         public CDepthStencilView MainView { get { return depthStencilView; } }
@@ -72,12 +72,12 @@ namespace Beholder.Libraries.ObjectGL4.Resources
         public void Dispose()
         {
             glRenderbuffer.Dispose();
-            isReleased = true;
+            isDisposed = true;
         }
 
         [Obsolete("This method is only to implement IResource interface. Dispose() should be called instead.")]
-        void IReleasable.Release() { throw new InvalidOperationException("Swap chain's auto depth-stencil buffer cannot be explicitly released."); }
-        bool IReleasable.IsReleased { get { return isReleased; } }
+        void IDisposable.Dispose() { throw new InvalidOperationException("Swap chain's auto depth-stencil buffer cannot be explicitly released."); }
+        bool IDisposableOnce.IsDisposed { get { return isDisposed; } }
 
         public void SetSubresourceData(CDeviceContext deviceContext, int subresourceIndex, SubresourceData data)
         { throw new InvalidOperationException("Trying to explicitly set the data of the swap chain depth-stencil buffer."); }

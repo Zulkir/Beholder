@@ -23,7 +23,6 @@ THE SOFTWARE.
 using System;
 using Beholder.Platform;
 using Beholder.Utility.Collections.Readonly;
-using Beholder.Utility.Patterns;
 
 namespace Beholder
 {

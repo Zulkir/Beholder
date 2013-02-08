@@ -31,16 +31,16 @@ namespace Beholder.Validation.Resources
     {
         public ShaderResourceView(IShaderResourceView real) : base(real) { }
 
-        public ShaderResourceViewDimension Dimension { get { CheckResourceNotReleased(); return Real.Dimension; } }
-        public int FormatID { get { CheckResourceNotReleased(); return Real.FormatID; } }
-        public int FirstElement { get { CheckResourceNotReleased(); return Real.FirstElement; } }
-        public int ElementCount { get { CheckResourceNotReleased(); return Real.ElementCount; } }
-        public ShaderResourceViewExtendedBufferFlags ExtendedBufferFlags { get { CheckResourceNotReleased(); return Real.ExtendedBufferFlags; } }
-        public int MostDetailedMip { get { CheckResourceNotReleased(); return Real.MostDetailedMip; } }
-        public int MipLevels { get { CheckResourceNotReleased(); return Real.MipLevels; } }
-        public int FirstArraySlice { get { CheckResourceNotReleased(); return Real.FirstArraySlice; } }
-        public int ArraySize { get { CheckResourceNotReleased(); return Real.ArraySize; } }
-        public void GetDescription(out ShaderResourceViewDescription description) { CheckResourceNotReleased(); Real.GetDescription(out description); }
+        public ShaderResourceViewDimension Dimension { get { CheckResourceNotDisposed(); return Real.Dimension; } }
+        public int FormatID { get { CheckResourceNotDisposed(); return Real.FormatID; } }
+        public int FirstElement { get { CheckResourceNotDisposed(); return Real.FirstElement; } }
+        public int ElementCount { get { CheckResourceNotDisposed(); return Real.ElementCount; } }
+        public ShaderResourceViewExtendedBufferFlags ExtendedBufferFlags { get { CheckResourceNotDisposed(); return Real.ExtendedBufferFlags; } }
+        public int MostDetailedMip { get { CheckResourceNotDisposed(); return Real.MostDetailedMip; } }
+        public int MipLevels { get { CheckResourceNotDisposed(); return Real.MipLevels; } }
+        public int FirstArraySlice { get { CheckResourceNotDisposed(); return Real.FirstArraySlice; } }
+        public int ArraySize { get { CheckResourceNotDisposed(); return Real.ArraySize; } }
+        public void GetDescription(out ShaderResourceViewDescription description) { CheckResourceNotDisposed(); Real.GetDescription(out description); }
 
         public static void ValidateBuffer(IBuffer buffer, int formatID, int firstElement, int elementCount)
         {

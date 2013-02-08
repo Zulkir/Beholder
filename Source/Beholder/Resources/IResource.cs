@@ -25,7 +25,7 @@ namespace Beholder.Resources
     /// <summary>
     /// Represents an explicitly disposable resource stored in video memory.
     /// </summary>
-    public interface IResource : IDeviceChild, IReleasable
+    public interface IResource : IDeviceChild, IDisposableOnce
     {
         /// <summary>
         /// Get the dimension of the resource.

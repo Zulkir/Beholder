@@ -35,7 +35,7 @@ namespace Beholder.Libraries.ObjectGL4.Resources
         readonly Texture2D glResolveTexture;
         readonly CRenderTargetView renderTargetView;
         readonly Texture2DDescription desc;
-        bool isReleased;
+        bool isDisposed;
 
         public Texture GLTexture { get { return glTexture; } }
         public Texture2D GLResolveTexture { get { return glResolveTexture; } }
@@ -81,12 +81,12 @@ namespace Beholder.Libraries.ObjectGL4.Resources
             glTexture.Dispose();
             if (glResolveTexture != null) 
                 glResolveTexture.Dispose();
-            isReleased = true;
+            isDisposed = true;
         }
 
         [Obsolete("This method is only to implement IResource interface. Dispose() should be called instead.")]
-        void IReleasable.Release() { throw new InvalidOperationException("Swap chain's back buffer cannot be explicitly released."); }
-        bool IReleasable.IsReleased { get { return isReleased; } }
+        void IDisposable.Dispose() { throw new InvalidOperationException("Swap chain's back buffer cannot be explicitly released."); }
+        bool IDisposableOnce.IsDisposed { get { return isDisposed; } }
 
         public void SetSubresourceData(CDeviceContext deviceContext, int subresourceIndex, SubresourceData data)
         { throw new InvalidOperationException("Trying to explicitly set the data of the swap chain back buffer."); }

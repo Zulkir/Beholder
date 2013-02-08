@@ -33,16 +33,16 @@ namespace Beholder.Validation.Resources
 
         public int Width { get { return Real.Width; } }
         public int Height { get { return Real.Height; } }
-        public RenderTargetViewDimension Dimension { get { CheckResourceNotReleased(); return Real.Dimension; } }
-        public int FormatID { get { CheckResourceNotReleased(); return Real.FormatID; } }
-        public int ElementOffset { get { CheckResourceNotReleased(); return Real.ElementOffset; } }
-        public int ElementWidth { get { CheckResourceNotReleased(); return Real.ElementWidth; } }
-        public int MipSlice { get { CheckResourceNotReleased(); return Real.MipSlice; } }
-        public int FirstArraySlice { get { CheckResourceNotReleased(); return Real.FirstArraySlice; } }
-        public int ArraySize { get { CheckResourceNotReleased(); return Real.ArraySize; } }
-        public int FirstDepthSlice { get { CheckResourceNotReleased(); return Real.FirstDepthSlice; } }
-        public int DepthSliceCount { get { CheckResourceNotReleased(); return Real.DepthSliceCount; } }
-        public void GetDescription(out RenderTargetViewDescription description) { CheckResourceNotReleased(); Real.GetDescription(out description); }
+        public RenderTargetViewDimension Dimension { get { CheckResourceNotDisposed(); return Real.Dimension; } }
+        public int FormatID { get { CheckResourceNotDisposed(); return Real.FormatID; } }
+        public int ElementOffset { get { CheckResourceNotDisposed(); return Real.ElementOffset; } }
+        public int ElementWidth { get { CheckResourceNotDisposed(); return Real.ElementWidth; } }
+        public int MipSlice { get { CheckResourceNotDisposed(); return Real.MipSlice; } }
+        public int FirstArraySlice { get { CheckResourceNotDisposed(); return Real.FirstArraySlice; } }
+        public int ArraySize { get { CheckResourceNotDisposed(); return Real.ArraySize; } }
+        public int FirstDepthSlice { get { CheckResourceNotDisposed(); return Real.FirstDepthSlice; } }
+        public int DepthSliceCount { get { CheckResourceNotDisposed(); return Real.DepthSliceCount; } }
+        public void GetDescription(out RenderTargetViewDescription description) { CheckResourceNotDisposed(); Real.GetDescription(out description); }
 
         public static void ValidateBuffer(IBuffer buffer, int formatID, int firstElement, int elementCount)
         {

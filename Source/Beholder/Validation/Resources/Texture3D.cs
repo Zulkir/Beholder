@@ -30,29 +30,29 @@ namespace Beholder.Validation.Resources
     {
         public Texture3D(ITexture3D real) : base(real) { }
 
-        public int Width { get { CheckNotReleased(); return Real.Width; } }
-        public int Height { get { CheckNotReleased(); return Real.Height; } }
-        public int Depth { get { CheckNotReleased(); return Real.Depth; } }
-        public void GetDescription(out Texture3DDescription description) { CheckNotReleased(); Real.GetDescription(out description); }
+        public int Width { get { CheckNotDisposed(); return Real.Width; } }
+        public int Height { get { CheckNotDisposed(); return Real.Height; } }
+        public int Depth { get { CheckNotDisposed(); return Real.Depth; } }
+        public void GetDescription(out Texture3DDescription description) { CheckNotDisposed(); Real.GetDescription(out description); }
 
         #region View As
         public IRenderTargetView ViewAsRenderTarget(int formatID, int mipSlice, int firstDepthSlice, int depthSliceCount)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             RenderTargetView.ValidateTexture3D(this, formatID, mipSlice, firstDepthSlice, depthSliceCount);
             return Wrappers.Get(Real.ViewAsRenderTarget(formatID, mipSlice, firstDepthSlice, depthSliceCount));
         }
 
         public IShaderResourceView ViewAsShaderResource(int formatID, int mostDetailedMip, int mipLevels)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             ShaderResourceView.ValidateTexture3D(this, formatID, mostDetailedMip, mipLevels);
             return Wrappers.Get(Real.ViewAsShaderResource(formatID, mostDetailedMip, mipLevels));
         }
 
         public IUnorderedAccessView ViewAsUnorderedAccessResource(int formatID, int mipSlice, int firstDepthSlice, int depthSliceCount)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             UnorderedAccessView.ValidateTexture3D(this, formatID, mipSlice, firstDepthSlice, depthSliceCount);
             return Wrappers.Get(Real.ViewAsUnorderedAccessResource(formatID, mipSlice, firstDepthSlice, depthSliceCount));
         }

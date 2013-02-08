@@ -30,14 +30,14 @@ namespace Beholder.Validation.Resources
     {
         public Buffer(IBuffer real) : base(real) { }
 
-        public int SizeInBytes { get { CheckNotReleased(); return Real.SizeInBytes; } }
-        public int StructureByteStride { get { CheckNotReleased(); return Real.StructureByteStride; } }
-        public void GetDescription(out BufferDescription description) { CheckNotReleased(); Real.GetDescription(out description); }
+        public int SizeInBytes { get { CheckNotDisposed(); return Real.SizeInBytes; } }
+        public int StructureByteStride { get { CheckNotDisposed(); return Real.StructureByteStride; } }
+        public void GetDescription(out BufferDescription description) { CheckNotDisposed(); Real.GetDescription(out description); }
 
         #region View As
         public IRenderTargetView ViewAsRenderTarget(int formatID, int firstElement, int elementCount)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckRenderTargetBinding();
             RenderTargetView.ValidateBuffer(Real, formatID, firstElement, elementCount);
             return Wrappers.Get(Real.ViewAsRenderTarget(formatID, firstElement, elementCount));
@@ -45,7 +45,7 @@ namespace Beholder.Validation.Resources
 
         public IShaderResourceView ViewAsShaderResource(int formatID, int firstElement, int elementCount)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckShaderResourceBinding();
             ShaderResourceView.ValidateBuffer(Real, formatID, firstElement, elementCount);
             return Wrappers.Get(Real.ViewAsShaderResource(formatID, firstElement, elementCount));
@@ -53,7 +53,7 @@ namespace Beholder.Validation.Resources
 
         public IShaderResourceView ViewAsShaderResourceExtended(int formatID, int firstElement, int elementCount, ShaderResourceViewExtendedBufferFlags flags)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckShaderResourceBinding();
             ShaderResourceView.ValidateBufferEx(Real, formatID, firstElement, elementCount, flags);
             return Wrappers.Get(Real.ViewAsShaderResourceExtended(formatID, firstElement, elementCount, flags));
@@ -61,7 +61,7 @@ namespace Beholder.Validation.Resources
 
         public IUnorderedAccessView ViewAsUnorderedAccessResource(int formatID, int firstElement, int elementCount, UnorderedAccessViewBufferFlags flags)
         {
-            CheckNotReleased();
+            CheckNotDisposed();
             CheckUnorderedAccessBinding();
             UnorderedAccessView.ValidateBuffer(Real, formatID, firstElement, elementCount, flags);
             return Wrappers.Get(Real.ViewAsUnorderedAccessResource(formatID, firstElement, elementCount, flags));

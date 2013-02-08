@@ -56,7 +56,7 @@
     <Compile Include="Core\IVertexLayout.cs" />
     <Compile Include="IDeviceChild.cs" />
     <Compile Include="IDeviceChildCreator.cs" />
-    <Compile Include="IReleasable.cs" />
+    <Compile Include="IDisposableOnce.cs" />
     <Compile Include="Platform\Api.cs" />
     <Compile Include="Platform\ApiVersion.cs" />
     <Compile Include="Platform\ColorAlphaFormatFlags.cs" />
@@ -131,6 +131,7 @@
     <Compile Include="Utility\ForImplementations\Core\SamplerStateBase.cs" />
     <Compile Include="Utility\ForImplementations\Core\VertexLayoutBase.cs" />
     <Compile Include="Utility\ForImplementations\DeviceChildBase.cs" />
+    <Compile Include="Utility\ForImplementations\IDisposableInternal.cs" />
     <Compile Include="Utility\ForImplementations\Platform\AdapterRestrictions.cs" />
     <Compile Include="Utility\ForImplementations\Platform\FormatInfo.cs" />
     <Compile Include="Utility\ForImplementations\Platform\StraightforwardFileSystem.cs" />
@@ -162,7 +163,6 @@
     <Compile Include="Utility\Helpers\FormatHelper.cs" />
     <Compile Include="Utility\DataProcessing\IDataWriter.cs" />
     <Compile Include="IDeviceChildLoader.cs" />
-    <Compile Include="Utility\Patterns\IDisposableOnce.cs" />
     <Compile Include="Utility\Patterns\ISimpleObservable.cs" />
     <Compile Include="Utility\Patterns\ISimpleObserver.cs" />
     <Compile Include="Utility\DataProcessing\MetaText.cs" />
@@ -273,7 +273,7 @@
     <Compile Include="Validation\Shaders\PixelShader.cs" />
     <Compile Include="Validation\Platform\PrimarySwapChain.cs" />
     <Compile Include="Validation\Core\RasterizerState.cs" />
-    <Compile Include="Validation\Releasable.cs" />
+    <Compile Include="Validation\DisposableOnce.cs" />
     <Compile Include="Validation\Resources\RenderTargetView.cs" />
     <Compile Include="Validation\Resources\Resource.cs" />
     <Compile Include="Validation\Resources\ResourceView.cs" />

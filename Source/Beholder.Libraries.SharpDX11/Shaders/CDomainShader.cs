@@ -27,12 +27,13 @@ using System.Linq;
 using System.Text;
 using Beholder.Shaders;
 using Beholder.Shaders.Reflection;
+using Beholder.Utility.ForImplementations;
 using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;
 
 namespace Beholder.Libraries.SharpDX11.Shaders
 {
-    sealed class CDomainShader : CShader, IDomainShader, IDisposable
+    sealed class CDomainShader : CShader, IDomainShader, IDisposableInternal
     {
         public override ShaderStage Stage { get { return ShaderStage.Domain; } }
         public DomainShader D3DDomainShader { get; private set; }
@@ -61,7 +62,7 @@ namespace Beholder.Libraries.SharpDX11.Shaders
             D3DDomainShader = new DomainShader(device.D3DDevice, bytecode);
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             D3DDomainShader.Dispose();
         }

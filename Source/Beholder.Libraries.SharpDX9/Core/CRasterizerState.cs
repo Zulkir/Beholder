@@ -24,6 +24,7 @@ using System;
 using Beholder.Core;
 using Beholder.Libraries.SharpDX9.Resources;
 using Beholder.Math;
+using Beholder.Utility.ForImplementations;
 using Beholder.Utility.ForImplementations.Core;
 using SharpDX.Direct3D9;
 using Cull = Beholder.Core.Cull;
@@ -31,7 +32,7 @@ using FillMode = SharpDX.Direct3D9.FillMode;
 
 namespace Beholder.Libraries.SharpDX9.Core
 {
-    class CRasterizerState : RasterizerStateBase<ICDevice>, IDefaultPoolResource, IDisposable
+    class CRasterizerState : RasterizerStateBase<ICDevice>, IDefaultPoolResource, IDisposableInternal
     {
         StateBlock stateBlock;
 
@@ -45,7 +46,7 @@ namespace Beholder.Libraries.SharpDX9.Core
             stateBlock.Apply();
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             stateBlock.Dispose();
         }

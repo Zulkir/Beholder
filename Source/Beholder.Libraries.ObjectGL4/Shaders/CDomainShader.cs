@@ -25,11 +25,12 @@ using System.Text;
 using Beholder.Shaders;
 using Beholder.Shaders.Reflection;
 using Beholder.Utility.Collections;
+using Beholder.Utility.ForImplementations;
 using ObjectGL.GL42;
 
 namespace Beholder.Libraries.ObjectGL4.Shaders
 {
-    class CDomainShader : CShader, IDomainShader, IDisposable
+    class CDomainShader : CShader, IDomainShader, IDisposableInternal
     {
         readonly TightConcurrentDictionary<TesselationLayout, TesselationEvaluationShader> glShaders;
         readonly TesselationDomain domain;
@@ -43,7 +44,7 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
             domain = Reflection.GetTesselationDomain();
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             foreach (var kvp in glShaders)
                 kvp.Value.Dispose();

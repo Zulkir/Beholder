@@ -62,11 +62,11 @@ namespace Beholder.Libraries.ObjectGL4
         readonly ConcurrentHashSet<CPixelShader> pixelShaders = new ConcurrentHashSet<CPixelShader>();
         readonly ConcurrentHashSet<CComputeShader> computeShaders = new ConcurrentHashSet<CComputeShader>();
 
-        readonly IEnumerable<IDisposable>[] disposableResources;
+        readonly IEnumerable<IDisposableInternal>[] disposableResources;
 
         public CDeviceChildCreator(ICDevice device) : base(device)
         {
-            disposableResources = new IEnumerable<IDisposable>[]
+            disposableResources = new IEnumerable<IDisposableInternal>[]
             {
                 buffers,
                 textures1D,
@@ -94,7 +94,7 @@ namespace Beholder.Libraries.ObjectGL4
         {
             foreach (var container in disposableResources)
                 foreach (var resource in container)
-                    resource.Dispose();
+                    resource.DisposeInternal();
         }
 
         #region States

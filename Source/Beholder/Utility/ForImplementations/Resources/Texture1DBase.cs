@@ -26,7 +26,7 @@ using Beholder.Resources;
 
 namespace Beholder.Utility.ForImplementations.Resources
 {
-    public abstract class Texture1DBase<TDevice> : DeviceChildBase<TDevice>, ITexture1D, IDisposable where TDevice : IDevice
+    public abstract class Texture1DBase<TDevice> : DeviceChildBase<TDevice>, ITexture1D, IDisposableInternal where TDevice : IDevice
     {
         protected Texture1DDescription desc;
 
@@ -35,7 +35,7 @@ namespace Beholder.Utility.ForImplementations.Resources
         readonly List<IShaderResourceView> srvs;
         readonly List<IUnorderedAccessView> uavs;
         readonly Action<ITexture1D> onRelease;
-        bool isReleased;
+        bool isDisposed;
 
         public ResourceDimension Dimension { get { return ResourceDimension.Texture1D; } }
         public int Width { get { return desc.Width; } }
@@ -47,7 +47,7 @@ namespace Beholder.Utility.ForImplementations.Resources
         public MiscFlags MiscFlags { get { return desc.MiscFlags; } }
         public ExtraFlags ExtraFlags { get { return desc.ExtraFlags; } }
         public void GetDescription(out Texture1DDescription description) { description = desc; }
-        public bool IsReleased { get { return isReleased; } }
+        public bool IsDisposed { get { return isDisposed; } }
 
         protected Texture1DBase(TDevice device, ref Texture1DDescription desc, Action<ITexture1D> onRelease)
             : base(device)
@@ -66,20 +66,20 @@ namespace Beholder.Utility.ForImplementations.Resources
         protected abstract void DisposeSrv(IShaderResourceView view);
         protected abstract void DisposeUav(IUnorderedAccessView view);
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             foreach (var v in rtvs) { DisposeRtv(v); }
             foreach (var v in dsvs) { DisposeDsv(v); }
             foreach (var v in srvs) { DisposeSrv(v); }
             foreach (var v in uavs) { DisposeUav(v); }
             DisposeOfNative();
-            isReleased = true;
+            isDisposed = true;
         }
 
-        public void Release()
+        public void Dispose()
         {
             onRelease(this);
-            Dispose();
+            DisposeInternal();
         }
 
         #region View as Render Target

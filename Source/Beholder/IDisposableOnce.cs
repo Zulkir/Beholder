@@ -20,11 +20,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+using System;
+
 namespace Beholder
 {
-    public interface IReleasable
+    /// <summary>
+    /// Represents a disposable object that can be disposed only once.
+    /// </summary>
+    public interface IDisposableOnce : IDisposable
     {
-        void Release();
-        bool IsReleased { get; }
+        /// <summary>
+        /// Indicates whether the object was already disposed.
+        /// </summary>
+        bool IsDisposed { get; }
     }
 }

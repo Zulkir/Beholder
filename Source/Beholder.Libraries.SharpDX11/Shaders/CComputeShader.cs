@@ -23,11 +23,12 @@ THE SOFTWARE.
 using System;
 using System.IO;
 using Beholder.Shaders;
+using Beholder.Utility.ForImplementations;
 using SharpDX.Direct3D11;
 
 namespace Beholder.Libraries.SharpDX11.Shaders
 {
-    sealed class CComputeShader : CShader, IComputeShader, IDisposable
+    sealed class CComputeShader : CShader, IComputeShader, IDisposableInternal
     {
         public override ShaderStage Stage { get { return ShaderStage.Compute; } }
         public ComputeShader D3DComputeShader { get; private set; }
@@ -39,7 +40,7 @@ namespace Beholder.Libraries.SharpDX11.Shaders
             throw new NotImplementedException();
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             D3DComputeShader.Dispose();
         }

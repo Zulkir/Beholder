@@ -23,11 +23,12 @@ THE SOFTWARE.
 using System;
 using System.IO;
 using Beholder.Shaders;
+using Beholder.Utility.ForImplementations;
 using SharpDX.Direct3D9;
 
 namespace Beholder.Libraries.SharpDX9.Shaders
 {
-    class CPixelShader : CShader, IPixelShader, IDisposable
+    class CPixelShader : CShader, IPixelShader, IDisposableInternal
     {
         readonly PixelShader d3dShader;
         readonly PixelShaderProfile profile;
@@ -54,7 +55,7 @@ namespace Beholder.Libraries.SharpDX9.Shaders
             }
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             d3dShader.Dispose();
         }

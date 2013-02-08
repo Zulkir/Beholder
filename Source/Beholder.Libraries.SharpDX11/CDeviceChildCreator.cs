@@ -20,7 +20,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-using System;
 using System.Collections.Generic;
 using Beholder.Core;
 using Beholder.Libraries.SharpDX11.Core;
@@ -58,9 +57,9 @@ namespace Beholder.Libraries.SharpDX11
         readonly ConcurrentHashSet<CGeometryShader> geometryShaders;
         readonly ConcurrentHashSet<CHullShader> hullShaders;
         readonly ConcurrentHashSet<CDomainShader> domainShaders;
-        readonly ConcurrentHashSet<CComputeShader> computeShaders; 
+        readonly ConcurrentHashSet<CComputeShader> computeShaders;
 
-        readonly IEnumerable<IDisposable>[] disposableResources;
+        readonly IEnumerable<IDisposableInternal>[] disposableResources;
 
         public CDeviceChildCreator(ICDevice device) : base(device)
         {
@@ -82,7 +81,7 @@ namespace Beholder.Libraries.SharpDX11
             domainShaders = new ConcurrentHashSet<CDomainShader>();
             computeShaders = new ConcurrentHashSet<CComputeShader>();
 
-            disposableResources = new IEnumerable<IDisposable>[]
+            disposableResources = new IEnumerable<IDisposableInternal>[]
             {
                 buffers,
                 textures1D,
@@ -108,7 +107,7 @@ namespace Beholder.Libraries.SharpDX11
         {
             foreach (var container in disposableResources)
                 foreach (var resource in container)
-                    resource.Dispose();
+                    resource.DisposeInternal();
         }
 
         #region States

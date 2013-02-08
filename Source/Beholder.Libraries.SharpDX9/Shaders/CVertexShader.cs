@@ -26,12 +26,13 @@ using System.IO;
 using System.Linq;
 using Beholder.Core;
 using Beholder.Shaders;
+using Beholder.Utility.ForImplementations;
 using Beholder.Utility.Structures;
 using SharpDX.Direct3D9;
 
 namespace Beholder.Libraries.SharpDX9.Shaders
 {
-    class CVertexShader : CShader, IVertexShader, IDisposable
+    class CVertexShader : CShader, IVertexShader, IDisposableInternal
     {
         readonly VertexShader d3dShader;
         readonly VertexShaderProfile profile;
@@ -61,7 +62,7 @@ namespace Beholder.Libraries.SharpDX9.Shaders
             d3dVertexElementsDraft = CreateVertexElementsDraft(reflection);
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             d3dShader.Dispose();
         }

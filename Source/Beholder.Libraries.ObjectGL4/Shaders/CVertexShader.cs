@@ -24,11 +24,12 @@ using System;
 using System.Linq;
 using System.Text;
 using Beholder.Shaders;
+using Beholder.Utility.ForImplementations;
 using ObjectGL.GL42;
 
 namespace Beholder.Libraries.ObjectGL4.Shaders
 {
-    class CVertexShader : CShader, IVertexShader, IDisposable
+    class CVertexShader : CShader, IVertexShader, IDisposableInternal
     {
         VertexShader glShaderFromInput;
         private readonly string[] attributeNames;
@@ -42,7 +43,7 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
             attributeNames = Reflection.Input.Where(v => v.IsUsed && !v.IsSystem).Select(v => "bs_in_" + v.Semantic).ToArray();
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             if (glShaderFromInput != null) glShaderFromInput.Dispose();
         }

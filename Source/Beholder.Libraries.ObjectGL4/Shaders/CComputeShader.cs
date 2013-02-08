@@ -23,10 +23,11 @@ THE SOFTWARE.
 using System;
 using System.Text;
 using Beholder.Shaders;
+using Beholder.Utility.ForImplementations;
 
 namespace Beholder.Libraries.ObjectGL4.Shaders
 {
-    class CComputeShader : CShader, IComputeShader, IDisposable
+    class CComputeShader : CShader, IComputeShader, IDisposableInternal
     {
         public override ShaderStage Stage { get { return ShaderStage.Compute; } }
 
@@ -35,7 +36,7 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
             
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             throw new NotImplementedException();
         }

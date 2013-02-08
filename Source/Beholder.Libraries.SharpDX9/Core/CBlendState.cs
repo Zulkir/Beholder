@@ -23,6 +23,7 @@ THE SOFTWARE.
 using System;
 using Beholder.Core;
 using Beholder.Libraries.SharpDX9.Resources;
+using Beholder.Utility.ForImplementations;
 using Beholder.Utility.ForImplementations.Core;
 using SharpDX.Direct3D9;
 using Blend = SharpDX.Direct3D9.Blend;
@@ -30,7 +31,7 @@ using BlendOperation = SharpDX.Direct3D9.BlendOperation;
 
 namespace Beholder.Libraries.SharpDX9.Core
 {
-    class CBlendState : BlendStateBase<ICDevice>, IDefaultPoolResource, IDisposable
+    class CBlendState : BlendStateBase<ICDevice>, IDefaultPoolResource, IDisposableInternal
     {
         StateBlock stateBlock;
 
@@ -46,7 +47,7 @@ namespace Beholder.Libraries.SharpDX9.Core
             stateBlock.Apply();
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             stateBlock.Dispose();
         }

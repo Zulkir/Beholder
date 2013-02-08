@@ -104,7 +104,7 @@ namespace Beholder.Libraries.SharpDX9.Resources
         public void OnDeviceLost()
         {
             if (desc.Usage != Beholder.Resources.Usage.Dynamic) return;
-            Dispose();
+            DisposeInternal();
         }
 
         public void OnDeviceReset()

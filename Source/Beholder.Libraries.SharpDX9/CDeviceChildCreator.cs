@@ -62,7 +62,7 @@ namespace Beholder.Libraries.SharpDX9
         readonly HashSet<CVertexShader> vertexShaders;
         readonly HashSet<CPixelShader> pixelShaders;
 
-        readonly IEnumerable<IDisposable>[] disposableResourceContainers;
+        readonly IEnumerable<IDisposableInternal>[] disposableResourceContainers;
         readonly IEnumerable<IDefaultPoolResource>[] defaultPoolResourcesContainers;
 
         public CDeviceChildCreator(ICDevice device) : base(device)
@@ -92,7 +92,7 @@ namespace Beholder.Libraries.SharpDX9
             vertexShaders = new HashSet<CVertexShader>();
             pixelShaders = new HashSet<CPixelShader>();
 
-            disposableResourceContainers = new IEnumerable<IDisposable>[]
+            disposableResourceContainers = new IEnumerable<IDisposableInternal>[]
             {
                 vertexLayouts,
                 staticVertexBuffers,
@@ -156,7 +156,7 @@ namespace Beholder.Libraries.SharpDX9
         {
             foreach (var container in disposableResourceContainers)
                 foreach (var resource in container)
-                    resource.Dispose();
+                    resource.DisposeInternal();
         }
 
         #region States

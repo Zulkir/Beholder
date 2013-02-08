@@ -35,7 +35,7 @@ namespace Beholder.Eyes.ObjectGL4.Default
         DefaultWindow loopWindow;
         LoopTimer loopTimer;
         bool initialized;
-        bool disposed;
+        bool isDisposed;
 
         public IReadonlyList<IAdapter> Adapters { get { return adapters; } }
 
@@ -51,7 +51,7 @@ namespace Beholder.Eyes.ObjectGL4.Default
 
         public IDevice Device { get { return device; } }
         public bool IsInitialized { get { return initialized; } }
-        public bool Disposed { get { return disposed; } }
+        public bool IsDisposed { get { return isDisposed; } }
 
         public void Initialize(IAdapter adapter,
             IWindowHandle windowHandle, 
@@ -105,7 +105,7 @@ namespace Beholder.Eyes.ObjectGL4.Default
         {
             if (device != null) 
                 device.Dispose();
-            disposed = true;
+            isDisposed = true;
         }
     }
 }

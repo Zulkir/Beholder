@@ -48,7 +48,7 @@ namespace Beholder.Eyes.SharpDX11.Winforms
 
         public IReadonlyList<IAdapter> Adapters { get { return roAdapters; } }
         public bool IsInitialized { get; private set; }
-        public bool Disposed { get; private set; }
+        public bool IsDisposed { get; private set; }
         public IDevice Device { get { return device; } }
 
         public WinformsEye()
@@ -146,12 +146,12 @@ namespace Beholder.Eyes.SharpDX11.Winforms
 
         public void Dispose()
         {
-            if (Disposed) throw new InvalidOperationException("WinformsEye was already disposed");
+            if (IsDisposed) throw new InvalidOperationException("WinformsEye was already disposed");
 
             if (device != null) device.Dispose();
             if (factory != null) factory.Dispose();
 
-            Disposed = true;
+            IsDisposed = true;
         }
     }
 }

@@ -20,15 +20,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-using System;
 using Beholder.Core;
 using Beholder.Math;
+using Beholder.Utility.ForImplementations;
 using Beholder.Utility.ForImplementations.Core;
 using SharpDX.Direct3D11;
 
 namespace Beholder.Libraries.SharpDX11.Core
 {
-    class CRasterizerState : RasterizerStateBase<ICDevice>, IDisposable
+    class CRasterizerState : RasterizerStateBase<ICDevice>, IDisposableInternal
     {
         readonly RasterizerState d3dRasterizerState;
 
@@ -54,7 +54,7 @@ namespace Beholder.Libraries.SharpDX11.Core
             d3dRasterizerState = new RasterizerState(device.D3DDevice, ref d3dDesc);
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             d3dRasterizerState.Dispose();
         }

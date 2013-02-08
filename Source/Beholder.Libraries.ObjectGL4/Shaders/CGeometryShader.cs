@@ -26,12 +26,13 @@ using System.Globalization;
 using System.Text;
 using Beholder.Shaders;
 using Beholder.Shaders.Reflection;
+using Beholder.Utility.ForImplementations;
 using ObjectGL.GL42;
 using System.Linq;
 
 namespace Beholder.Libraries.ObjectGL4.Shaders
 {
-    class CGeometryShader : CShader, IGeometryShader, IDisposable
+    class CGeometryShader : CShader, IGeometryShader, IDisposableInternal
     {
         GeometryShader glShaderFromVertex;
         GeometryShader glShaderFromDomain;
@@ -52,7 +53,7 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
             outputPrimitiveType = Reflection.GetGeometryOutputPrimitiveType();
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             if (glShaderFromVertex != null) glShaderFromVertex.Dispose();
             if (glShaderFromDomain != null) glShaderFromDomain.Dispose();

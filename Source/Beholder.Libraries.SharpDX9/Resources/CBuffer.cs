@@ -29,8 +29,8 @@ namespace Beholder.Libraries.SharpDX9.Resources
 {
     abstract class CBuffer : BufferBase<ICDevice>, ICResource
     {
-        protected CBuffer(ICDevice device, ref BufferDescription desc, Action<IBuffer> onRelease) 
-            : base(device, ref desc, onRelease)
+        protected CBuffer(ICDevice device, ref BufferDescription desc, Action<IBuffer> onDispose) 
+            : base(device, ref desc, onDispose)
         {
             
         }

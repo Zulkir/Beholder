@@ -20,15 +20,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-using System;
 using Beholder.Core;
+using Beholder.Utility.ForImplementations;
 using Beholder.Utility.ForImplementations.Core;
 using SharpDX.Direct3D11;
 using DepthStencilOperationDescription = SharpDX.Direct3D11.DepthStencilOperationDescription;
 
 namespace Beholder.Libraries.SharpDX11.Core
 {
-    class CDepthStencilState : DepthStencilStateBase<ICDevice>, IDisposable
+    class CDepthStencilState : DepthStencilStateBase<ICDevice>, IDisposableInternal
     {
         readonly DepthStencilState d3dDepthStencilState;
 
@@ -64,7 +64,7 @@ namespace Beholder.Libraries.SharpDX11.Core
             d3dDepthStencilState = new DepthStencilState(device.D3DDevice, ref d3dDesc);
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             d3dDepthStencilState.Dispose();
         }

@@ -38,8 +38,8 @@ namespace Beholder.Validation.Resources
     {
         protected Texture(ITexture real) : base(real) { }
 
-        public int FormatID { get { CheckNotReleased(); return Real.FormatID; } }
-        public int MipLevels { get { CheckNotReleased(); return Real.MipLevels; } }
+        public int FormatID { get { CheckNotDisposed(); return Real.FormatID; } }
+        public int MipLevels { get { CheckNotDisposed(); return Real.MipLevels; } }
 
         protected static void ValidateTextureDescription(IAdapter adapter, int width, int height, int depth, 
             int arraySize, int mipLevels, int formatID, FormatSupport requiredSupport, 

@@ -27,22 +27,22 @@ namespace Beholder.Validation.Resources
 {
     abstract class Resource : DeviceChild<IResource>, IResource
     {
-        protected Resource(IResource real) : base(real) { releasable = new Releasable(Real); }
+        protected Resource(IResource real) : base(real) { disposableOnce = new DisposableOnce(Real); }
 
-        readonly Releasable releasable;
-        public bool IsReleased { get { return releasable.IsReleased; } }
-        public void Release() { releasable.Release(); Wrappers.Remove<IResource>(this); }
+        readonly DisposableOnce disposableOnce;
+        public bool IsDisposed { get { return disposableOnce.IsDisposed; } }
+        public void Dispose() { disposableOnce.Dispose(); Wrappers.Remove<IResource>(this); }
 
-        public ResourceDimension Dimension { get { CheckNotReleased(); return Real.Dimension; } }
-        public Usage Usage { get { CheckNotReleased(); return Real.Usage; } }
-        public BindFlags BindFlags { get { CheckNotReleased(); return Real.BindFlags; } }
-        public MiscFlags MiscFlags { get { CheckNotReleased(); return Real.MiscFlags; } }
-        public ExtraFlags ExtraFlags { get { CheckNotReleased(); return Real.ExtraFlags; } }
+        public ResourceDimension Dimension { get { CheckNotDisposed(); return Real.Dimension; } }
+        public Usage Usage { get { CheckNotDisposed(); return Real.Usage; } }
+        public BindFlags BindFlags { get { CheckNotDisposed(); return Real.BindFlags; } }
+        public MiscFlags MiscFlags { get { CheckNotDisposed(); return Real.MiscFlags; } }
+        public ExtraFlags ExtraFlags { get { CheckNotDisposed(); return Real.ExtraFlags; } }
 
-        protected void CheckNotReleased()
+        protected void CheckNotDisposed()
         {
-            if (IsReleased)
-                throw new InvalidOperationException("Trying to use an already released resource");
+            if (IsDisposed)
+                throw new InvalidOperationException("Trying to use an already disposed resource");
         }
 
         protected void CheckRenderTargetBinding()
@@ -100,7 +100,7 @@ namespace Beholder.Validation.Resources
                         throw new ArgumentException("Staging resource cannot be bound to the graphics pipeline and thus cannot have Bind Flags");
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("Usage");
+                    throw new ArgumentOutOfRangeException("usage");
             }
 
             if (bindFlags.HasFlag(BindFlags.UniformBuffer) && bindFlags != BindFlags.UniformBuffer)

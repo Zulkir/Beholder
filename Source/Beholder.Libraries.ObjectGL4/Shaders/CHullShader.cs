@@ -27,11 +27,12 @@ using System.Linq;
 using System.Text;
 using Beholder.Shaders;
 using Beholder.Shaders.Reflection;
+using Beholder.Utility.ForImplementations;
 using ObjectGL.GL42;
 
 namespace Beholder.Libraries.ObjectGL4.Shaders
 {
-    class CHullShader : CShader, IHullShader, IDisposable
+    class CHullShader : CShader, IHullShader, IDisposableInternal
     {
         TesselationControlShader glShaderFromVertex;
 
@@ -58,7 +59,7 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
             maxTesselationFactor = reflection.GetMaxTesselationFactor();
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             if (glShaderFromVertex != null) glShaderFromVertex.Dispose();
         }

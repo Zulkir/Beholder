@@ -36,8 +36,8 @@ namespace Beholder.Libraries.SharpDX9.Resources
         readonly Texture2DDescription desc;
 
         [Obsolete("This method is only to implement IResource interface. Dispose() should be called instead.")]
-        void IReleasable.Release() { throw new InvalidOperationException("Swap chain's auto depth-stencil buffer cannot be explicitly released."); }
-        bool IReleasable.IsReleased { get { return d3dSurface == null; } }
+        void IDisposable.Dispose() { throw new InvalidOperationException("Swap chain's auto depth-stencil buffer cannot be explicitly released."); }
+        bool IDisposableOnce.IsDisposed { get { return d3dSurface == null; } }
 
         public void ReleaseIfExists()
         {

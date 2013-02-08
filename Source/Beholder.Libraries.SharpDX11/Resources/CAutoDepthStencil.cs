@@ -39,7 +39,7 @@ namespace Beholder.Libraries.SharpDX11.Resources
         readonly Texture2D d3dTexture2D;
         readonly CDepthStencilView depthStencilView;
         Texture2DDescription desc;
-        bool isReleased;
+        bool isDisposed;
 
         public Texture2D D3DTexture2D { get { return d3dTexture2D; } }
         public Resource D3DResource { get { return d3dTexture2D; } }
@@ -62,12 +62,12 @@ namespace Beholder.Libraries.SharpDX11.Resources
         {
             depthStencilView.Dispose();
             d3dTexture2D.Dispose();
-            isReleased = true;
+            isDisposed = true;
         }
 
         [Obsolete("This method is only to implement IResource interface. Dispose() should be called instead.")]
-        void IReleasable.Release() { throw new InvalidOperationException("Swap chain's auto depth-stencil buffer cannot be explicitly released."); }
-        bool IReleasable.IsReleased { get { return isReleased; } }
+        void IDisposable.Dispose() { throw new InvalidOperationException("Swap chain's auto depth-stencil buffer cannot be explicitly released."); }
+        bool IDisposableOnce.IsDisposed { get { return isDisposed; } }
 
         public CAutoDepthStencil(ICDevice device, Texture2D d3dTexture2D)
             : base(device)

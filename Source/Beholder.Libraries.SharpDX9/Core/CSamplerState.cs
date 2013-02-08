@@ -23,12 +23,13 @@ THE SOFTWARE.
 using System;
 using Beholder.Core;
 using Beholder.Libraries.SharpDX9.Resources;
+using Beholder.Utility.ForImplementations;
 using Beholder.Utility.ForImplementations.Core;
 using SharpDX.Direct3D9;
 
 namespace Beholder.Libraries.SharpDX9.Core
 {
-    class CSamplerState : SamplerStateBase<ICDevice>, IDefaultPoolResource, IDisposable
+    class CSamplerState : SamplerStateBase<ICDevice>, IDefaultPoolResource, IDisposableInternal
     {
         readonly StateBlock[] stateBlocks;
 
@@ -129,7 +130,7 @@ namespace Beholder.Libraries.SharpDX9.Core
             stateBlock.Apply();
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             for (int i = 0; i < stateBlocks.Length; i++)
             {

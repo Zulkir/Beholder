@@ -41,7 +41,7 @@ namespace Beholder.Validation
 
         public IReadonlyList<IAdapter> Adapters { get { return roAdapters; } }
         public bool IsInitialized { get { return Real.IsInitialized; } }
-        public bool Disposed { get { return Real.Disposed; } }
+        public bool IsDisposed { get { return Real.IsDisposed; } }
 
         public IWindowHandle PrepareExistingWindow(object windowObject)
         {
@@ -108,7 +108,7 @@ namespace Beholder.Validation
 
         public void Dispose()
         {
-            if (Disposed) 
+            if (IsDisposed) 
                 throw new InvalidOperationException("Trying to dispose of an IEye that has already been disposed of.");
             Real.Dispose();
         }

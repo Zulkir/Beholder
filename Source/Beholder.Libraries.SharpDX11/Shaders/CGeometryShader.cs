@@ -26,13 +26,14 @@ using System.IO;
 using System.Text;
 using Beholder.Shaders;
 using Beholder.Shaders.Reflection;
+using Beholder.Utility.ForImplementations;
 using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;
 using System.Linq;
 
 namespace Beholder.Libraries.SharpDX11.Shaders
 {
-    sealed class CGeometryShader : CShader, IGeometryShader, IDisposable
+    sealed class CGeometryShader : CShader, IGeometryShader, IDisposableInternal
     {
         public override ShaderStage Stage { get { return ShaderStage.Geometry; } }
         public GeometryShader D3DGeometryShader { get; private set; }
@@ -63,7 +64,7 @@ namespace Beholder.Libraries.SharpDX11.Shaders
             D3DGeometryShader = new GeometryShader(device.D3DDevice, bytecode);
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             D3DGeometryShader.Dispose();
         }

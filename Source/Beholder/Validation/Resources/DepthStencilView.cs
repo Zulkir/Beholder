@@ -33,13 +33,13 @@ namespace Beholder.Validation.Resources
 
         public int Width { get { return Real.Width; } }
         public int Height { get { return Real.Height; } }
-        public DepthStencilViewDimension Dimension { get { CheckResourceNotReleased(); return Real.Dimension; } }
-        public int FormatID { get { CheckResourceNotReleased(); return Real.FormatID; } }
-        public DepthStencilViewFlags Flags { get { CheckResourceNotReleased(); return Real.Flags; } }
-        public int MipSlice { get { CheckResourceNotReleased(); return Real.MipSlice; } }
-        public int FirstArraySlice { get { CheckResourceNotReleased(); return Real.FirstArraySlice; } }
-        public int ArraySize { get { CheckResourceNotReleased(); return Real.ArraySize; } }
-        public void GetDescription(out DepthStencilViewDescription description) { CheckResourceNotReleased(); Real.GetDescription(out description); }
+        public DepthStencilViewDimension Dimension { get { CheckResourceNotDisposed(); return Real.Dimension; } }
+        public int FormatID { get { CheckResourceNotDisposed(); return Real.FormatID; } }
+        public DepthStencilViewFlags Flags { get { CheckResourceNotDisposed(); return Real.Flags; } }
+        public int MipSlice { get { CheckResourceNotDisposed(); return Real.MipSlice; } }
+        public int FirstArraySlice { get { CheckResourceNotDisposed(); return Real.FirstArraySlice; } }
+        public int ArraySize { get { CheckResourceNotDisposed(); return Real.ArraySize; } }
+        public void GetDescription(out DepthStencilViewDescription description) { CheckResourceNotDisposed(); Real.GetDescription(out description); }
 
         public static void ValidateTexture1D(ITexture1D texture1D, int formatID, DepthStencilViewFlags flags, int mipSlice)
         {

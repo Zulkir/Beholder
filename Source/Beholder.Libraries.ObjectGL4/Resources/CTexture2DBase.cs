@@ -35,8 +35,8 @@ namespace Beholder.Libraries.ObjectGL4.Resources
 
         public IResource GLResource { get { return glResource; } }
 
-        protected CTexture2DBase(ICDevice device, ref Texture2DDescription desc, SubresourceData[] initialData, Action<ITexture2D> onRelease)
-            : base(device, ref desc, onRelease)
+        protected CTexture2DBase(ICDevice device, ref Texture2DDescription desc, SubresourceData[] initialData, Action<ITexture2D> onDispose)
+            : base(device, ref desc, onDispose)
         {
             CreateNative();
             if (initialData != null)

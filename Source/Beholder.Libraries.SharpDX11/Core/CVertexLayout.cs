@@ -20,15 +20,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-using System;
 using Beholder.Core;
 using Beholder.Libraries.SharpDX11.Shaders;
+using Beholder.Utility.ForImplementations;
 using Beholder.Utility.ForImplementations.Core;
 using SharpDX.Direct3D11;
 
 namespace Beholder.Libraries.SharpDX11.Core
 {
-    class CVertexLayout : VertexLayoutBase<ICDevice>, IDisposable
+    class CVertexLayout : VertexLayoutBase<ICDevice>, IDisposableInternal
     {
         readonly InputLayout d3dInputLayout;
 
@@ -38,7 +38,7 @@ namespace Beholder.Libraries.SharpDX11.Core
             d3dInputLayout = vertexShader.GenerateD3DInputLayout(elements);
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             d3dInputLayout.Dispose();
         }

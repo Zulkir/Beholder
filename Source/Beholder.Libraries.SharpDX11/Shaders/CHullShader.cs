@@ -27,12 +27,13 @@ using System.Linq;
 using System.Text;
 using Beholder.Shaders;
 using Beholder.Shaders.Reflection;
+using Beholder.Utility.ForImplementations;
 using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;
 
 namespace Beholder.Libraries.SharpDX11.Shaders
 {
-    sealed class CHullShader : CShader, IHullShader, IDisposable
+    sealed class CHullShader : CShader, IHullShader, IDisposableInternal
     {
         public override ShaderStage Stage { get { return ShaderStage.Hull; } }
         public HullShader D3DHullShader { get; private set; }
@@ -70,7 +71,7 @@ namespace Beholder.Libraries.SharpDX11.Shaders
             D3DHullShader = new HullShader(device.D3DDevice, bytecode);
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             D3DHullShader.Dispose();
         }

@@ -26,6 +26,7 @@ using System.IO;
 using System.Text;
 using Beholder.Core;
 using Beholder.Shaders;
+using Beholder.Utility.ForImplementations;
 using Beholder.Utility.Structures;
 using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;
@@ -33,7 +34,7 @@ using System.Linq;
 
 namespace Beholder.Libraries.SharpDX11.Shaders
 {
-    sealed class CVertexShader : CShader, IVertexShader, IDisposable
+    sealed class CVertexShader : CShader, IVertexShader, IDisposableInternal
     {
         public override ShaderStage Stage { get { return ShaderStage.Vertex; } }
         public VertexShader D3DVertexShader { get; private set; }
@@ -60,7 +61,7 @@ namespace Beholder.Libraries.SharpDX11.Shaders
             D3DInputElementsDraft = CreateVertexElementsDraft(reflection);
         }
 
-        public void Dispose()
+        public void DisposeInternal()
         {
             D3DVertexShader.Dispose();
         }

@@ -20,12 +20,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-using System;
 using Beholder.Resources;
 
 namespace Beholder.Libraries.ObjectGL4.Resources
 {
-    interface ICResource : IResource, IDisposable
+    interface ICResource : IResource
     {
         new ICDevice Device { get; }
         ObjectGL.GL42.IResource GLResource { get; }

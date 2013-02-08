@@ -31,17 +31,17 @@ namespace Beholder.Validation.Resources
     {
         public UnorderedAccessView(IUnorderedAccessView real) : base(real) { }
 
-        public UnorderedAccessViewDimension Dimension { get { CheckResourceNotReleased(); return Real.Dimension; } }
-        public int FormatID { get { CheckResourceNotReleased(); return Real.FormatID; } }
-        public int FirstElement { get { CheckResourceNotReleased(); return Real.FirstElement; } }
-        public int ElementCount { get { CheckResourceNotReleased(); return Real.ElementCount; } }
-        public UnorderedAccessViewBufferFlags BufferFlags { get { CheckResourceNotReleased(); return Real.BufferFlags; } }
-        public int MipSlice { get { CheckResourceNotReleased(); return Real.MipSlice; } }
-        public int FirstArraySlice { get { CheckResourceNotReleased(); return Real.FirstArraySlice; } }
-        public int ArraySize { get { CheckResourceNotReleased(); return Real.ArraySize; } }
-        public int FirstDepthSlice { get { CheckResourceNotReleased(); return Real.FirstDepthSlice; } }
-        public int DepthSliceCount { get { CheckResourceNotReleased(); return Real.DepthSliceCount; } }
-        public void GetDesc(out UnorderedAccessViewDescription description) { CheckResourceNotReleased(); Real.GetDesc(out description); }
+        public UnorderedAccessViewDimension Dimension { get { CheckResourceNotDisposed(); return Real.Dimension; } }
+        public int FormatID { get { CheckResourceNotDisposed(); return Real.FormatID; } }
+        public int FirstElement { get { CheckResourceNotDisposed(); return Real.FirstElement; } }
+        public int ElementCount { get { CheckResourceNotDisposed(); return Real.ElementCount; } }
+        public UnorderedAccessViewBufferFlags BufferFlags { get { CheckResourceNotDisposed(); return Real.BufferFlags; } }
+        public int MipSlice { get { CheckResourceNotDisposed(); return Real.MipSlice; } }
+        public int FirstArraySlice { get { CheckResourceNotDisposed(); return Real.FirstArraySlice; } }
+        public int ArraySize { get { CheckResourceNotDisposed(); return Real.ArraySize; } }
+        public int FirstDepthSlice { get { CheckResourceNotDisposed(); return Real.FirstDepthSlice; } }
+        public int DepthSliceCount { get { CheckResourceNotDisposed(); return Real.DepthSliceCount; } }
+        public void GetDesc(out UnorderedAccessViewDescription description) { CheckResourceNotDisposed(); Real.GetDesc(out description); }
 
         public static void ValidateBuffer(IBuffer buffer, int formatID, int firstElement, int elementCount, UnorderedAccessViewBufferFlags flags)
         {

@@ -84,7 +84,7 @@ namespace Beholder.Libraries.SharpDX9.Resources
 
         public override void OnDeviceLost()
         {
-            Dispose();
+            DisposeInternal();
         }
 
         public override void OnDeviceReset()

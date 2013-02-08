@@ -42,8 +42,8 @@ namespace Beholder.Libraries.SharpDX9.Resources
 
         public bool IsDefaultPool { get { return isDefaultPool; } }
 
-        private CTextureTexture(ICDevice device, ResourceDimension dimension, Texture2DDescription description, SubresourceData[] initialData, Action<CTexture> onRelease)
-            : base(device, dimension, description, onRelease)
+        private CTextureTexture(ICDevice device, ResourceDimension dimension, Texture2DDescription description, SubresourceData[] initialData, Action<CTexture> onDispose)
+            : base(device, dimension, description, onDispose)
         {
             this.d3dCaps2 = device.D3DDevice.Capabilities.Caps2;
 
@@ -84,8 +84,8 @@ namespace Beholder.Libraries.SharpDX9.Resources
             : this(device, ResourceDimension.Texture2D, description, initialData, onRelease)
         { }
 
-        protected CTextureTexture(ICDevice device, TD3DTexture d3dTexture, bool isDefaultPool, Texture2DDescription description, ResourceDimension dimension, Action<CTexture> onRelease)
-            : base(device, dimension, description, onRelease)
+        protected CTextureTexture(ICDevice device, TD3DTexture d3dTexture, bool isDefaultPool, Texture2DDescription description, ResourceDimension dimension, Action<CTexture> onDispose)
+            : base(device, dimension, description, onDispose)
         {
             this.d3dCaps2 = device.D3DDevice.Capabilities.Caps2;
             this.d3dTexture = d3dTexture;
@@ -192,14 +192,15 @@ namespace Beholder.Libraries.SharpDX9.Resources
 
         public override void OnDeviceLost()
         {
-            if (!IsDefaultPool) return;
-
-            Dispose();
+            if (!IsDefaultPool) 
+                return;
+            DisposeInternal();
         }
 
         public override void OnDeviceReset()
         {
-            if (!IsDefaultPool) return;
+            if (!IsDefaultPool) 
+                return;
 
             CreateNative();
 
