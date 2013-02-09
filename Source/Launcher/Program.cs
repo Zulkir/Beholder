@@ -49,10 +49,11 @@ namespace Launcher
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //IEye eye = new Beholder.Eyes.SharpDX9.Winforms.WinformsEye();
-            IEye eye = new Beholder.Eyes.SharpDX11.Winforms.WinformsEye();
-            //IEye eye = new Beholder.Eyes.ObjectGL4.Default.DefaultEye();
-            eye = new Beholder.Validation.Eye(eye);
+            //var eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX9.Winforms.dll", "Beholder.Eyes.SharpDX9.Winforms.WinformsEye");
+            //var eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX11.Winforms.dll", "Beholder.Eyes.SharpDX11.Winforms.WinformsEye");
+            var eye = EyeCreator.FromAssembly("Beholder.Eyes.ObjectGL4.Default.dll", "Beholder.Eyes.ObjectGL4.Default.DefaultEye");
+
+            //eye = new Beholder.Validation.Eye(eye);
             using (eye)
             {
                 var flags = DeviceInitializationFlags.None;

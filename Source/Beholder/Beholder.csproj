@@ -54,6 +54,8 @@
     <Compile Include="Core\IndexSource.cs" />
     <Compile Include="Core\StreamOutputTarget.cs" />
     <Compile Include="Core\IVertexLayout.cs" />
+    <Compile Include="EyeCreationFlags.cs" />
+    <Compile Include="EyeCreator.cs" />
     <Compile Include="IDeviceChild.cs" />
     <Compile Include="IDeviceChildCreator.cs" />
     <Compile Include="IDisposableOnce.cs" />
