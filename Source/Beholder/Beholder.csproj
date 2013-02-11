@@ -42,7 +42,7 @@
     <Compile Include="Basic\MeshSubset.cs" />
     <Compile Include="Core\ClearDepthStencilFlags.cs" />
     <Compile Include="Core\DeviceContextType.cs" />
-    <Compile Include="Core\IDeviceContextAccumulativeArrayBinding.cs" />
+    <Compile Include="Core\IDeviceContextCumulativeArrayBinding.cs" />
     <Compile Include="Core\IDeviceContextResettingArrayBinding.cs" />
     <Compile Include="Core\IDeviceContextComputeShaderStage.cs" />
     <Compile Include="Core\IDeviceContextShaderStage.cs" />
@@ -121,7 +121,7 @@
     <Compile Include="Utility\ForImplementations\Core\BlendStateBase.cs" />
     <Compile Include="Utility\ForImplementations\Core\DepthStencilStateBase.cs" />
     <Compile Include="Utility\ForImplementations\Core\DeviceContextBase.cs" />
-    <Compile Include="Utility\ForImplementations\Core\DeviceContextBaseAccumulativeArrayBinding.cs" />
+    <Compile Include="Utility\ForImplementations\Core\DeviceContextBaseCumulativeArrayBinding.cs" />
     <Compile Include="Utility\ForImplementations\Core\DeviceContextBaseComputeShaderStage.cs" />
     <Compile Include="Utility\ForImplementations\Core\DeviceContextBaseInputAssembler.cs" />
     <Compile Include="Utility\ForImplementations\Core\DeviceContextBaseOutputMerger.cs" />

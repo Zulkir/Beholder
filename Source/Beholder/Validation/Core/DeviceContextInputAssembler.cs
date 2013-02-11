@@ -57,7 +57,7 @@ namespace Beholder.Validation.Core
             }
         }
 
-        public IDeviceContextAccumulativeArrayBinding<VertexSource> VertexSources { get { return vertexSources; } }
+        public IDeviceContextCumulativeArrayBinding<VertexSource> VertexSources { get { return vertexSources; } }
 
         public IndexSource IndexSource 
         { 

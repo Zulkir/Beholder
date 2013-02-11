@@ -30,9 +30,9 @@ using Beholder.Validation.Resources;
 
 namespace Beholder.Validation.Core
 {
-    class DeviceContextComputeShaderStageUnorderedAccessResources : Wrapper<IDeviceContextAccumulativeArrayBinding<IUnorderedAccessView>>, IDeviceContextAccumulativeArrayBinding<IUnorderedAccessView>
+    class DeviceContextComputeShaderStageUnorderedAccessResources : Wrapper<IDeviceContextCumulativeArrayBinding<IUnorderedAccessView>>, IDeviceContextCumulativeArrayBinding<IUnorderedAccessView>
     {
-        public DeviceContextComputeShaderStageUnorderedAccessResources(IDeviceContextAccumulativeArrayBinding<IUnorderedAccessView> real)
+        public DeviceContextComputeShaderStageUnorderedAccessResources(IDeviceContextCumulativeArrayBinding<IUnorderedAccessView> real)
             : base(real)
         {
             

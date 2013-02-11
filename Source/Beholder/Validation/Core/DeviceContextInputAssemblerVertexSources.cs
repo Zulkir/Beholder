@@ -27,9 +27,9 @@ using Beholder.Validation.Resources;
 
 namespace Beholder.Validation.Core
 {
-    class DeviceContextInputAssemblerVertexSources : Wrapper<IDeviceContextAccumulativeArrayBinding<VertexSource>>, IDeviceContextAccumulativeArrayBinding<VertexSource>
+    class DeviceContextInputAssemblerVertexSources : Wrapper<IDeviceContextCumulativeArrayBinding<VertexSource>>, IDeviceContextCumulativeArrayBinding<VertexSource>
     {
-        public DeviceContextInputAssemblerVertexSources(IDeviceContextAccumulativeArrayBinding<VertexSource> real)
+        public DeviceContextInputAssemblerVertexSources(IDeviceContextCumulativeArrayBinding<VertexSource> real)
             : base(real)
         {
             

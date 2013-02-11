@@ -40,17 +40,17 @@ namespace Beholder.Validation.Core
             samplers = new DeviceContextShaderStageSamplers(Real.Samplers);
         }
 
-        public IDeviceContextAccumulativeArrayBinding<IBuffer> UniformBuffers
+        public IDeviceContextCumulativeArrayBinding<IBuffer> UniformBuffers
         {
             get { return uniformBuffers; }
         }
 
-        public IDeviceContextAccumulativeArrayBinding<IShaderResourceView> ShaderResources
+        public IDeviceContextCumulativeArrayBinding<IShaderResourceView> ShaderResources
         {
             get { return shaderResources; }
         }
 
-        public IDeviceContextAccumulativeArrayBinding<ISamplerState> Samplers
+        public IDeviceContextCumulativeArrayBinding<ISamplerState> Samplers
         {
             get { return samplers; }
         }

@@ -27,14 +27,14 @@ namespace Beholder.Utility.ForImplementations.Core
 {
     public class DeviceContextBaseInputAssembler : IDeviceContextInputAssembler
     {
-        readonly DeviceContextBaseAccumulativeArrayBinding<VertexSource> vertexSources;
+        readonly DeviceContextBaseCumulativeArrayBinding<VertexSource> vertexSources;
         readonly DirtyProperty<PrimitiveTopology> primitiveTopology;
         readonly DirtyProperty<IVertexLayout> vertexLayout;
         readonly DirtyProperty<IndexSource> indexSource;
 
         public DeviceContextBaseInputAssembler(int vertexSourceCount)
         {
-            vertexSources = new DeviceContextBaseAccumulativeArrayBinding<VertexSource>(vertexSourceCount, VertexSource.Equals);
+            vertexSources = new DeviceContextBaseCumulativeArrayBinding<VertexSource>(vertexSourceCount, VertexSource.Equals);
             primitiveTopology = new DirtyProperty<PrimitiveTopology>();
             vertexLayout = new DirtyProperty<IVertexLayout>();
             indexSource = new DirtyProperty<IndexSource>();
@@ -42,8 +42,8 @@ namespace Beholder.Utility.ForImplementations.Core
 
         public DirtyProperty<PrimitiveTopology> PrimitiveTopology { get { return primitiveTopology; } }
         public DirtyProperty<IVertexLayout> VertexLayout { get { return vertexLayout; } }
-        public DeviceContextBaseAccumulativeArrayBinding<VertexSource> VertexSources { get { return vertexSources; } }
-        IDeviceContextAccumulativeArrayBinding<VertexSource> IDeviceContextInputAssembler.VertexSources { get { return vertexSources; } }
+        public DeviceContextBaseCumulativeArrayBinding<VertexSource> VertexSources { get { return vertexSources; } }
+        IDeviceContextCumulativeArrayBinding<VertexSource> IDeviceContextInputAssembler.VertexSources { get { return vertexSources; } }
         public DirtyProperty<IndexSource> IndexSource { get { return indexSource; } }
 
         PrimitiveTopology IDeviceContextInputAssembler.PrimitiveTopology { get { return primitiveTopology.Value; } set { primitiveTopology.Value = value; } }

@@ -28,13 +28,13 @@ using Beholder.Utility.Collections;
 
 namespace Beholder.Utility.ForImplementations.Core
 {
-    public class DeviceContextBaseAccumulativeArrayBinding<T> : IDeviceContextAccumulativeArrayBinding<T>
+    public class DeviceContextBaseCumulativeArrayBinding<T> : IDeviceContextCumulativeArrayBinding<T>
     {
         readonly T[] elements;
         readonly SortedIntSet dirtyIndices;
         readonly Func<T, T, bool> areEqual;
 
-        public DeviceContextBaseAccumulativeArrayBinding(int count, Func<T, T, bool> areEqual)
+        public DeviceContextBaseCumulativeArrayBinding(int count, Func<T, T, bool> areEqual)
         {
             elements = new T[count];
             dirtyIndices = new SortedIntSet();

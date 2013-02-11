@@ -26,7 +26,7 @@ namespace Beholder.Core
     {
         PrimitiveTopology PrimitiveTopology { get; set; }
         IVertexLayout VertexLayout { get; set; }
-        IDeviceContextAccumulativeArrayBinding<VertexSource> VertexSources { get; }
+        IDeviceContextCumulativeArrayBinding<VertexSource> VertexSources { get; }
         IndexSource IndexSource { get; set; }
     }
 }

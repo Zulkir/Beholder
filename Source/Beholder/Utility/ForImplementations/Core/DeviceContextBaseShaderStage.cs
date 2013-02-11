@@ -27,24 +27,24 @@ namespace Beholder.Utility.ForImplementations.Core
 {
     public class DeviceContextBaseShaderStage : IDeviceContextShaderStage
     {
-        readonly DeviceContextBaseAccumulativeArrayBinding<IBuffer> uniformBuffers;
-        readonly DeviceContextBaseAccumulativeArrayBinding<ISamplerState> samplers;
-        readonly DeviceContextBaseAccumulativeArrayBinding<IShaderResourceView> shaderResources;
+        readonly DeviceContextBaseCumulativeArrayBinding<IBuffer> uniformBuffers;
+        readonly DeviceContextBaseCumulativeArrayBinding<ISamplerState> samplers;
+        readonly DeviceContextBaseCumulativeArrayBinding<IShaderResourceView> shaderResources;
 
         public DeviceContextBaseShaderStage(int uniformBuffersCount, int samplersCount, int shaderResourcesCount)
         {
-            uniformBuffers = new DeviceContextBaseAccumulativeArrayBinding<IBuffer>(uniformBuffersCount, ReferenceEquals);
-            samplers = new DeviceContextBaseAccumulativeArrayBinding<ISamplerState>(samplersCount, ReferenceEquals);
-            shaderResources = new DeviceContextBaseAccumulativeArrayBinding<IShaderResourceView>(shaderResourcesCount, ReferenceEquals);
+            uniformBuffers = new DeviceContextBaseCumulativeArrayBinding<IBuffer>(uniformBuffersCount, ReferenceEquals);
+            samplers = new DeviceContextBaseCumulativeArrayBinding<ISamplerState>(samplersCount, ReferenceEquals);
+            shaderResources = new DeviceContextBaseCumulativeArrayBinding<IShaderResourceView>(shaderResourcesCount, ReferenceEquals);
         }
 
-        public DeviceContextBaseAccumulativeArrayBinding<IBuffer> UniformBuffers { get { return uniformBuffers; } }
-        public DeviceContextBaseAccumulativeArrayBinding<ISamplerState> Samplers { get { return samplers; } }
-        public DeviceContextBaseAccumulativeArrayBinding<IShaderResourceView> ShaderResources { get { return shaderResources; } }
+        public DeviceContextBaseCumulativeArrayBinding<IBuffer> UniformBuffers { get { return uniformBuffers; } }
+        public DeviceContextBaseCumulativeArrayBinding<ISamplerState> Samplers { get { return samplers; } }
+        public DeviceContextBaseCumulativeArrayBinding<IShaderResourceView> ShaderResources { get { return shaderResources; } }
 
-        IDeviceContextAccumulativeArrayBinding<IBuffer> IDeviceContextShaderStage.UniformBuffers { get { return uniformBuffers; } }
-        IDeviceContextAccumulativeArrayBinding<ISamplerState> IDeviceContextShaderStage.Samplers { get { return samplers; } }
-        IDeviceContextAccumulativeArrayBinding<IShaderResourceView> IDeviceContextShaderStage.ShaderResources { get { return shaderResources; } }
+        IDeviceContextCumulativeArrayBinding<IBuffer> IDeviceContextShaderStage.UniformBuffers { get { return uniformBuffers; } }
+        IDeviceContextCumulativeArrayBinding<ISamplerState> IDeviceContextShaderStage.Samplers { get { return samplers; } }
+        IDeviceContextCumulativeArrayBinding<IShaderResourceView> IDeviceContextShaderStage.ShaderResources { get { return shaderResources; } }
 
         public void MarkAsDirty()
         {

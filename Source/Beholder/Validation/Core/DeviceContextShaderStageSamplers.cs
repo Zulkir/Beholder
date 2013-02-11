@@ -28,9 +28,9 @@ using Beholder.Utility.Helpers;
 
 namespace Beholder.Validation.Core
 {
-    class DeviceContextShaderStageSamplers : Wrapper<IDeviceContextAccumulativeArrayBinding<ISamplerState>>, IDeviceContextAccumulativeArrayBinding<ISamplerState>
+    class DeviceContextShaderStageSamplers : Wrapper<IDeviceContextCumulativeArrayBinding<ISamplerState>>, IDeviceContextCumulativeArrayBinding<ISamplerState>
     {
-        public DeviceContextShaderStageSamplers(IDeviceContextAccumulativeArrayBinding<ISamplerState> real)
+        public DeviceContextShaderStageSamplers(IDeviceContextCumulativeArrayBinding<ISamplerState> real)
             : base(real)
         {
             

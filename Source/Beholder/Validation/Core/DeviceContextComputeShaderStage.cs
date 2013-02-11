@@ -36,7 +36,7 @@ namespace Beholder.Validation.Core
             unorderedAccessResources = new DeviceContextComputeShaderStageUnorderedAccessResources(Real.UnorderedAccessResources);
         }
 
-        public IDeviceContextAccumulativeArrayBinding<IUnorderedAccessView> UnorderedAccessResources
+        public IDeviceContextCumulativeArrayBinding<IUnorderedAccessView> UnorderedAccessResources
         {
             get { return unorderedAccessResources; }
         }

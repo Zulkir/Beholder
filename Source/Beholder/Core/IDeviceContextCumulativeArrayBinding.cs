@@ -24,7 +24,7 @@ using System.Collections.Generic;
 
 namespace Beholder.Core
 {
-    public interface IDeviceContextAccumulativeArrayBinding<T> : IEnumerable<T>
+    public interface IDeviceContextCumulativeArrayBinding<T> : IEnumerable<T>
     {
         int Count { get; }
         T this[int index] { get; set; }

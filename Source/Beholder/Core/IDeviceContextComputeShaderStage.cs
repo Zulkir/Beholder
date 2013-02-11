@@ -26,7 +26,7 @@ namespace Beholder.Core
 {
     public interface IDeviceContextComputeShaderStage : IDeviceContextShaderStage
     {
-        IDeviceContextAccumulativeArrayBinding<IUnorderedAccessView> UnorderedAccessResources { get; }
+        IDeviceContextCumulativeArrayBinding<IUnorderedAccessView> UnorderedAccessResources { get; }
         void SetUavInitialCount(int index, int initialCount);
     }
 }

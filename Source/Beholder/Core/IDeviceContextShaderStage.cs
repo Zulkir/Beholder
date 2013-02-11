@@ -26,8 +26,8 @@ namespace Beholder.Core
 {
     public interface IDeviceContextShaderStage
     {
-        IDeviceContextAccumulativeArrayBinding<IBuffer> UniformBuffers { get; }
-        IDeviceContextAccumulativeArrayBinding<IShaderResourceView> ShaderResources { get; }
-        IDeviceContextAccumulativeArrayBinding<ISamplerState> Samplers { get; }
+        IDeviceContextCumulativeArrayBinding<IBuffer> UniformBuffers { get; }
+        IDeviceContextCumulativeArrayBinding<IShaderResourceView> ShaderResources { get; }
+        IDeviceContextCumulativeArrayBinding<ISamplerState> Samplers { get; }
     }
 }

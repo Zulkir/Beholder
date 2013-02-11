@@ -30,23 +30,23 @@ namespace Beholder.Utility.ForImplementations.Core
 {
     public class DeviceContextBaseComputeShaderStage : DeviceContextBaseShaderStage, IDeviceContextComputeShaderStage
     {
-        readonly DeviceContextBaseAccumulativeArrayBinding<IUnorderedAccessView> unorderedAccessResources;
+        readonly DeviceContextBaseCumulativeArrayBinding<IUnorderedAccessView> unorderedAccessResources;
         readonly int[] initialCounts;
         readonly SortedIntSet initialCountChangedIndices;
 
         public DeviceContextBaseComputeShaderStage(int uniformBuffersCount, int samplersCount, int shaderResourcesCount, int unorderedAccessResourcesCount)
             : base(uniformBuffersCount, samplersCount, shaderResourcesCount)
         {
-            unorderedAccessResources = new DeviceContextBaseAccumulativeArrayBinding<IUnorderedAccessView>(unorderedAccessResourcesCount, ReferenceEquals);
+            unorderedAccessResources = new DeviceContextBaseCumulativeArrayBinding<IUnorderedAccessView>(unorderedAccessResourcesCount, ReferenceEquals);
             initialCounts = new int[uniformBuffersCount];
             initialCountChangedIndices = new SortedIntSet();
         }
 
-        public DeviceContextBaseAccumulativeArrayBinding<IUnorderedAccessView> UnorderedAccessResources { get { return unorderedAccessResources; } }
+        public DeviceContextBaseCumulativeArrayBinding<IUnorderedAccessView> UnorderedAccessResources { get { return unorderedAccessResources; } }
         public int[] InitialCounts { get { return initialCounts; } }
         public SortedIntSet InitialCountChangedIndices { get { return initialCountChangedIndices; } }
 
-        IDeviceContextAccumulativeArrayBinding<IUnorderedAccessView> IDeviceContextComputeShaderStage.UnorderedAccessResources { get { return unorderedAccessResources; } }
+        IDeviceContextCumulativeArrayBinding<IUnorderedAccessView> IDeviceContextComputeShaderStage.UnorderedAccessResources { get { return unorderedAccessResources; } }
 
         void IDeviceContextComputeShaderStage.SetUavInitialCount(int index, int initialCount)
         {

@@ -31,9 +31,9 @@ using Buffer = Beholder.Validation.Resources.Buffer;
 
 namespace Beholder.Validation.Core
 {
-    class DeviceContextShaderStageUniformBuffers : Wrapper<IDeviceContextAccumulativeArrayBinding<IBuffer>>, IDeviceContextAccumulativeArrayBinding<IBuffer>
+    class DeviceContextShaderStageUniformBuffers : Wrapper<IDeviceContextCumulativeArrayBinding<IBuffer>>, IDeviceContextCumulativeArrayBinding<IBuffer>
     {
-        public DeviceContextShaderStageUniformBuffers(IDeviceContextAccumulativeArrayBinding<IBuffer> real)
+        public DeviceContextShaderStageUniformBuffers(IDeviceContextCumulativeArrayBinding<IBuffer> real)
             : base(real)
         {
             
