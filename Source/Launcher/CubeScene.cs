@@ -85,18 +85,18 @@ ubuffer Light : slot = 1, slotGL3 = 3, slotDX9 = c1
 sampler TextureMapSampler : slot = 0
 
 %srvs
-Texture2D <float4> DiffuseTexture : slot = 0, slotGL3 = 0 
-Texture2D <float4> SpecularTexture : slot = 1, slotGL3 = 1 
+Texture2D<float4> DiffuseTexture  : slot = 0, slotGL3 = 0 
+Texture2D<float4> SpecularTexture : slot = 1, slotGL3 = 1 
 
 %fixed_sampling
-DiffuseTexture : TextureMapSampler
+DiffuseTexture  : TextureMapSampler
 SpecularTexture : TextureMapSampler
 
 %input
-float4 Position  	 : SDX9 = %unused,	 SDX10 = SV_Position, SGL3 = %unused
-float3 WorldPosition : SDX9 = TEXCOORD0, SDX10 = %name, 	  SGL3 = %name
-float3 WorldNormal   : SDX9 = TEXCOORD1, SDX10 = %name, 	  SGL3 = %name
-float2 TexCoord 	 : SDX9 = TEXCOORD2, SDX10 = %name, 	  SGL3 = %name
+float4 Position      : SDX9 = %unused,	 SDX10 = SV_Position, SGL3 = %unused
+float3 WorldPosition : SDX9 = TEXCOORD0, SDX10 = %name,       SGL3 = %name
+float3 WorldNormal   : SDX9 = TEXCOORD1, SDX10 = %name,       SGL3 = %name
+float2 TexCoord      : SDX9 = TEXCOORD2, SDX10 = %name,       SGL3 = %name
 
 %output
 float4 Color : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
@@ -106,13 +106,14 @@ float4 Color : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
     float3 toLight = normalize(LightPosition - INPUT(WorldPosition));
     float3 normal = normalize(INPUT(WorldNormal));
     
-    float diffuseFactor = clamp(dot(toLight, normal), 0.0f, 1.0f);
-    float specularFactor = pow(saturate(dot(toEye, reflect(-toLight, normal))), 24.0f);
+    float diffuseFactor = clamp(dot(toLight, normal), 0.0, 1.0);
+    float specularFactor = pow(saturate(dot(toEye, reflect(-toLight, normal))), 24.0);
     
-    OUTPUT(Color) = float4(
-    	sample(DiffuseTexture, INPUT(TexCoord)).xyz * saturate(diffuseFactor * LightColor + AmbientColor) + 
-    	sample(SpecularTexture, INPUT(TexCoord)).xyz * specularFactor, 
-    	1.0f);
+    float3 color3 = 
+        sample(DiffuseTexture, INPUT(TexCoord)).xyz * saturate(diffuseFactor * LightColor + AmbientColor) + 
+    	sample(SpecularTexture, INPUT(TexCoord)).xyz * specularFactor;
+
+    OUTPUT(Color) = float4(color3, 1.0f);
 ";
 
         struct Transform
