@@ -59,6 +59,11 @@ namespace Beholder.Validation.Core
             Real.Set(values);
         }
 
+        public void SetEmpty()
+        {
+            Real.SetEmpty();
+        }
+
         static void ValidateViewport(Viewport viewport)
         {
             Check.NotNegative(viewport.Left, "viewport.Left");

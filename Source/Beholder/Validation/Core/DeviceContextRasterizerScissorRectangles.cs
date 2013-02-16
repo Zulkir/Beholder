@@ -60,6 +60,11 @@ namespace Beholder.Validation.Core
             Real.Set(values);
         }
 
+        public void SetEmpty()
+        {
+            Real.SetEmpty();
+        }
+
         static void ValidateRectangle(IntRectangle rectangle)
         {
             Check.NotNegative(rectangle.Width, "rectangle.Width");

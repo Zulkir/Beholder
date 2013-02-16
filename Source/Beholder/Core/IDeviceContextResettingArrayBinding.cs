@@ -31,5 +31,6 @@ namespace Beholder.Core
         T this[int index] { get; }
         void Set(T singleValue);
         void Set(IEnumerable<T> values);
+        void SetEmpty();
     }
 }

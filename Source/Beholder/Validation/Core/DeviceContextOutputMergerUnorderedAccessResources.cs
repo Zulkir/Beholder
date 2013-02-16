@@ -62,5 +62,10 @@ namespace Beholder.Validation.Core
             Check.NotNullNotEmpty(values, "values");
             Real.Set(values.Select(v => ((UnorderedAccessView)v).Real));
         }
+
+        public void SetEmpty()
+        {
+            Real.SetEmpty();
+        }
     }
 }

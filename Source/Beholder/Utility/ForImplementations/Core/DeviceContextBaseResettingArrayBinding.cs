@@ -70,25 +70,23 @@ namespace Beholder.Utility.ForImplementations.Core
 
         public void Set(IEnumerable<T> values)
         {
-            if (values == null)
+            int i = 0;
+            foreach (var value in values)
             {
-                isDirty = currentCount != 0;
-                currentCount = 0;
-            }
-            else
-            {
-                int i = 0;
-                foreach (var value in values)
-                {
-                    if (!isDirty && !areEqual(elements[i], value))
-                        isDirty = true;
-                    elements[i] = value;
-                    i++;
-                }
-                if (!isDirty && currentCount != i)
+                if (!areEqual(elements[i], value))
                     isDirty = true;
-                currentCount = i;
+                elements[i] = value;
+                i++;
             }
+            if (currentCount != i)
+                isDirty = true;
+            currentCount = i;
+        }
+
+        public void SetEmpty()
+        {
+            isDirty = currentCount != 0;
+            currentCount = 0;
         }
 
         #region Implementation of IEnumerable

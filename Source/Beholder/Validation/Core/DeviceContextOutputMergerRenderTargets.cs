@@ -71,5 +71,10 @@ namespace Beholder.Validation.Core
                 throw new ArgumentException("All simultaneous render target views must have the same width, height annd formatID");
             Real.Set(values.Select(v => ((RenderTargetView)v).Real));
         }
+
+        public void SetEmpty()
+        {
+            Real.SetEmpty();
+        }
     }
 }
