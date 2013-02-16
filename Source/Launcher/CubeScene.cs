@@ -106,7 +106,7 @@ float4 Color : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
     float3 toLight = normalize(LightPosition - INPUT(WorldPosition));
     float3 normal = normalize(INPUT(WorldNormal));
     
-    float diffuseFactor = clamp(dot(toLight, normal), 0.0, 1.0);
+    float diffuseFactor = saturate(dot(toLight, normal));
     float specularFactor = pow(saturate(dot(toEye, reflect(-toLight, normal))), 24.0);
     
     float3 color3 = 
