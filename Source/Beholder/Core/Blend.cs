@@ -105,14 +105,14 @@ namespace Beholder.Core
 
 
         /// <summary>
-        /// The data source is the blend factor set with <see cref="IDeviceContext.SetBlendState"/>. 
+        /// The data source is the blend factor set with IDeviceContext.OutputMerger.BlendFactor method. 
         /// No pre-blend operation.
         /// </summary>
         BlendFactor = 14,
 
 
         /// <summary>
-        /// The data source is the blend factor set with <see cref="IDeviceContext.SetBlendState"/>. 
+        /// The data source is the blend factor set with IDeviceContext.OutputMerger.BlendFactor method. 
         /// The pre-blend operation inverts the blend factor, generating 1 - BlendFactor.
         /// </summary>
         InverseBlendFactor = 15,

@@ -131,10 +131,11 @@ namespace Beholder.Core
             GetRenderTargetBlend(ref this, renderTargetSlot, out result);
             return result;
         }
-        
+
         /// <summary>
         /// Sets a blend description for a specified render target slot.
         /// </summary>
+        /// <param name="desc">Description to set the render target blend for.</param>
         /// <param name="renderTargetSlot">Render target slot.</param>
         /// <param name="renderTargetBlend">Blend description for the render target.</param>
         public static void SetRenderTargetBlend(ref BlendDescription desc, int renderTargetSlot, ref RenderTargetBlendDescription renderTargetBlend)

@@ -50,8 +50,8 @@ namespace Launcher
             Application.SetCompatibleTextRenderingDefault(false);
 
             //var eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX9.Winforms.dll", "Beholder.Eyes.SharpDX9.Winforms.WinformsEye");
-            //var eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX11.Winforms.dll", "Beholder.Eyes.SharpDX11.Winforms.WinformsEye");
-            var eye = EyeCreator.FromAssembly("Beholder.Eyes.ObjectGL4.Default.dll", "Beholder.Eyes.ObjectGL4.Default.DefaultEye");
+            var eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX11.Winforms.dll", "Beholder.Eyes.SharpDX11.Winforms.WinformsEye");
+            //var eye = EyeCreator.FromAssembly("Beholder.Eyes.ObjectGL4.Default.dll", "Beholder.Eyes.ObjectGL4.Default.DefaultEye");
 
             //eye = new Beholder.Validation.Eye(eye);
             using (eye)

@@ -35,14 +35,14 @@ namespace Beholder.Platform
         /// </summary>
         Buffer = 0x1,
 
-        /// <summary>
-        /// Vertex buffers supported.
-        /// </summary>
+        ///// <summary>
+        ///// Vertex buffers supported.
+        ///// </summary>
         //IaVertexBuffer = 0x2,
 
-        /// <summary>
-        /// Index buffers supported.
-        /// </summary>
+        ///// <summary>
+        ///// Index buffers supported.
+        ///// </summary>
         //IaIndexBuffer = 0x4,
 
         /// <summary>
@@ -85,9 +85,9 @@ namespace Beholder.Platform
         /// </summary>
         ShaderSampleComparison = 0x400,
 
-        /// <summary>
-        /// Reserved.
-        /// </summary>
+        ///// <summary>
+        ///// Reserved.
+        ///// </summary>
         //ShaderSampleMonoText = 0x800,
 
         /// <summary>
@@ -115,9 +115,9 @@ namespace Beholder.Platform
         /// </summary>
         DepthStencil = 0x10000,
 
-        /// <summary>
-        /// CPU locking supported.
-        /// </summary>
+        ///// <summary>
+        ///// CPU locking supported.
+        ///// </summary>
         //CpuLockable = 0x20000,
 
         /// <summary>
@@ -125,14 +125,14 @@ namespace Beholder.Platform
         /// </summary>
         MultisampleResolve = 0x40000,
 
-        /// <summary>
-        /// Format can be displayed on screen.
-        /// </summary>
+        ///// <summary>
+        ///// Format can be displayed on screen.
+        ///// </summary>
         //Display = 0x80000,
 
-        /// <summary>
-        /// Format cannot be cast to another format. (Has or Is a typeless) 
-        /// </summary>
+        ///// <summary>
+        ///// Format cannot be cast to another format. (Has or Is a typeless) 
+        ///// </summary>
         //CastWithinBitLayout = 0x100000,
 
         /// <summary>
@@ -150,9 +150,9 @@ namespace Beholder.Platform
         /// </summary>
         ShaderGather = 0x800000,
 
-        /// <summary>
-        /// Format supports casting when used the resource is a back buffer.
-        /// </summary>
+        ///// <summary>
+        ///// Format supports casting when used the resource is a back buffer.
+        ///// </summary>
         //BackBufferCast = 0x1000000,
 
         /// <summary>

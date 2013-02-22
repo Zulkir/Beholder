@@ -24,9 +24,9 @@ namespace Beholder.Input
 {
     public enum Keys
     {
-        /// <summary>
-        /// The bitmask to extract modifiers from a key value.
-        /// </summary>
+        ///// <summary>
+        ///// The bitmask to extract modifiers from a key value.
+        ///// </summary>
         //Modifiers = -65536,
 
         /// <summary>
@@ -174,9 +174,9 @@ namespace Beholder.Input
         /// </summary>
         IMENonconvert = 29,
 
-        /// <summary>
-        /// The IME accept key. Obsolete, use System.Windows.Forms.Keys.IMEAccept instead.
-        /// </summary>
+        ///// <summary>
+        ///// The IME accept key. Obsolete, use System.Windows.Forms.Keys.IMEAccept instead.
+        ///// </summary>
         //IMEAceept = 30,
 
         /// <summary>
