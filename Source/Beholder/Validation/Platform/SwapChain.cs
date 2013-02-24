@@ -108,7 +108,7 @@ namespace Beholder.Validation.Platform
                 throw new ArgumentException(
                     "Given swap chain's depth-stencil format is not supported by the adapter");
 
-            if (description.Sampling.Quality >=
+            if (description.Sampling != Sampling.NoMultisampling && description.Sampling.Quality >=
                 adapter.GetMultisampleQualityLevelsCount(description.ColorBufferFormatID, description.Sampling.Count))
                 throw new ArgumentException(
                     "Given swap chain's multisampling is not supported by the given adapter for the given color format");

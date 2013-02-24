@@ -42,7 +42,7 @@ namespace Beholder.Libraries.SharpDX11.Platform
         const FormatSupport DepthStencilSupportMask = FormatSupport.DepthStencil;
         const FormatSupport VertexElementSupportMask = FormatSupport.InputAssemblyVertexBuffer;
 
-        static readonly int[] MultisampleCountsToTry = { 2, 4, 8, 16, 32, 64 };
+        static readonly int[] MultisampleCountsToTry = { 1, 2, 4, 8, 16, 32, 64 };
 
         readonly Adapter1 dxgiAdapter;
         readonly AdapterDescription desc;

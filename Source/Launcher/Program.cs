@@ -50,10 +50,10 @@ namespace Launcher
             Application.SetCompatibleTextRenderingDefault(false);
 
             //var eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX9.Winforms.dll", "Beholder.Eyes.SharpDX9.Winforms.WinformsEye");
-            var eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX11.Winforms.dll", "Beholder.Eyes.SharpDX11.Winforms.WinformsEye");
-            //var eye = EyeCreator.FromAssembly("Beholder.Eyes.ObjectGL4.Default.dll", "Beholder.Eyes.ObjectGL4.Default.DefaultEye");
+            //var eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX11.Winforms.dll", "Beholder.Eyes.SharpDX11.Winforms.WinformsEye");
+            var eye = EyeCreator.FromAssembly("Beholder.Eyes.ObjectGL4.Default.dll", "Beholder.Eyes.ObjectGL4.Default.DefaultEye");
 
-            //eye = new Beholder.Validation.Eye(eye);
+            eye = new Beholder.Validation.Eye(eye);
             using (eye)
             {
                 var flags = DeviceInitializationFlags.None;
@@ -74,7 +74,7 @@ namespace Launcher
                     .First();
 
                 var windowHandle = eye.CreateNewWindow(400, 400, "New Window", true);
-                eye.Initialize(adapter, windowHandle, new SwapChainDescription(2, displayFormat.ID, true, depthStencilFormat.ID, new Sampling(4, 0), true), flags);
+                eye.Initialize(adapter, windowHandle, new SwapChainDescription(2, displayFormat.ID, true, depthStencilFormat.ID, new Sampling(1, 0), true), flags);
 
                 using (
                     //var scene = new ClearScreenScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
