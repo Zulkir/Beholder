@@ -26,11 +26,17 @@ namespace Beholder.Utility.ForImplementations.Platform
 {
     public class WindowHandle : IWindowHandle
     {
-        public WindowDescription Description { get; set; }
+        public int ClientWidth { get; private set; }
+        public int ClientHeight { get; private set; }
+        public string Title { get; private set; }
+        public bool IsResizable { get; private set; }
 
-        public WindowHandle(WindowDescription description)
+        public WindowHandle(int clientWidth, int clientHeight, string title, bool isResizable)
         {
-            Description = description;
+            ClientWidth = clientWidth;
+            ClientHeight = clientHeight;
+            Title = title;
+            IsResizable = isResizable;
         }
     }
 }

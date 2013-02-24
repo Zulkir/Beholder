@@ -25,6 +25,7 @@ using Beholder.Core;
 using Beholder.Libraries.ObjectGL4;
 using Beholder.Libraries.ObjectGL4.Platform;
 using Beholder.Platform;
+using Beholder.Utility.ForImplementations.Platform;
 using ObjectGL.GL42;
 using OpenTK;
 
@@ -55,15 +56,15 @@ namespace Beholder.Eyes.ObjectGL4.Default
         IDeviceContext IDevice.ImmediateContext { get { return immediateContext; } }
 
         public DefaultDevice(DefaultEye eye, CAdapter adapter, DeviceInitializationFlags flags,
-            ref WindowDescription windowDescription, ref SwapChainDescription implicitSwapChainDescription,
+            WindowHandle windowHandle, ref SwapChainDescription implicitSwapChainDescription,
             IFileSystem fileSystem)
         {
             this.eye = eye;
             this.adapter = adapter;
             this.flags = flags;
 
-            primaryWindow = new DefaultWindow(this, windowDescription.ClientWidth, windowDescription.ClientHeight,
-                ref implicitSwapChainDescription, windowDescription.Title, GameWindowFlags.Default,
+            primaryWindow = new DefaultWindow(this, windowHandle.ClientWidth, windowHandle.ClientHeight,
+                ref implicitSwapChainDescription, windowHandle.Title, GameWindowFlags.Default,
                 ((COutput)adapter.Outputs[0]).GLDisplayDevice, ref glContext);
 
             creator = new CDeviceChildCreator(this);

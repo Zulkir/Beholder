@@ -68,13 +68,13 @@ namespace Beholder.Eyes.SharpDX11.Winforms
                 NewFrame(realTime);
         }
 
-        public IWindowHandle CreateNewWindow(WindowDescription description)
+        public IWindowHandle CreateNewWindow(int clientWidth, int clientHeight, string title, bool isResizable)
         {
             return new ControlWindow(new GameForm
             {
-                ClientSize = new System.Drawing.Size(description.ClientWidth, description.ClientHeight),
-                Text = description.Title,
-                FormBorderStyle = description.Resizable ? FormBorderStyle.Sizable : FormBorderStyle.FixedSingle
+                ClientSize = new System.Drawing.Size(clientWidth, clientHeight),
+                Text = title,
+                FormBorderStyle = isResizable ? FormBorderStyle.Sizable : FormBorderStyle.FixedSingle
             });
         }
 

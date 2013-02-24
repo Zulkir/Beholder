@@ -73,7 +73,7 @@ namespace Launcher
                     .ThenBy(fi => FormatTypePriority(fi.ColorFormatType))
                     .First();
 
-                var windowHandle = eye.CreateNewWindow(new WindowDescription(400, 400, "New Window", true));
+                var windowHandle = eye.CreateNewWindow(400, 400, "New Window", true);
                 eye.Initialize(adapter, windowHandle, new SwapChainDescription(2, displayFormat.ID, true, depthStencilFormat.ID, new Sampling(4, 0), true), flags);
 
                 using (

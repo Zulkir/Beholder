@@ -49,12 +49,12 @@ namespace Beholder.Validation
             return Wrappers.Get(Real.PrepareExistingWindow(windowObject));
         }
 
-        public IWindowHandle CreateNewWindow(WindowDescription description)
+        public IWindowHandle CreateNewWindow(int clientWidth, int clientHeight, string title, bool isResizable)
         {
-            Check.Positive(description.ClientWidth, "description.ClientWidth");
-            Check.Positive(description.ClientHeight, "description.ClientHeight");
-            Check.NotNull(description.Title, "description.Title");
-            return Wrappers.Get(Real.CreateNewWindow(description));
+            Check.Positive(clientWidth, "clientWidth");
+            Check.Positive(clientHeight, "clientHeight");
+            Check.NotNull(title, "title");
+            return Wrappers.Get(Real.CreateNewWindow(clientWidth, clientHeight, title, isResizable));
         }
 
         public void Initialize(

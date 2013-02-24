@@ -49,9 +49,12 @@ namespace Beholder
         /// <summary>
         /// Creates a new window that is capable of holding a swap chain.
         /// </summary>
-        /// <param name="description">Description of a window to create.</param>
+        /// <param name="clientWidth">Width of the client (drawable into) area of the window.</param>
+        /// <param name="clientHeight">Height of the client (drawable into) area of the window. </param>
+        /// <param name="title">Window title.</param>
+        /// <param name="isResizable">Specifies whether window should be isResizable by the user or not.</param>
         /// <returns>Eye-specific handle of the window.</returns>
-        IWindowHandle CreateNewWindow(WindowDescription description);
+        IWindowHandle CreateNewWindow(int clientWidth, int clientHeight, string title, bool isResizable);
 
         /// <summary>
         /// Indicates whether the eye has already been initialized.

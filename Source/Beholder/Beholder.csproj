@@ -72,7 +72,6 @@
     <Compile Include="Platform\ModeRotation.cs" />
     <Compile Include="Platform\PlatformExtensionMethods.cs" />
     <Compile Include="Core\ExplicitFormat.cs" />
-    <Compile Include="Platform\WindowDescription.cs" />
     <Compile Include="Resources\ITexture.cs" />
     <Compile Include="Resources\ResourceDimension.cs" />
     <Compile Include="Shaders\Reflection\GeometryShaderInputPrimitiveType.cs" />

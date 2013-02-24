@@ -66,14 +66,14 @@ namespace Beholder.Eyes.SharpDX9.Winforms
             if (NewFrame != null)
                 NewFrame(realTime);
         }
-        
-        public IWindowHandle CreateNewWindow(WindowDescription description)
+
+        public IWindowHandle CreateNewWindow(int clientWidth, int clientHeight, string title, bool isResizable)
         {
             return new ControlWindow(new GameForm
             {
-                ClientSize = new Size(description.ClientWidth, description.ClientHeight),
-                Text = description.Title,
-                FormBorderStyle = description.Resizable ? FormBorderStyle.Sizable : FormBorderStyle.FixedSingle
+                ClientSize = new Size(clientWidth, clientHeight),
+                Text = title,
+                FormBorderStyle = isResizable ? FormBorderStyle.Sizable : FormBorderStyle.FixedSingle
             });
         }
 

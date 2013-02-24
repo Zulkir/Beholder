@@ -44,9 +44,9 @@ namespace Beholder.Eyes.ObjectGL4.Default
             throw new NotImplementedException();
         }
 
-        public IWindowHandle CreateNewWindow(WindowDescription description)
+        public IWindowHandle CreateNewWindow(int clientWidth, int clientHeight, string title, bool isResizable)
         {
-            return new WindowHandle(description);
+            return new WindowHandle(clientWidth, clientHeight, title, isResizable);
         }
 
         public IDevice Device { get { return device; } }
@@ -62,8 +62,7 @@ namespace Beholder.Eyes.ObjectGL4.Default
             if (adapter != adapters[0])
                 throw new ArgumentException("Provided adapter is not on of this eye's adapters");
 
-            var windowDescription = ((WindowHandle) windowHandle).Description;
-            device = new DefaultDevice(this, (CAdapter)adapter, initializationFlags, ref windowDescription, ref primarySwapChainDesc, fileSystem);
+            device = new DefaultDevice(this, (CAdapter)adapter, initializationFlags, (WindowHandle)windowHandle, ref primarySwapChainDesc, fileSystem);
 
             initialized = true;
         }
