@@ -28,7 +28,6 @@ using Beholder.Libraries.SharpDX11.Shaders;
 using Beholder.Math;
 using Beholder.Resources;
 using Beholder.Utility.ForImplementations.Core;
-using Beholder.Utility.Helpers;
 using SharpDX;
 using SharpDX.Direct3D11;
 using Beholder.Utility.ForImplementations.Resources;
@@ -37,6 +36,7 @@ using DeviceContextType = Beholder.Core.DeviceContextType;
 using Rectangle = SharpDX.Rectangle;
 using Vector4 = Beholder.Math.Vector4;
 using Viewport = SharpDX.Direct3D11.Viewport;
+using Beholder.Utility.Extensions;
 
 namespace Beholder.Libraries.SharpDX11.Core
 {
@@ -116,8 +116,8 @@ namespace Beholder.Libraries.SharpDX11.Core
                 foreach (var indexViewCount in ComputeStage.GetChangedIndexViewCountTuples())
                 {
                     d3dDeviceContext.ComputeShader.SetUnorderedAccessView(
-                        indexViewCount.First, 
-                        GeneralHelper.NullOrChild(indexViewCount.Second, v => ((CUnorderedAccessView)v).D3DUnorderedAccessView), 
+                        indexViewCount.First,
+                        indexViewCount.Second.NullOrFunc(v => ((CUnorderedAccessView)v).D3DUnorderedAccessView),
                         indexViewCount.Third);
                 }
                 ComputeStage.UnorderedAccessResources.Clean();
@@ -169,7 +169,7 @@ namespace Beholder.Libraries.SharpDX11.Core
         void ConsumeShaderStage(CommonShaderStage d3dStage, DeviceContextBaseShaderStage bStage)
         {
             foreach (var dirtyIndex in bStage.UniformBuffers.DirtyIndices)
-                d3dStage.SetConstantBuffer(dirtyIndex, GeneralHelper.NullOrChild(bStage.UniformBuffers[dirtyIndex], b => ((CBuffer)b).D3DBuffer));
+                d3dStage.SetConstantBuffer(dirtyIndex, bStage.UniformBuffers[dirtyIndex].NullOrFunc(b => ((CBuffer)b).D3DBuffer));
             bStage.UniformBuffers.Clean();
 
             foreach (var dirtyIndex in bStage.Samplers.DirtyIndices)
@@ -177,7 +177,7 @@ namespace Beholder.Libraries.SharpDX11.Core
             bStage.Samplers.Clean();
 
             foreach (var dirtyIndex in bStage.ShaderResources.DirtyIndices)
-                d3dStage.SetShaderResource(dirtyIndex, GeneralHelper.NullOrChild(bStage.ShaderResources[dirtyIndex], r => ((CShaderResourceView)r).D3DShaderResourceView));
+                d3dStage.SetShaderResource(dirtyIndex, bStage.ShaderResources[dirtyIndex].NullOrFunc(r => ((CShaderResourceView)r).D3DShaderResourceView));
             bStage.ShaderResources.Clean();
         }
 
@@ -187,8 +187,7 @@ namespace Beholder.Libraries.SharpDX11.Core
             {
                 var vertexSource = InputAssembler.VertexSources[dirtyIndex];
                 d3dDeviceContext.InputAssembler.SetVertexBuffers(dirtyIndex, 
-                    new VertexBufferBinding(GeneralHelper.NullOrChild(vertexSource.Buffer, b => ((CBuffer)b).D3DBuffer), 
-                        vertexSource.Stride, vertexSource.Offset));
+                    new VertexBufferBinding(vertexSource.Buffer.NullOrFunc(b => ((CBuffer)b).D3DBuffer), vertexSource.Stride, vertexSource.Offset));
             }
             InputAssembler.VertexSources.Clean();
 
@@ -208,7 +207,7 @@ namespace Beholder.Libraries.SharpDX11.Core
             {
                 var indexSource = InputAssembler.IndexSource.Value;
                 d3dDeviceContext.InputAssembler.SetIndexBuffer(
-                    GeneralHelper.NullOrChild(indexSource.Buffer, b => ((CBuffer)b).D3DBuffer), 
+                    indexSource.Buffer.NullOrFunc(b => ((CBuffer)b).D3DBuffer), 
                     CtSharpDX11.Format(indexSource.Format), indexSource.Offset);
                 InputAssembler.IndexSource.Clean();
             }
@@ -268,7 +267,7 @@ namespace Beholder.Libraries.SharpDX11.Core
                 OutputMerger.UnorderedAccessResources.IsDirty || OutputMerger.InitialCountsChangedIndices.Count != 0)
             {
                 var renderTargetArray = renderTargetArrays.GetOrAdd(OutputMerger.RenderTargets.CurrentCount, c => new RenderTargetView[c]);
-                var depthStencil = GeneralHelper.NullOrChild(OutputMerger.DepthStencil.Value, v => ((CDepthStencilView)v).D3DDepthStencilView);
+                var depthStencil = OutputMerger.DepthStencil.Value.NullOrFunc(v => ((CDepthStencilView)v).D3DDepthStencilView);
                 var unorderedResourceArray = unorderedAccessViewArrays.GetOrAdd(OutputMerger.UnorderedAccessResources.CurrentCount, c => new UnorderedAccessView[c]);
                 var initialCountArray = initialCountArrays.GetOrAdd(OutputMerger.UnorderedAccessResources.CurrentCount, c => new int[c]);
 

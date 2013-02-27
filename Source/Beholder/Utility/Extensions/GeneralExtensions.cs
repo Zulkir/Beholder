@@ -22,15 +22,15 @@ THE SOFTWARE.
 
 using System;
 
-namespace Beholder.Utility.Helpers
+namespace Beholder.Utility.Extensions
 {
-    public static class GeneralHelper
+    public static class GeneralExtensions
     {
-        public static TChild NullOrChild<TParent, TChild>(TParent parent, Func<TParent, TChild> childPath) 
-            where TParent : class 
-            where TChild : class
-        {
-            return parent != null ? childPath(parent) : null;
-        }
+         public static TResult NullOrFunc<TArg, TResult>(this TArg arg, Func<TArg, TResult> func)
+             where TArg : class
+             where TResult : class
+         {
+             return arg == null ? null : func(arg);
+         }
     }
 }

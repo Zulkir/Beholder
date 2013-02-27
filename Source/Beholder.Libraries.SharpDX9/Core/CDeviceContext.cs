@@ -27,12 +27,12 @@ using Beholder.Libraries.SharpDX9.Shaders;
 using Beholder.Math;
 using Beholder.Resources;
 using Beholder.Utility.ForImplementations.Core;
-using Beholder.Utility.Helpers;
 using SharpDX;
 using SharpDX.Direct3D9;
 using Color4 = Beholder.Math.Color4;
 using Vector4 = Beholder.Math.Vector4;
 using Viewport = Beholder.Core.Viewport;
+using Beholder.Utility.Extensions;
 
 namespace Beholder.Libraries.SharpDX9.Core
 {
@@ -211,7 +211,7 @@ namespace Beholder.Libraries.SharpDX9.Core
             if (force)
             {
                 foreach (var variable in shader.Textures)
-                    d3dDevice.SetTexture(samplerFlag | variable.Slot, GeneralHelper.NullOrChild(stage.ShaderResources[variable.Slot], t => ((CShaderResourceView)t).D3DBaseTexture));
+                    d3dDevice.SetTexture(samplerFlag | variable.Slot, stage.ShaderResources[variable.Slot].NullOrFunc(t => ((CShaderResourceView)t).D3DBaseTexture));
                 foreach (var kvp in shader.SamplerMap)
                     foreach (var register in kvp.Value)
                         ((CSamplerState)stage.Samplers[kvp.Key] ?? defaultSamplerState).Apply(register);
@@ -224,7 +224,7 @@ namespace Beholder.Libraries.SharpDX9.Core
                 if (stage.ShaderResources.IsDirty)
                 {
                     foreach (var dirtyIndex in stage.ShaderResources.DirtyIndices)
-                        d3dDevice.SetTexture(samplerFlag | dirtyIndex, GeneralHelper.NullOrChild(stage.ShaderResources[dirtyIndex], t => ((CShaderResourceView)t).D3DBaseTexture));
+                        d3dDevice.SetTexture(samplerFlag | dirtyIndex, stage.ShaderResources[dirtyIndex].NullOrFunc(t => ((CShaderResourceView)t).D3DBaseTexture));
                     stage.ShaderResources.Clean();
                 }
 
@@ -250,7 +250,7 @@ namespace Beholder.Libraries.SharpDX9.Core
                 foreach (var dirtyIndex in InputAssembler.VertexSources.DirtyIndices)
                 {
                     var vertexSource = InputAssembler.VertexSources[dirtyIndex];
-                    d3dDevice.SetStreamSource(dirtyIndex, GeneralHelper.NullOrChild(vertexSource.Buffer, b => ((CBufferVertex)b).D3DBuffer), vertexSource.Offset, vertexSource.Stride);
+                    d3dDevice.SetStreamSource(dirtyIndex, vertexSource.Buffer.NullOrFunc(b => ((CBufferVertex)b).D3DBuffer), vertexSource.Offset, vertexSource.Stride);
                 }
                 InputAssembler.VertexSources.Clean();
             }
@@ -273,7 +273,7 @@ namespace Beholder.Libraries.SharpDX9.Core
                     if (!indexSource.Buffer.ExtraFlags.HasFlag(ExtraFlags.SixteenBitIndices) && indexSource.Format != IndexFormat.ThirtyTwoBit)
                         throw new NotSupportedException("Only buffers without SixteenBitIndices extra flag set can be used as 32-bit indices by D3D9");
                 }
-                d3dDevice.Indices = GeneralHelper.NullOrChild(indexSource.Buffer, b => ((CBufferIndex)b).D3DBuffer);
+                d3dDevice.Indices = indexSource.Buffer.NullOrFunc(b => ((CBufferIndex)b).D3DBuffer);
                 InputAssembler.IndexSource.Clean();
             }
         }
@@ -314,7 +314,7 @@ namespace Beholder.Libraries.SharpDX9.Core
 
             if (OutputMerger.DepthStencil.IsDirty)
             {
-                d3dDevice.DepthStencilSurface = GeneralHelper.NullOrChild(OutputMerger.DepthStencil.Value, v => ((CDepthStencilView)v).D3DSurface);
+                d3dDevice.DepthStencilSurface = OutputMerger.DepthStencil.Value.NullOrFunc(v => ((CDepthStencilView)v).D3DSurface);
                 OutputMerger.DepthStencil.Clean();
             }
 

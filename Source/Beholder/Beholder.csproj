@@ -117,6 +117,7 @@
     <Compile Include="Utility\DataProcessing\ArrayReader.cs" />
     <Compile Include="Utility\DataProcessing\ArrayWriter.cs" />
     <Compile Include="Utility\Delegates\FuncTry.cs" />
+    <Compile Include="Utility\Extensions\GeneralExtensions.cs" />
     <Compile Include="Utility\ForImplementations\Core\BlendStateBase.cs" />
     <Compile Include="Utility\ForImplementations\Core\DepthStencilStateBase.cs" />
     <Compile Include="Utility\ForImplementations\Core\DeviceContextBase.cs" />
@@ -149,7 +150,6 @@
     <Compile Include="Utility\ForImplementations\Resources\UnorderedAccessViewBase.cs" />
     <Compile Include="Utility\ForImplementations\Shaders\SpecificShaderReflectionBase.cs" />
     <Compile Include="Utility\ForImplementations\Shaders\SlotTranslation.cs" />
-    <Compile Include="Utility\Helpers\GeneralHelper.cs" />
     <Compile Include="Utility\Helpers\ShaderHelper.cs" />
     <Compile Include="Utility\Patterns\DirtyProperty.cs" />
     <Compile Include="Shaders\ShaderParser.cs" />

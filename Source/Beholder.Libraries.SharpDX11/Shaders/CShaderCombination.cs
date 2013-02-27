@@ -22,8 +22,8 @@ THE SOFTWARE.
 
 using Beholder.Shaders;
 using Beholder.Utility.ForImplementations;
-using Beholder.Utility.Helpers;
 using SharpDX.Direct3D11;
+using Beholder.Utility.Extensions;
 
 namespace Beholder.Libraries.SharpDX11.Shaders
 {
@@ -64,11 +64,11 @@ namespace Beholder.Libraries.SharpDX11.Shaders
             this.geometryShader = geometryShader;
             this.pixelShader = pixelShader;
 
-            d3dVertexShader = GeneralHelper.NullOrChild(vertexShader, s => s.D3DVertexShader);
-            d3dHullShader = GeneralHelper.NullOrChild(hullShader, s => s.D3DHullShader);
-            d3dDomainShader = GeneralHelper.NullOrChild(domainShader, s => s.D3DDomainShader);
-            d3dGeometryShader = GeneralHelper.NullOrChild(geometryShader, s => s.D3DGeometryShader);
-            d3dPixelShader = GeneralHelper.NullOrChild(pixelShader, s => s.D3DPixelShader);
+            d3dVertexShader = vertexShader.NullOrFunc(s => s.D3DVertexShader);
+            d3dHullShader = hullShader.NullOrFunc(s => s.D3DHullShader);
+            d3dDomainShader = domainShader.NullOrFunc(s => s.D3DDomainShader);
+            d3dGeometryShader = geometryShader.NullOrFunc(s => s.D3DGeometryShader);
+            d3dPixelShader = pixelShader.NullOrFunc(s => s.D3DPixelShader);
 
             // todo: check io compatability
         }
