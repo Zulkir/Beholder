@@ -25,7 +25,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Beholder.Core;
 using Beholder.Resources;
-using Beholder.Validation.Resources;
 
 namespace Beholder.Validation.Core
 {
@@ -54,13 +53,13 @@ namespace Beholder.Validation.Core
         public void Set(IUnorderedAccessView singleValue)
         {
             Check.ExistingInternal(singleValue, "singleValue");
-            Real.Set(((UnorderedAccessView)singleValue).Real);
+            Real.Set(singleValue.GetReal());
         }
 
         public void Set(IEnumerable<IUnorderedAccessView> values)
         {
             Check.NotNullNotEmpty(values, "values");
-            Real.Set(values.Select(v => ((UnorderedAccessView)v).Real));
+            Real.Set(values.Select(v => v.GetReal()));
         }
 
         public void SetEmpty()

@@ -22,7 +22,6 @@ THE SOFTWARE.
 
 using Beholder.Core;
 using Beholder.Math;
-using Beholder.Utility.Helpers;
 
 namespace Beholder.Validation.Core
 {
@@ -44,7 +43,7 @@ namespace Beholder.Validation.Core
             set
             {
                 Check.NullOrInternal(value, "value");
-                Real.State = GeneralHelper.NullOrChild(value, s => ((RasterizerState)s).Real);
+                Real.State = value.GetReal();
             }
         }
 

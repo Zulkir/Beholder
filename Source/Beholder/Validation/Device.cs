@@ -42,7 +42,7 @@ namespace Beholder.Validation
         {
             Check.ExistingInternal(windowHandle, "windowHandle");
             SwapChain.ValidateDescriptionWindowed(ref swapChainDesc, Adapter);
-            return Wrappers.Get(Real.CreateAdditionalSwapChain(((WindowHandle)windowHandle).Real, swapChainDesc));
+            return Wrappers.Get(Real.CreateAdditionalSwapChain(windowHandle.GetReal(), swapChainDesc));
         }
     }
 }

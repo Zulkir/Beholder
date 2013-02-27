@@ -25,8 +25,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Beholder.Core;
 using Beholder.Resources;
-using Beholder.Utility.Helpers;
-using Beholder.Validation.Resources;
 
 namespace Beholder.Validation.Core
 {
@@ -59,7 +57,7 @@ namespace Beholder.Validation.Core
             set
             {
                 Check.NullOrInternal(value, "value");
-                Real[index] = GeneralHelper.NullOrChild(value, v => ((ShaderResourceView)v).Real);
+                Real[index] = value.GetReal();
             }
         }
     }

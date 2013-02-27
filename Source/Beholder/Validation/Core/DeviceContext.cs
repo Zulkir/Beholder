@@ -26,7 +26,6 @@ using Beholder.Math;
 using Beholder.Resources;
 using Beholder.Shaders;
 using Beholder.Validation.Resources;
-using Buffer = Beholder.Validation.Resources.Buffer;
 
 namespace Beholder.Validation.Core
 {
@@ -63,7 +62,7 @@ namespace Beholder.Validation.Core
         public void ClearRenderTargetView(IRenderTargetView renderTargetView, Color4 color)
         {
             Check.ExistingInternal(renderTargetView, "renderTargetView");
-            Real.ClearRenderTargetView(((RenderTargetView)renderTargetView).Real, color);
+            Real.ClearRenderTargetView(renderTargetView.GetReal(), color);
         }
 
         public void ClearDepthStencilView(IDepthStencilView depthStencilView, ClearDepthStencilFlags flags, float depth, byte stencil)
@@ -78,13 +77,13 @@ namespace Beholder.Validation.Core
         public void ClearUnorderedAccessView(IUnorderedAccessView unorderedAccessView, Vector4 value)
         {
             Check.ExistingInternal(unorderedAccessView, "unorderedAccessView");
-            Real.ClearUnorderedAccessView(((UnorderedAccessView)unorderedAccessView).Real, value);
+            Real.ClearUnorderedAccessView(unorderedAccessView.GetReal(), value);
         }
 
         public void ClearUnorderedAccessView(IUnorderedAccessView unorderedAccessView, IntVector4 value)
         {
             Check.ExistingInternal(unorderedAccessView, "unorderedAccessView");
-            Real.ClearUnorderedAccessView(((UnorderedAccessView)unorderedAccessView).Real, value);
+            Real.ClearUnorderedAccessView(unorderedAccessView.GetReal(), value);
         }
 
         public IComputeShader ShaderForDispatching
@@ -134,7 +133,7 @@ namespace Beholder.Validation.Core
         {
             Check.ExistingInternal(bufferForArgs, "bufferForArgs");
             Check.NotNegative(alignedByteOffsetForArgs, "alignedByteOffsetForArgs");
-            Real.DispatchIndirect(((Buffer)bufferForArgs).Real, alignedByteOffsetForArgs);
+            Real.DispatchIndirect(bufferForArgs.GetReal(), alignedByteOffsetForArgs);
         }
 
         public IShaderCombination ShadersForDrawing
@@ -293,7 +292,7 @@ namespace Beholder.Validation.Core
             Check.ExistingInternal(bufferForArgs, "bufferForArgs");
             Check.NotNegative(alignedByteOffsetForArgs, "alignedByteOffsetForArgs");
             ValidateDraw(true);
-            Real.DrawIndexedInstancedIndirect(((Buffer)bufferForArgs).Real, alignedByteOffsetForArgs);
+            Real.DrawIndexedInstancedIndirect(bufferForArgs.GetReal(), alignedByteOffsetForArgs);
         }
 
         public void DrawInstanced(int vertexCountPerInstance, int instanceCount, int startVertexLocation, int startInstanceLocation)
@@ -307,13 +306,13 @@ namespace Beholder.Validation.Core
             Check.ExistingInternal(bufferForArgs, "bufferForArgs");
             Check.NotNegative(alignedByteOffsetForArgs, "alignedByteOffsetForArgs");
             ValidateDraw(false);
-            Real.DrawInstancedIndirect(((Buffer)bufferForArgs).Real, alignedByteOffsetForArgs);
+            Real.DrawInstancedIndirect(bufferForArgs.GetReal(), alignedByteOffsetForArgs);
         }
 
         public void GenerateMips(IShaderResourceView shaderResourceView)
         {
             Check.ExistingInternal(shaderResourceView, "shaderResourceView");
-            Real.GenerateMips(((ShaderResourceView)shaderResourceView).Real);
+            Real.GenerateMips(shaderResourceView.GetReal());
         }
 
         public void SetSubresourceData(IResource resource, int subresourceIndex, SubresourceData data)
@@ -343,7 +342,7 @@ namespace Beholder.Validation.Core
             }
             if (data.Pointer == IntPtr.Zero)
                 throw new ArgumentException("data.Pointer cannot be 0");
-            Real.SetSubresourceData(((Resource)resource).Real, subresourceIndex, data);
+            Real.SetSubresourceData(resource.GetReal(), subresourceIndex, data);
         }
 
         #endregion

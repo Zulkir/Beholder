@@ -25,7 +25,6 @@ using Beholder.Core;
 using Beholder.Resources;
 using Beholder.Shaders;
 using Beholder.Shaders.Reflection;
-using Beholder.Validation.Shaders;
 
 namespace Beholder.Validation
 {
@@ -154,7 +153,7 @@ namespace Beholder.Validation
             Check.ExistingInternal(vertexShader, "vertexShader");
             Check.NotNullNotEmpty(elements, "elements");
             Core.VertexLayout.ValidateElements(vertexShader, elements);
-            return Wrappers.Get(Real.VertexLayout(((VertexShader)vertexShader).Real, elements));
+            return Wrappers.Get(Real.VertexLayout(vertexShader.GetReal(), elements));
         }
 
         public IBlendState BlendState(BlendDescription description)

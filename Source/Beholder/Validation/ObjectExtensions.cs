@@ -27,9 +27,7 @@ namespace Beholder.Validation
         public static T GetReal<T>(this T wrapper)
             where T : class
         {
-            if (wrapper == null)
-                return null;
-            return ((IWrapper<T>)wrapper).Real;
+            return wrapper == null ? null : ((IWrapper<T>)wrapper).Real;
         }
     }
 }

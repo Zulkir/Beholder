@@ -24,8 +24,6 @@ using System;
 using Beholder.Core;
 using Beholder.Math;
 using Beholder.Resources;
-using Beholder.Utility.Helpers;
-using Beholder.Validation.Resources;
 
 namespace Beholder.Validation.Core
 {
@@ -52,7 +50,7 @@ namespace Beholder.Validation.Core
             set
             {
                 Check.NullOrInternal(value, "value");
-                Real.DepthStencil = ((DepthStencilView)value).Real;
+                Real.DepthStencil = value.GetReal();
             }
         }
 
@@ -86,7 +84,7 @@ namespace Beholder.Validation.Core
             set
             {
                 Check.NullOrInternal(value, "value");
-                Real.BlendState = GeneralHelper.NullOrChild(value, s => ((BlendState)s).Real);
+                Real.BlendState = Real.BlendState.GetReal();
             }
         }
 
@@ -108,7 +106,7 @@ namespace Beholder.Validation.Core
             set
             {
                 Check.NullOrInternal(value, "value");
-                Real.DepthStencilState = GeneralHelper.NullOrChild(value, s => ((DepthStencilState)s).Real);
+                Real.DepthStencilState = value.GetReal();
             }
         }
 

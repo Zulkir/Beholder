@@ -67,7 +67,7 @@ namespace Beholder.Validation
             Check.ExistingInternal(adapter, "adapter");
             Check.ExistingInternal(windowHandle, "windowHandle");
             SwapChain.ValidateDescriptionWindowed(ref primarySwapChainDesc, Wrappers.Get(adapter));
-            Real.Initialize(((Adapter)adapter).Real, ((WindowHandle)windowHandle).Real, primarySwapChainDesc, initializationFlags, fileSystem);
+            Real.Initialize(adapter.GetReal(), ((WindowHandle)windowHandle).Real, primarySwapChainDesc, initializationFlags, fileSystem);
         }
 
         public IDevice Device
@@ -83,7 +83,7 @@ namespace Beholder.Validation
         public void RunLoop(IWindow mainWindow)
         {
             Check.NullOrInternal(mainWindow, "mainWindow");
-            Real.RunLoop(((Window)mainWindow).Real);
+            Real.RunLoop(mainWindow.GetReal());
             loopIsRunning = true;
         }
 

@@ -23,7 +23,6 @@ THE SOFTWARE.
 using System.Collections;
 using System.Collections.Generic;
 using Beholder.Core;
-using Beholder.Validation.Resources;
 
 namespace Beholder.Validation.Core
 {
@@ -55,7 +54,7 @@ namespace Beholder.Validation.Core
                 Check.NullOrInternal(value.Buffer, "value.Buffer");
                 if (value.Buffer != null)
                 {
-                    value.Buffer = ((Buffer)value.Buffer).Real;
+                    value.Buffer = value.Buffer.GetReal();
                     Check.NotNegative(value.Offset, "value.Offset");
                     Check.NotNegative(value.Stride, "value.Stride");
                 }

@@ -26,8 +26,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Beholder.Core;
 using Beholder.Resources;
-using Beholder.Utility.Helpers;
-using Buffer = Beholder.Validation.Resources.Buffer;
 
 namespace Beholder.Validation.Core
 {
@@ -62,7 +60,7 @@ namespace Beholder.Validation.Core
                 Check.NullOrInternal(value, "value");
                 if (value != null && !value.BindFlags.HasFlag(BindFlags.UniformBuffer))
                     throw new ArgumentException("A buffer must have a UniformBuffer bind flag to be used as a uniform buffer");
-                Real[index] = GeneralHelper.NullOrChild(value, b => ((Buffer)b).Real);
+                Real[index] = value.GetReal();
             }
         }
     }

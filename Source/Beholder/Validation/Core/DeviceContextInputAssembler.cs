@@ -22,8 +22,6 @@ THE SOFTWARE.
 
 using System;
 using Beholder.Core;
-using Beholder.Utility.Helpers;
-using Buffer = Beholder.Validation.Resources.Buffer;
 
 namespace Beholder.Validation.Core
 {
@@ -53,7 +51,7 @@ namespace Beholder.Validation.Core
             set
             {
                 Check.NullOrInternal(value, "value"); 
-                Real.VertexLayout = GeneralHelper.NullOrChild(value, l => ((VertexLayout)l).Real);
+                Real.VertexLayout = value.GetReal();
             }
         }
 
@@ -67,7 +65,7 @@ namespace Beholder.Validation.Core
                 Check.NullOrInternal(value.Buffer, "value.Buffer");
                 if (value.Buffer != null)
                 {
-                    value.Buffer = ((Buffer)value.Buffer).Real;
+                    value.Buffer = value.Buffer.GetReal();
                     Check.NotNegative(value.Offset, "value.Offset");
                     Check.Enumeration(value.Format, "value.Format");
                     if (value.Format == IndexFormat.Undefined)

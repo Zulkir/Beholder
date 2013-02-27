@@ -26,7 +26,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Beholder.Core;
 using Beholder.Resources;
-using Beholder.Validation.Resources;
 
 namespace Beholder.Validation.Core
 {
@@ -57,7 +56,7 @@ namespace Beholder.Validation.Core
         public void Set(IRenderTargetView singleValue)
         {
             Check.ExistingInternal(singleValue, "singleValue");
-            Real.Set(((RenderTargetView)singleValue).Real);
+            Real.Set(singleValue.GetReal());
         }
 
         public void Set(IEnumerable<IRenderTargetView> values)
@@ -69,7 +68,7 @@ namespace Beholder.Validation.Core
             int formatID = first.FormatID;
             if (values.Any(v => v.Width != width || v.Height != height || v.FormatID != formatID))
                 throw new ArgumentException("All simultaneous render target views must have the same width, height annd formatID");
-            Real.Set(values.Select(v => ((RenderTargetView)v).Real));
+            Real.Set(values.Select(v => v.GetReal()));
         }
 
         public void SetEmpty()
