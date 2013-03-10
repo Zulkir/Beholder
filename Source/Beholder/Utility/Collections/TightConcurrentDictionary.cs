@@ -23,7 +23,6 @@ THE SOFTWARE.
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Beholder.Utility.Structures;
 
 namespace Beholder.Utility.Collections

@@ -49,8 +49,8 @@ namespace Launcher
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX9.Winforms.dll", "Beholder.Eyes.SharpDX9.Winforms.WinformsEye");
-            //var eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX11.Winforms.dll", "Beholder.Eyes.SharpDX11.Winforms.WinformsEye");
+            //var eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX9.Winforms.dll", "Beholder.Eyes.SharpDX9.Winforms.WinformsEye");
+            var eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX11.Winforms.dll", "Beholder.Eyes.SharpDX11.Winforms.WinformsEye");
             //var eye = EyeCreator.FromAssembly("Beholder.Eyes.ObjectGL4.Default.dll", "Beholder.Eyes.ObjectGL4.Default.DefaultEye");
 
             eye = new Beholder.Validation.Eye(eye);
@@ -79,9 +79,9 @@ namespace Launcher
                 using (
                     //var scene = new ClearScreenScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
                     //var scene = new TriangleScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
-                    //var scene = new FullscreenQuadScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
+                    var scene = new FullscreenQuadScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
                     //var scene = new CubeScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
-                    var scene = new RenderToTextureScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
+                    //var scene = new RenderToTextureScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
                     //var scene = new ColorfulSpaceScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
                     //var scene = new CurveTesselationScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
                     )
