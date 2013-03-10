@@ -78,6 +78,24 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
             return builder.ToString();
         }
 
+        protected static string OutputPrefixForStage(ShaderStage stage)
+        {
+            switch (stage)
+            {
+                case ShaderStage.Vertex: return "bs_to_vertex_";
+                case ShaderStage.Hull: return "bs_to_hull_";
+                case ShaderStage.Domain: return "bs_to_domain_";
+                case ShaderStage.Geometry: return "bs_to_geometry_";
+                case ShaderStage.Pixel: return "bs_to_pixel_";
+                case ShaderStage.Compute:
+                    throw new ArgumentException("Compute shader cannot have input/output variables");
+                default:
+                    throw new ArgumentOutOfRangeException("stage");
+            }
+        }
+
+        protected static string PositionAdjustment { get { return "gl_Position.y = -gl_Position.y; gl_Position.z = 2.0 * gl_Position.z - gl_Position.w;"; } }
+
         void WriteStructures(StringBuilder builder)
         {
             if (Reflection.Structures == null)

@@ -30,9 +30,7 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
 {
     class CPixelShader : CShader, IPixelShader, IDisposableInternal
     {
-        FragmentShader glShaderFromVertex;
-        FragmentShader glShaderFromDomain;
-        FragmentShader glShaderFromGeometry;
+        FragmentShader glShaderToOutputMerger;
 
         public override ShaderStage Stage { get { return ShaderStage.Pixel; } }
 
@@ -43,18 +41,14 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
 
         public void DisposeInternal()
         {
-            if (glShaderFromVertex != null) glShaderFromVertex.Dispose();
-            if (glShaderFromDomain != null) glShaderFromDomain.Dispose();
-            if (glShaderFromGeometry != null) glShaderFromGeometry.Dispose();
+            if (glShaderToOutputMerger != null) glShaderToOutputMerger.Dispose();
         }
 
-        public FragmentShader GetGLShaderFromVertex() { return glShaderFromVertex ?? (glShaderFromVertex = CreateNative("bs_vertex_")); }
-        public FragmentShader GetGLShaderFromDomain() { return glShaderFromDomain ?? (glShaderFromDomain = CreateNative("bs_domain_")); }
-        public FragmentShader GetGLShaderFromGeometry() { return glShaderFromGeometry ?? (glShaderFromGeometry = CreateNative("bs_geometry_")); }
+        public FragmentShader GetGLShaderToOutputMerger() { return glShaderToOutputMerger ?? (glShaderToOutputMerger = CreateNative()); }
 
-        FragmentShader CreateNative(string inputPrefix)
+        FragmentShader CreateNative()
         {
-            var text = GenerateText<CPixelShader, string>(inputPrefix, WriteLayout, WriteIOAndCode);
+            var text = GenerateText<CPixelShader, object>(null, WriteLayout, WriteIOAndCode);
             FragmentShader glShader;
             string errors;
             if (!FragmentShader.TryCompile(text, out glShader, out errors))
@@ -62,18 +56,18 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
             return glShader;
         }
 
-        static void WriteLayout(StringBuilder builder, CPixelShader shader, string inputPrefix)
+        static void WriteLayout(StringBuilder builder, CPixelShader shader, object unused)
         {
         }
 
-        static void WriteIOAndCode(StringBuilder builder, CPixelShader shader, string inputPrefix)
+        static void WriteIOAndCode(StringBuilder builder, CPixelShader shader, object unused)
         {
             var reflection = shader.Reflection;
             WriteCodeLines(builder, reflection.CodeGlobalLines);
             builder.AppendLine();
 
-            WriteSimpleIOBlock(builder, reflection.Input, "INPUT", "in", inputPrefix);
-            WriteSimpleIOBlock(builder, reflection.Output, "OUTPUT", "out", "bs_pixel_");
+            WriteSimpleIOBlock(builder, reflection.Input, "INPUT", "in", OutputPrefixForStage(ShaderStage.Pixel));
+            WriteSimpleIOBlock(builder, reflection.Output, "OUTPUT", "out", "bs_to_om_");
             WriteFunction(builder, "main", null, reflection.CodeMainLines, null);
         }
     }

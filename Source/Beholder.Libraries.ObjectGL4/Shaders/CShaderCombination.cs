@@ -110,20 +110,24 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
 
             // todo: tesselation
 
-            GLVertexShader = vertexShader.GetGLShader();
+            GLVertexShader =
+                hullShader != null ? vertexShader.GetGLShaderToHull() :
+                geometryShader != null ? vertexShader.GetGLShaderToGeometry() :
+                vertexShader.GetGLShaderToPixel();
+
             if (hullShader != null || domainShader != null)
             {
                 GLTessControlShader = hullShader.GetGLShader();
-                GLTessEvalShader = domainShader.GetGLShader(hullShader.EncodeLayout());
+                var layout = hullShader.EncodeLayout();
+                GLTessEvalShader = 
+                    geometryShader != null ? domainShader.GetGLShaderToGeometry(layout) 
+                    : domainShader.GetGLShaderToPixel(layout);
             }
             if (geometryShader != null)
-                GLGeometryShader = domainShader != null ? geometryShader.GetGLShaderFromDomain() : geometryShader.GetGLShaderFromVertex();
-            
+                GLGeometryShader = geometryShader.GetGLShaderToPixel();
+
             if (pixelShader != null)
-                GLFragmentShader =  
-                    geometryShader != null ? pixelShader.GetGLShaderFromGeometry() :
-                    domainShader != null ? pixelShader.GetGLShaderFromDomain() :
-                    pixelShader.GetGLShaderFromVertex();
+                GLFragmentShader = pixelShader.GetGLShaderToOutputMerger();
 
             // todo: tesselation, transform feedback
 

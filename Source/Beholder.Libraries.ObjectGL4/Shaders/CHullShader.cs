@@ -34,7 +34,7 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
 {
     class CHullShader : CShader, IHullShader, IDisposableInternal
     {
-        TesselationControlShader glShaderFromVertex;
+        TesselationControlShader glShaderToDomain;
 
         readonly TesselationDomain domain;
         readonly TesselationPartitioning partitioning;
@@ -61,10 +61,10 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
 
         public void DisposeInternal()
         {
-            if (glShaderFromVertex != null) glShaderFromVertex.Dispose();
+            if (glShaderToDomain != null) glShaderToDomain.Dispose();
         }
 
-        public TesselationControlShader GetGLShader() { return glShaderFromVertex ?? (glShaderFromVertex = CreateNative()); }
+        public TesselationControlShader GetGLShader() { return glShaderToDomain ?? (glShaderToDomain = CreateNative()); }
 
         internal TesselationLayout EncodeLayout()
         {
@@ -93,9 +93,9 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
 
             WriteCodeLines(builder, reflection.CodeGlobalLines);
             builder.AppendLine();
-            WriteInputArrayBlock(builder, reflection.Input, "bs_vertex_");
+            WriteInputArrayBlock(builder, reflection.Input, OutputPrefixForStage(ShaderStage.Vertex));
             WriteInputExtraBlock(builder, reflection.InputPatchExtra, "INPUT_PATCH_EXTRA", "InputPatchExtra", "bs_input_patch_extra_");
-            WritePatchBlock(builder, reflection.OutputPatch, "OUTPUT_PATCH", "bs_output_patch_", "patch out");
+            WritePatchBlock(builder, reflection.OutputPatch, "OUTPUT_PATCH", "bs_patch_", "patch out");
             WriteFunction(builder, "BS_Patch_Function", null, reflection.CodePatchLines, null);
             WriteInputExtraBlock(builder, reflection.InputExtra, "INPUT_EXTRA", "InputExtra", "bs_input_extra_");
             WriteOutputBlock(builder, reflection.Output);
@@ -113,8 +113,8 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
                     builder.AppendLine(string.Format("#define OUTPUT_ARRAY_{0} gl_out[gl_InvocationID].{1}", variable.Name, variable.Semantic));
                 else
                 {
-                    builder.AppendLine(string.Format("#define OUTPUT_ARRAY_{0} bs_hull_{0}[gl_InvocationID]", variable.Name));
-                    WriteIOVariable(builder, variable, "out", "bs_hull_", "[]");
+                    builder.AppendLine(string.Format("#define OUTPUT_ARRAY_{0} {1}{0}[gl_InvocationID]", variable.Name, OutputPrefixForStage(ShaderStage.Domain)));
+                    WriteIOVariable(builder, variable, "out", OutputPrefixForStage(ShaderStage.Domain), "[]");
                 }
             }
             builder.AppendLine();

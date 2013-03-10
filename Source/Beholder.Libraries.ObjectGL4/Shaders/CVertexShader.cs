@@ -31,7 +31,10 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
 {
     class CVertexShader : CShader, IVertexShader, IDisposableInternal
     {
-        VertexShader glShaderFromInput;
+        VertexShader glShaderToHull;
+        VertexShader glShaderToGeometry;
+        VertexShader glShaderToPixel;
+
         private readonly string[] attributeNames;
 
         public override ShaderStage Stage { get { return ShaderStage.Vertex; } }
@@ -40,19 +43,23 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
         public CVertexShader(ICDevice device, CShaderReflection reflection)
             : base(device, reflection)
         {
-            attributeNames = Reflection.Input.Where(v => v.IsUsed && !v.IsSystem).Select(v => "bs_in_" + v.Semantic).ToArray();
+            attributeNames = Reflection.Input.Where(v => v.IsUsed && !v.IsSystem).Select(v => OutputPrefixForStage(ShaderStage.Vertex) + v.Semantic).ToArray();
         }
 
         public void DisposeInternal()
         {
-            if (glShaderFromInput != null) glShaderFromInput.Dispose();
+            if (glShaderToHull != null) glShaderToHull.Dispose();
+            if (glShaderToGeometry != null) glShaderToGeometry.Dispose();
+            if (glShaderToPixel != null) glShaderToPixel.Dispose();
         }
 
-        public VertexShader GetGLShader() { return glShaderFromInput ?? (glShaderFromInput = CreateNative()); }
-        
-        VertexShader CreateNative()
+        public VertexShader GetGLShaderToHull() { return glShaderToHull ?? (glShaderToHull = CreateNative(ShaderStage.Hull)); }
+        public VertexShader GetGLShaderToGeometry() { return glShaderToGeometry ?? (glShaderToGeometry = CreateNative(ShaderStage.Geometry)); }
+        public VertexShader GetGLShaderToPixel() { return glShaderToPixel ?? (glShaderToPixel = CreateNative(ShaderStage.Pixel)); }
+
+        VertexShader CreateNative(ShaderStage outputStage)
         {
-            var text = GenerateText<CVertexShader, object>(null, WriteLayout, WriteIOAndCode);
+            var text = GenerateText<CVertexShader, ShaderStage>(outputStage, WriteLayout, WriteIOAndCode);
             VertexShader glShader;
             string errors;
             if (!VertexShader.TryCompile(text, out glShader, out errors))
@@ -60,22 +67,20 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
             return glShader;
         }
 
-        static void WriteLayout(StringBuilder builder, CVertexShader shader, object param)
+        static void WriteLayout(StringBuilder builder, CVertexShader shader, ShaderStage outputStage)
         {
         }
 
-        static void WriteIOAndCode(StringBuilder builder, CVertexShader shader, object param)
+        static void WriteIOAndCode(StringBuilder builder, CVertexShader shader, ShaderStage outputStage)
         {
             var reflection = shader.Reflection;
 
             WriteCodeLines(builder, reflection.CodeGlobalLines);
             builder.AppendLine();
 
-            WriteSimpleIOBlock(builder, reflection.Input, "INPUT", "in", "bs_in_");
-            WriteSimpleIOBlock(builder, reflection.Output, "OUTPUT", "out", "bs_vertex_");
-            WriteFunction(builder, "main", null, reflection.CodeMainLines, 
-                "gl_Position.y = -gl_Position.y;\r\n" +
-                "gl_Position.z = 2.0 * gl_Position.z - gl_Position.w;");
+            WriteSimpleIOBlock(builder, reflection.Input, "INPUT", "in", OutputPrefixForStage(ShaderStage.Vertex));
+            WriteSimpleIOBlock(builder, reflection.Output, "OUTPUT", "out", OutputPrefixForStage(outputStage));
+            WriteFunction(builder, "main", null, reflection.CodeMainLines, outputStage == ShaderStage.Pixel ? PositionAdjustment : null);
         }
     }
 }

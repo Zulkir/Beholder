@@ -34,8 +34,7 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
 {
     class CGeometryShader : CShader, IGeometryShader, IDisposableInternal
     {
-        GeometryShader glShaderFromVertex;
-        GeometryShader glShaderFromDomain;
+        GeometryShader glShaderToPixel;
         readonly int maxVertexCount;
         readonly GeometryShaderInputPrimitiveType inputPrimitiveType;
         readonly GeometryShaderOutputPrimitiveType outputPrimitiveType;
@@ -55,16 +54,14 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
 
         public void DisposeInternal()
         {
-            if (glShaderFromVertex != null) glShaderFromVertex.Dispose();
-            if (glShaderFromDomain != null) glShaderFromDomain.Dispose();
+            if (glShaderToPixel != null) glShaderToPixel.Dispose();
         }
 
-        public GeometryShader GetGLShaderFromVertex() { return glShaderFromVertex ?? (glShaderFromVertex = CreateNative("bs_vertex_")); }
-        public GeometryShader GetGLShaderFromDomain() { return glShaderFromDomain ?? (glShaderFromDomain = CreateNative("bs_domain_")); }
+        public GeometryShader GetGLShaderToPixel() { return glShaderToPixel ?? (glShaderToPixel = CreateNative()); }
 
-        GeometryShader CreateNative(string inputPrefix)
+        GeometryShader CreateNative()
         {
-            var text = GenerateText<CGeometryShader, string>(inputPrefix, WriteLayout, WriteIOAndCode);
+            var text = GenerateText<CGeometryShader, object>(null, WriteLayout, WriteIOAndCode);
             GeometryShader glShader;
             string errors;
             if (!GeometryShader.TryCompile(text, out glShader, out errors))
@@ -72,7 +69,7 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
             return glShader;
         }
 
-        static void WriteLayout(StringBuilder builder, CGeometryShader shader, string inputPrefix)
+        static void WriteLayout(StringBuilder builder, CGeometryShader shader, object unused)
         {
             builder.AppendLine(string.Format("layout ( {0} ) in;",
                 GeometryShaderInputPrimitiveTypeToString(shader.InputPrimitiveType)));
@@ -81,13 +78,13 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
             builder.AppendLine();
         }
 
-        static void WriteIOAndCode(StringBuilder builder, CGeometryShader shader, string inputPrefix)
+        static void WriteIOAndCode(StringBuilder builder, CGeometryShader shader, object unused)
         {
             var reflection = shader.Reflection;
             WriteCodeLines(builder, reflection.CodeGlobalLines);
             builder.AppendLine();
 
-            WriteInputArrayBlock(builder, reflection.Input, inputPrefix);
+            WriteInputArrayBlock(builder, reflection.Input, OutputPrefixForStage(ShaderStage.Geometry));
             WriteInputExtraBlock(builder, reflection.InputExtra, "INPUT_EXTRA", "InputExtra", "bs_input_extra_");
 
             if (reflection.OutputStreams.Any()) 
@@ -100,9 +97,9 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
 
         static void WriteOutputBlock(StringBuilder builder, IEnumerable<CShaderIOVariable> variables)
         {
-            WriteSimpleIOBlock(builder, variables, "OUTPUT", "out", "bs_geometry_");
+            WriteSimpleIOBlock(builder, variables, "OUTPUT", "out", OutputPrefixForStage(ShaderStage.Pixel));
 
-            builder.AppendLine("#define EMIT EmitVertex();");
+            builder.AppendLine("#define EMIT EmitVertex(); " + PositionAdjustment);
             builder.AppendLine("#define RESTART EndPrimitive();");
             builder.AppendLine();
         }
@@ -112,19 +109,22 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
             builder.AppendLine("#define OUTPUT(X, Y) OUTPUT_ARRAY_##X(Y)");
             for (int i = 0; i < streams.Length; i++)
             {
+                var iString = i.ToString(CultureInfo.InvariantCulture);
+                var iStringOrEmpty = i == 0 ? "" : iString;
+
                 var stream = streams[i];
-                builder.AppendLine(string.Format("layout ( stream = {0} ) out;", i.ToString(CultureInfo.InvariantCulture)));
+                builder.AppendLine(string.Format("layout ( stream = {0} ) out;", iString));
                 builder.AppendLine();
 
-                var iString = i.ToString(CultureInfo.InvariantCulture);
-                builder.AppendLine(string.Format("#define OUTPUT_ARRAY_{0}(Y) bs_geometry_{1}##Y", iString, i == 0 ? "" : iString));
+                var outputPrefix = OutputPrefixForStage(ShaderStage.Pixel);
+                builder.AppendLine(string.Format("#define OUTPUT_ARRAY_{0}(Y) {1}{2}##Y", iString, outputPrefix, iStringOrEmpty));
                 builder.AppendLine();
                 foreach (var variable in stream.Where(v => v.IsUsed))
                 {
                     if (variable.IsSystem)
-                        builder.AppendLine(string.Format("#define bs_geometry_{0}{1} {2}", i == 0 ? "" : iString, variable.Name, variable.Semantic));
+                        builder.AppendLine(string.Format("#define {0}{1}{2} {3}", outputPrefix, iStringOrEmpty, variable.Name, variable.Semantic));
                     else
-                        WriteIOVariable(builder, variable, "out", string.Format("bs_geometry_{0}", i == 0 ? "" : iString), "");
+                        WriteIOVariable(builder, variable, "out", string.Format("{0}{1}", outputPrefix, iStringOrEmpty), "");
                 }
                 builder.AppendLine();
             }

@@ -26,13 +26,15 @@ using Beholder.Shaders;
 using Beholder.Shaders.Reflection;
 using Beholder.Utility.Collections;
 using Beholder.Utility.ForImplementations;
+using Beholder.Utility.Structures;
 using ObjectGL.GL42;
 
 namespace Beholder.Libraries.ObjectGL4.Shaders
 {
     class CDomainShader : CShader, IDomainShader, IDisposableInternal
     {
-        readonly TightConcurrentDictionary<TesselationLayout, TesselationEvaluationShader> glShaders;
+        readonly TightConcurrentDictionary<TesselationLayout, TesselationEvaluationShader> glShadersToGeometry;
+        readonly TightConcurrentDictionary<TesselationLayout, TesselationEvaluationShader> glShadersToPixel;
         readonly TesselationDomain domain;
 
         public override ShaderStage Stage { get { return ShaderStage.Domain; } }
@@ -40,36 +42,43 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
 
         public CDomainShader(ICDevice device, CShaderReflection reflection) : base(device, reflection)
         {
-            glShaders = new TightConcurrentDictionary<TesselationLayout, TesselationEvaluationShader>(TesselationLayout.Equal);
+            glShadersToGeometry = new TightConcurrentDictionary<TesselationLayout, TesselationEvaluationShader>(TesselationLayout.Equal);
+            glShadersToPixel = new TightConcurrentDictionary<TesselationLayout, TesselationEvaluationShader>(TesselationLayout.Equal);
             domain = Reflection.GetTesselationDomain();
         }
 
         public void DisposeInternal()
         {
-            foreach (var kvp in glShaders)
+            foreach (var kvp in glShadersToGeometry)
+                kvp.Value.Dispose();
+            foreach (var kvp in glShadersToPixel)
                 kvp.Value.Dispose();
         }
 
-        public TesselationEvaluationShader GetGLShader(TesselationLayout layout)
+        public TesselationEvaluationShader GetGLShaderToGeometry(TesselationLayout layout)
         {
-            return CreateNative(layout);
+            return glShadersToGeometry.GetOrAdd(layout, this, (l, c) => c.CreateNative(l, ShaderStage.Geometry));
         }
 
-        TesselationEvaluationShader CreateNative(TesselationLayout layout)
+        public TesselationEvaluationShader GetGLShaderToPixel(TesselationLayout layout)
         {
-            return glShaders.GetOrAdd(layout, this, (l, c) =>
-            {
-                var text = c.GenerateText<CDomainShader, TesselationLayout>(l, WriteLayout, WriteIOAndCode);
-                TesselationEvaluationShader glShader;
-                string errors;
-                if (!TesselationEvaluationShader.TryCompile(text, out glShader, out errors))
-                    throw new Exception("Failed to compile a shader.\r\n\r\nShader Text:\r\n\r\n" + text + "\r\n\r\nErrors:\r\n\r\n" + errors);
-                return glShader;
-            });
+            return glShadersToGeometry.GetOrAdd(layout, this, (l, c) => c.CreateNative(l, ShaderStage.Pixel));
         }
 
-        static void WriteLayout(StringBuilder builder, CDomainShader shader, TesselationLayout layout)
+        TesselationEvaluationShader CreateNative(TesselationLayout layout, ShaderStage outputStage)
         {
+            var text = GenerateText<CDomainShader, Pair<TesselationLayout, ShaderStage>>(new Pair<TesselationLayout, ShaderStage>(layout, outputStage), WriteLayout, WriteIOAndCode);
+            TesselationEvaluationShader glShader;
+            string errors;
+            if (!TesselationEvaluationShader.TryCompile(text, out glShader, out errors))
+                throw new Exception("Failed to compile a shader.\r\n\r\nShader Text:\r\n\r\n" + text + "\r\n\r\nErrors:\r\n\r\n" + errors);
+            return glShader;
+        }
+
+        static void WriteLayout(StringBuilder builder, CDomainShader shader, Pair<TesselationLayout, ShaderStage> layoutAndOutputStage)
+        {
+            var layout = layoutAndOutputStage.First;
+
             TesselationDomain hullDomain;
             TesselationPartitioning partitioning;
             TesselationTopology topology;
@@ -81,16 +90,18 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
                 TesselationDomainToString(hullDomain), TesselationPartitioningToString(partitioning), TesselationTopologyToString(topology)));
         }
 
-        static void WriteIOAndCode(StringBuilder builder, CDomainShader shader, TesselationLayout layout)
+        static void WriteIOAndCode(StringBuilder builder, CDomainShader shader, Pair<TesselationLayout, ShaderStage> layoutAndOutputStage)
         {
+            var outputStage = layoutAndOutputStage.Second;
+
             var reflection = shader.Reflection;
             WriteCodeLines(builder, reflection.CodeGlobalLines);
             builder.AppendLine();
-            WritePatchBlock(builder, reflection.InputPatch, "INPUT_PATCH", "input_patch_", "patch in");
-            WriteInputArrayBlock(builder, reflection.Input, "bs_hull_");
+            WritePatchBlock(builder, reflection.InputPatch, "INPUT_PATCH", "bs_patch_", "patch in");
+            WriteInputArrayBlock(builder, reflection.Input, OutputPrefixForStage(ShaderStage.Domain));
             WriteInputExtraBlock(builder, reflection.InputExtra, "INPUT_EXTRA", "InputExtra", "bs_input_extra_");
-            WriteSimpleIOBlock(builder, reflection.Output, "OUTPUT", "out", "bs_domain_");
-            WriteFunction(builder, "main", null, reflection.CodeMainLines, null);
+            WriteSimpleIOBlock(builder, reflection.Output, "OUTPUT", "out", OutputPrefixForStage(outputStage));
+            WriteFunction(builder, "main", null, reflection.CodeMainLines, outputStage == ShaderStage.Pixel ? PositionAdjustment : null);
         }
 
         static string TesselationDomainToString(TesselationDomain domain)
