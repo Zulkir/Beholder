@@ -73,7 +73,9 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
 
             WriteSimpleIOBlock(builder, reflection.Input, "INPUT", "in", "bs_in_");
             WriteSimpleIOBlock(builder, reflection.Output, "OUTPUT", "out", "bs_vertex_");
-            WriteFunction(builder, "main", null, reflection.CodeMainLines, "gl_Position.y = -gl_Position.y;");
+            WriteFunction(builder, "main", null, reflection.CodeMainLines, 
+                "gl_Position.y = -gl_Position.y;\r\n" +
+                "gl_Position.z = 2.0 * gl_Position.z - gl_Position.w;");
         }
     }
 }
