@@ -92,7 +92,8 @@ namespace Beholder.Utility.Collections
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            return pairs.Select(pair => new KeyValuePair<TKey, TValue>(pair.First, pair.Second)).GetEnumerator();
+            for (int i = 0; i < count; i++)
+                yield return new KeyValuePair<TKey, TValue>(pairs[i].First, pairs[i].Second);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
