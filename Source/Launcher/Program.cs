@@ -79,9 +79,9 @@ namespace Launcher
                 using (
                     //var scene = new ClearScreenScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
                     //var scene = new TriangleScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
-                    var scene = new FullscreenQuadScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
+                    //var scene = new FullscreenQuadScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
                     //var scene = new CubeScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
-                    //var scene = new RenderToTextureScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
+                    var scene = new RenderToTextureScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
                     //var scene = new ColorfulSpaceScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
                     //var scene = new CurveTesselationScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
                     )

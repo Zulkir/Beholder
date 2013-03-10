@@ -99,7 +99,7 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
         {
             WriteSimpleIOBlock(builder, variables, "OUTPUT", "out", OutputPrefixForStage(ShaderStage.Pixel));
 
-            builder.AppendLine("#define EMIT EmitVertex(); " + PositionAdjustment);
+            builder.AppendLine("#define EMIT " + PositionAdjustment + " EmitVertex();");
             builder.AppendLine("#define RESTART EndPrimitive();");
             builder.AppendLine();
         }
@@ -129,7 +129,7 @@ namespace Beholder.Libraries.ObjectGL4.Shaders
                 builder.AppendLine();
             }
 
-            builder.AppendLine("#define EMIT(X) EmitStreamVertex(##X);");
+            builder.AppendLine("#define EMIT(X) " + PositionAdjustment + " EmitStreamVertex(##X);");
             builder.AppendLine("#define RESTART(X) EndStreamPrimitive(##X);");
             builder.AppendLine();
         }
