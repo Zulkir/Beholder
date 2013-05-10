@@ -32,6 +32,10 @@ namespace Win32
         public static extern bool AdjustWindowRectEx(ref RECT lpRect, WS dwStyle,
            bool bMenu, WS_EX dwExStyle);
 
+        [SuppressUnmanagedCodeSecurity]
+        [DllImport("user32.dll")]
+        static extern int ChangeDisplaySettings(ref DEVMODE lpDevMode, int flags);
+
         /// <summary>
         /// The CreateWindowEx function creates an overlapped, pop-up, or child window with an extended window style; otherwise, this function is identical to the CreateWindow function. 
         /// </summary>
@@ -77,6 +81,18 @@ namespace Win32
 
         [DllImport("user32.dll")]
         public static extern IntPtr DispatchMessage([In] ref MSG lpmsg);
+
+        [DllImport("user32.dll")]
+        static extern bool EnumDisplayDevices(string lpDevice, uint iDevNum, ref DISPLAY_DEVICE lpDisplayDevice, uint dwFlags);
+
+        public static bool EnumDisplaySettings(string deviceName, ENUM modeNum, ref DEVMODE devMode)
+        {
+            return EnumDisplaySettings(deviceName, (int)modeNum, ref devMode);
+        }
+
+        [SuppressUnmanagedCodeSecurity]
+        [DllImport("user32.dll")]
+        public static extern bool EnumDisplaySettings(string deviceName, int modeNum, ref DEVMODE devMode);
 
         [DllImport("user32.dll")]
         public static extern short GetAsyncKeyState(VK vKey); 
@@ -164,9 +180,47 @@ namespace Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
         */
+
         [SuppressUnmanagedCodeSecurityAttribute]
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern uint SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
+        [DllImport("user32.dll", EntryPoint = "GetWindowLong")]
+        private static extern IntPtr GetWindowLongPtr32(IntPtr hWnd, int nIndex);
+
+        [SuppressUnmanagedCodeSecurityAttribute]
+        [DllImport("user32.dll", EntryPoint = "GetWindowLongPtr")]
+        private static extern IntPtr GetWindowLongPtr64(IntPtr hWnd, int nIndex);
+
+        public static IntPtr GetWindowLongPtr(IntPtr hWnd, GWLP nIndex)
+        {
+            return GetWindowLongPtr(hWnd, (int)nIndex);
+        }
+
+        public static IntPtr GetWindowLongPtr(IntPtr hWnd, int nIndex)
+        {
+            return IntPtr.Size == 8 
+                ? GetWindowLongPtr64(hWnd, nIndex)
+                : GetWindowLongPtr32(hWnd, nIndex);
+        }
+
+        public static IntPtr SetWindowLongPtr(IntPtr hWnd, GWLP nIndex, IntPtr dwNewLong)
+        {
+            return SetWindowLongPtr(hWnd, (int)nIndex, dwNewLong);
+        }
+
+        public static IntPtr SetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
+        {
+            if (IntPtr.Size == 8)
+                return SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
+            else
+                return new IntPtr(SetWindowLong32(hWnd, nIndex, dwNewLong.ToInt32()));
+        }
+
+        [SuppressUnmanagedCodeSecurityAttribute]
+        [DllImport("user32.dll", EntryPoint = "SetWindowLong")]
+        private static extern int SetWindowLong32(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        [SuppressUnmanagedCodeSecurityAttribute]
+        [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
+        private static extern IntPtr SetWindowLongPtr64(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
         [SuppressUnmanagedCodeSecurityAttribute]
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
@@ -199,7 +253,7 @@ namespace Win32
         [SuppressUnmanagedCodeSecurityAttribute]
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, SWP uFlags);
 
         [SuppressUnmanagedCodeSecurityAttribute]
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]

@@ -38,8 +38,13 @@
     <Compile Include="ClassStyles.cs" />
     <Compile Include="CURSOR.cs" />
     <Compile Include="CURSORINFO.cs" />
+    <Compile Include="DEVMODE.cs" />
+    <Compile Include="DisplayDeviceStateFlags.cs" />
+    <Compile Include="DISPLAY_DEVICE.cs" />
+    <Compile Include="ENUM.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="GUITHREADINFO.cs" />
+    <Compile Include="GWLP.cs" />
     <Compile Include="HARDWAREINPUT.cs" />
     <Compile Include="IDC.cs" />
     <Compile Include="INPUT.cs" />
