@@ -168,7 +168,7 @@ namespace Win32
         [SuppressUnmanagedCodeSecurityAttribute]
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+        public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
         /*
         [SuppressUnmanagedCodeSecurityAttribute]
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
