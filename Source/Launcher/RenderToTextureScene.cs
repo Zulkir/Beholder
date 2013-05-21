@@ -135,31 +135,26 @@ float4 Color : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
             public const int SizeInBytes = 12 * sizeof(float);
         }
 
-        IShaderCombination shaderCombination;
-        Mesh cubeMesh;
-        IVertexLayout vertexLayout;
+        readonly IShaderCombination shaderCombination;
+        readonly Mesh cubeMesh;
+        readonly IVertexLayout vertexLayout;
 
-        IBuffer transformBuffer;
-        IBuffer cameraVertexBuffer;
-        IBuffer lightBuffer;
+        readonly IBuffer transformBuffer;
+        readonly IBuffer cameraVertexBuffer;
+        readonly IBuffer lightBuffer;
 
         const int TargetSize = 1 << 10;
-        IRenderTargetView targetRtv;
-        IShaderResourceView targetSrv;
-        IDepthStencilView targetDsv;
+        readonly IRenderTargetView targetRtv;
+        readonly IShaderResourceView targetSrv;
+        readonly IDepthStencilView targetDsv;
 
-        IShaderResourceView diffuseView;
-        ISamplerState samplerState;
+        readonly IShaderResourceView diffuseView;
+        readonly ISamplerState samplerState;
 
-        IDepthStencilState depthStencilState;
+        readonly IDepthStencilState depthStencilState;
 
-        public RenderToTextureScene(IEye eye, int displayFormatID, ISwapChain swapChain)
-            : base(eye, displayFormatID, swapChain)
-        {
-
-        }
-
-        protected override void Initialize()
+        public RenderToTextureScene(IEye eye, DisplayMode desctopDisplayMode)
+            : base(eye, desctopDisplayMode)
         {
             var vertexShader = Device.Create.VertexShader(ShaderParser.Parse(VertexShaderText));
             var pixelShader = Device.Create.PixelShader(ShaderParser.Parse(PixelShaderText));
@@ -190,7 +185,7 @@ float4 Color : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
                 .OrderByDescending(fi => fi.ColorBits)
                 .ThenBy(fi => fi.TotalBits)
                 .First();
-            
+
             var renderTargetTexture = Device.Create.Texture2D(new Texture2DDescription
             {
                 Width = TargetSize,
@@ -237,10 +232,8 @@ float4 Color : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
         }
 
 
-        protected unsafe override void NewFrame(IRealTime realTime)
+        public unsafe override void NewFrame(IRealTime realTime)
         {
-            base.NewFrame(realTime);
-
             float angle = realTime.TotalRealTime * 0.125f;
             var cameraPosition = new Vector3(5, 3, 0);
             var world = Matrix4x4.CreateRotationX(angle) * Matrix4x4.CreateRotationY(2 * angle) * Matrix4x4.CreateRotationZ(3 * angle);

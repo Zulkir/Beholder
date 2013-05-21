@@ -84,17 +84,12 @@ float4 Color : SDX10 = SV_Target, SGL3 = %name, SDX9 = COLOR
             public const int SizeInBytes = 8 * sizeof(float);
         }
 
-        IShaderCombination shaderCombination;
-        IVertexLayout vertexLayout;
-        IBuffer vertexBuffer;
+        readonly IShaderCombination shaderCombination;
+        readonly IVertexLayout vertexLayout;
+        readonly IBuffer vertexBuffer;
 
-        public TriangleScene(IEye eye, int displayFormatID, ISwapChain swapChain) 
-            : base(eye, displayFormatID, swapChain)
-        {
-
-        }
-
-        protected override void Initialize()
+        public TriangleScene(IEye eye, DisplayMode desctopDisplayMode)
+            : base(eye, desctopDisplayMode)
         {
             var vertexShader = Device.Create.VertexShader(ShaderParser.Parse(VertexShaderText));
             var pixelShader = Device.Create.PixelShader(ShaderParser.Parse(PixelShaderText));
@@ -108,11 +103,11 @@ float4 Color : SDX10 = SV_Target, SGL3 = %name, SDX9 = COLOR
                 };
 
             vertexBuffer = Device.Create.Buffer(new BufferDescription
-                {
-                    SizeInBytes = vertexData.Length * Vertex.SizeInBytes,
-                    Usage = Usage.Immutable,
-                    BindFlags = BindFlags.VertexBuffer
-                }, new SubresourceData(vertexData));
+            {
+                SizeInBytes = vertexData.Length * Vertex.SizeInBytes,
+                Usage = Usage.Immutable,
+                BindFlags = BindFlags.VertexBuffer
+            }, new SubresourceData(vertexData));
 
             vertexLayout = Device.Create.VertexLayout(vertexShader, new[]
                 {
@@ -121,10 +116,8 @@ float4 Color : SDX10 = SV_Target, SGL3 = %name, SDX9 = COLOR
                 });
         }
 
-        protected override void NewFrame(IRealTime realTime)
+        public override void NewFrame(IRealTime realTime)
         {
-            base.NewFrame(realTime);
-
             if (SwapChain.BeginScene())
             {
                 ImmediateContext.ClearRenderTargetView(SwapChain.GetCurrentColorBuffer(), Color4.CornflowerBlue);

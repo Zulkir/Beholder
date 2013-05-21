@@ -147,28 +147,23 @@ float4 Color : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
             public const int SizeInBytes = 12 * sizeof(float);
         }
 
-        IShaderCombination shaderCombination;
-        Mesh cubeMesh;
-        IVertexLayout vertexLayout;
+        readonly IShaderCombination shaderCombination;
+        readonly Mesh cubeMesh;
+        readonly IVertexLayout vertexLayout;
 
-        IBuffer transformBuffer;
-        IBuffer cameraVertexBuffer;
-        IBuffer cameraPixelBuffer;
-        IBuffer lightBuffer;
+        readonly IBuffer transformBuffer;
+        readonly IBuffer cameraVertexBuffer;
+        readonly IBuffer cameraPixelBuffer;
+        readonly IBuffer lightBuffer;
 
-        IShaderResourceView diffuseView;
-        IShaderResourceView specualrView;
-        ISamplerState samplerState;
+        readonly IShaderResourceView diffuseView;
+        readonly IShaderResourceView specualrView;
+        readonly ISamplerState samplerState;
 
-        IDepthStencilState depthStencilState;
+        readonly IDepthStencilState depthStencilState;
 
-        public CubeScene(IEye eye, int displatFormatID, ISwapChain swapChain)
-            : base(eye, displatFormatID, swapChain)
-        {
-
-        }
-
-        protected override void Initialize()
+        public CubeScene(IEye eye, DisplayMode desctopDisplayMode)
+            : base(eye, desctopDisplayMode)
         {
             var vertexShader = Device.Create.VertexShader(ShaderParser.Parse(VertexShaderText));
             var pixelShader = Device.Create.PixelShader(ShaderParser.Parse(PixelShaderText));
@@ -185,7 +180,7 @@ float4 Color : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
             });
 
             transformBuffer = Device.Create.Buffer(
-                new BufferDescription {SizeInBytes = Transform.SizeInBytes, BindFlags = BindFlags.UniformBuffer, Usage = Usage.Dynamic});
+                new BufferDescription { SizeInBytes = Transform.SizeInBytes, BindFlags = BindFlags.UniformBuffer, Usage = Usage.Dynamic });
             cameraVertexBuffer = Device.Create.Buffer(
                 new BufferDescription { SizeInBytes = CameraVertex.SizeInBytes, BindFlags = BindFlags.UniformBuffer, Usage = Usage.Dynamic });
             cameraPixelBuffer = Device.Create.Buffer(
@@ -203,10 +198,8 @@ float4 Color : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
             depthStencilState = Device.Create.DepthStencilState(DepthStencilDescription.Enabled);
         }
 
-        protected unsafe override void NewFrame(IRealTime realTime)
+        public unsafe override void NewFrame(IRealTime realTime)
         {
-            base.NewFrame(realTime);
-
             float angle = realTime.TotalRealTime * 0.25f;
             var cameraPosition = new Vector3(5, 3, 0);
             var world = Matrix4x4.CreateRotationX(angle) * Matrix4x4.CreateRotationY(2 * angle) * Matrix4x4.CreateRotationZ(3 * angle);

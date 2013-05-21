@@ -28,18 +28,14 @@ namespace Launcher
 {
     class ClearScreenScene : Scene
     {
-        public ClearScreenScene(IEye eye, int displayFormatID, ISwapChain swapChain) : base(eye, displayFormatID, swapChain)
+        public ClearScreenScene(IEye eye, DisplayMode desctopDisplayMode)
+            : base(eye, desctopDisplayMode)
         {
+
         }
 
-        protected override void Initialize()
+        public override void NewFrame(IRealTime realTime)
         {
-        }
-
-        protected override void NewFrame(IRealTime realTime)
-        {
-            base.NewFrame(realTime);
-
             if (SwapChain.BeginScene())
             {
                 ImmediateContext.ClearRenderTargetView(SwapChain.GetCurrentColorBuffer(), Color4.CornflowerBlue);

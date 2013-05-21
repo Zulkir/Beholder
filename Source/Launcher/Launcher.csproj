@@ -47,6 +47,7 @@
     <Compile Include="CubeScene.cs" />
     <Compile Include="CurveTesselationScene.cs" />
     <Compile Include="FullscreenQuadScene.cs" />
+    <Compile Include="MetaScene.cs" />
     <Compile Include="RenderToTextureScene.cs" />
     <Compile Include="TriangleScene.cs" />
     <Compile Include="Scene.cs" />

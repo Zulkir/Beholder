@@ -44,14 +44,28 @@ namespace Launcher
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //var eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX9.Winforms.dll", "Beholder.Eyes.SharpDX9.Winforms.WinformsEye");
-            var eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX11.Winforms.dll", "Beholder.Eyes.SharpDX11.Winforms.WinformsEye");
-            //var eye = EyeCreator.FromAssembly("Beholder.Eyes.ObjectGL4.Default.dll", "Beholder.Eyes.ObjectGL4.Default.DefaultEye");
+            IEye eye;
+            if (args.Length > 0)
+            {
+                switch (args[0])
+                {
+                    case "dx9": eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX9.Winforms.dll", "Beholder.Eyes.SharpDX9.Winforms.WinformsEye"); break;
+                    case "dx11": eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX11.Winforms.dll", "Beholder.Eyes.SharpDX11.Winforms.WinformsEye"); break;
+                    case "ogl": eye = EyeCreator.FromAssembly("Beholder.Eyes.ObjectGL4.Default.dll", "Beholder.Eyes.ObjectGL4.Default.DefaultEye"); break;
+                    default: eye = EyeCreator.FromAssembly("Beholder.Eyes.ObjectGL4.Default.dll", "Beholder.Eyes.ObjectGL4.Default.DefaultEye"); break;
+                }
+            }
+            else
+            {
+                //eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX9.Winforms.dll", "Beholder.Eyes.SharpDX9.Winforms.WinformsEye");
+                //eye = EyeCreator.FromAssembly("Beholder.Eyes.SharpDX11.Winforms.dll", "Beholder.Eyes.SharpDX11.Winforms.WinformsEye");
+                eye = EyeCreator.FromAssembly("Beholder.Eyes.ObjectGL4.Default.dll", "Beholder.Eyes.ObjectGL4.Default.DefaultEye");
+            }
 
             eye = new Beholder.Validation.Eye(eye);
             using (eye)
@@ -61,11 +75,12 @@ namespace Launcher
 
                 var adapter = eye.Adapters[0];
 
-                var displayFormat = adapter.GetSupportedWindowedDisplayFormats()
-                    .OrderBy(fi => (fi.ColorBits == 24 && fi.TotalBits == 32) ? 0 : 1)
-                    .ThenBy(fi => FormatTypePriority(fi.ColorFormatType))
-                    .ThenByDescending(fi => fi.ColorBits)
-                    .ThenBy(fi => fi.TotalBits)
+                var desctopDisplayMode = adapter.Outputs[0].GetSupportedDisplayModes()
+                    .OrderByDescending(m => m.Width * m.Height)
+                    .ThenByDescending(m => m.RefreshRate == 60 ? int.MaxValue : m.RefreshRate.Round())
+                    .ThenBy(m => { var fi = adapter.GetFormatInfo(m.FormatID); return fi.ColorBits == 24 && fi.TotalBits == 32 ? 0 : 1; })
+                    .ThenBy(m => Program.FormatTypePriority(adapter.GetFormatInfo(m.FormatID).ColorFormatType))
+                    .ThenByDescending(m => adapter.GetFormatInfo(m.FormatID).ColorBits)
                     .First();
 
                 var depthStencilFormat = adapter.GetSupportedFormats(FormatSupport.DepthStencil)
@@ -73,20 +88,12 @@ namespace Launcher
                     .ThenBy(fi => FormatTypePriority(fi.ColorFormatType))
                     .First();
 
-                var windowHandle = eye.CreateNewWindow(400, 400, "New Window", true);
-                eye.Initialize(adapter, windowHandle, new SwapChainDescription(2, displayFormat.ID, true, depthStencilFormat.ID, new Sampling(1, 0), true), flags);
+                var windowHandle = eye.CreateNewWindow(400, 400, "Beholder Demo", true);
+                eye.Initialize(adapter, windowHandle, new SwapChainDescription(2, desctopDisplayMode.FormatID, true, depthStencilFormat.ID, new Sampling(4, 0), true), flags);
 
-                using (
-                    //var scene = new ClearScreenScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
-                    //var scene = new TriangleScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
-                    //var scene = new FullscreenQuadScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
-                    //var scene = new CubeScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
-                    var scene = new RenderToTextureScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
-                    //var scene = new ColorfulSpaceScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
-                    //var scene = new CurveTesselationScene(eye, displayFormat.ID, eye.Device.PrimarySwapChain)
-                    )
+                using (var metaScene = new MetaScene(eye, desctopDisplayMode))
                 {
-                    scene.Run();
+                    metaScene.Run();
                 }
             }
         }

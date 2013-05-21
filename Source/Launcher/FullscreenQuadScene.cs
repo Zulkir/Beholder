@@ -49,12 +49,6 @@ namespace Launcher
             public const int SizeInBytes = 6 * sizeof(float);
         }
 
-        public FullscreenQuadScene(IEye eye, int displayFormatID, ISwapChain swapChain)
-            : base(eye, displayFormatID, swapChain)
-        {
-
-        }
-
         const string VertexShaderText = @"
 %meta
 Name = QuadSceneVS
@@ -151,12 +145,13 @@ float4 Color : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
     //OUTPUT(Color) = float4(1.0, 0.0, 0.0, 1.0);
 ";
 
-        IShaderCombination shaders;
-        IVertexLayout vertexLayout;
-        IBuffer vertexBuffer;
-        IBuffer indexBuffer;
+        readonly IShaderCombination shaders;
+        readonly IVertexLayout vertexLayout;
+        readonly IBuffer vertexBuffer;
+        readonly IBuffer indexBuffer;
 
-        protected override void Initialize()
+        public FullscreenQuadScene(IEye eye, DisplayMode desctopDisplayMode)
+            : base(eye, desctopDisplayMode)
         {
             var vs = Device.Create.VertexShader(ShaderParser.Parse(VertexShaderText));
             var ps = Device.Create.PixelShader(ShaderParser.Parse(PixelShaderText));
@@ -194,10 +189,8 @@ float4 Color : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
             }));
         }
 
-        protected override void NewFrame(IRealTime realTime)
+        public override void NewFrame(IRealTime realTime)
         {
-            base.NewFrame(realTime);
-
             if (SwapChain.BeginScene())
             {
                 ImmediateContext.OutputMerger.RenderTargets.Set(SwapChain.GetCurrentColorBuffer());

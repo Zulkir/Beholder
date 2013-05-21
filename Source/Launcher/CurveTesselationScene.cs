@@ -160,18 +160,13 @@ float4 Color : SDX10 = SV_Target, SGL3 = %name, SDX9 = COLOR
             public const int SizeInBytes = 4 * sizeof(float);
         }
 
-        IShaderCombination shaderCombination;
-        IBuffer vertexBuffer;
-        IVertexLayout vertexLayout;
-        IBuffer tessFactorBuffer;
+        readonly IShaderCombination shaderCombination;
+        readonly IBuffer vertexBuffer;
+        readonly IVertexLayout vertexLayout;
+        readonly IBuffer tessFactorBuffer;
 
-        public CurveTesselationScene(IEye eye, int displayFormatID, ISwapChain swapChain) 
-            : base(eye, displayFormatID, swapChain)
-        {
-            
-        }
-
-        protected override void Initialize()
+        public CurveTesselationScene(IEye eye, DisplayMode desctopDisplayMode)
+            : base(eye, desctopDisplayMode)
         {
             var vertexShader = Device.Create.VertexShader(ShaderParser.Parse(VertexShaderText));
             var hullShader = Device.Create.HullShader(ShaderParser.Parse(HullShaderText));
@@ -204,10 +199,8 @@ float4 Color : SDX10 = SV_Target, SGL3 = %name, SDX9 = COLOR
             });
         }
 
-        protected unsafe override void NewFrame(IRealTime realTime)
+        public unsafe override void NewFrame(IRealTime realTime)
         {
-            base.NewFrame(realTime);
-
             if (SwapChain.BeginScene())
             {
                 ImmediateContext.OutputMerger.RenderTargets.Set(SwapChain.GetCurrentColorBuffer());

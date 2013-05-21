@@ -20,8 +20,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-using System;
-using System.Linq;
 using Beholder;
 using Beholder.Core;
 using Beholder.Input;
@@ -29,81 +27,31 @@ using Beholder.Platform;
 
 namespace Launcher
 {
-    abstract class Scene : IDisposable
+    abstract class Scene
     {
-        //readonly IEye eye;
-
-        //protected IGraphicsMachine Machine { get; private set; }
         protected IEye Eye { get; private set; }
-        protected IAdapter Adapter { get; private set; }
+        protected IAdapter Adapter { get; set; }
+        protected DisplayMode DesctopDisplayMode { get; set; }
         protected IDevice Device { get; private set; }
-        protected DisplayMode DesctopDisplayMode { get; private set; }
-        protected int DisplayFormatID { get; private set; }
         protected IDeviceContext ImmediateContext { get; private set; }
-        protected IKeyboardHandler Keyboard { get; private set; }
-        protected IMouseHandler Mouse { get; private set; }
         protected ISwapChain SwapChain { get; private set; }
-        protected IWindow Window { get; private set; }
+        protected IWindow Window { get; set; }
+        protected IKeyboardHandler Keyboard { get; set; }
+        protected IMouseHandler Mouse { get; set; }
 
-        protected Scene(IEye eye, int displayFormatID, ISwapChain swapChain)
+        protected Scene(IEye eye, DisplayMode desctopDisplayMode)
         {
             Eye = eye;
             Adapter = eye.Device.Adapter;
             Device = eye.Device;
-            DisplayFormatID = displayFormatID;
-
-            DesctopDisplayMode = Adapter.Outputs[0].GetSupportedDisplayModes()
-                .OrderByDescending(m => m.Width * m.Height)
-                .ThenByDescending(m => m.RefreshRate == 60 ? int.MaxValue : m.RefreshRate.Round())
-                .ThenBy(m => { var fi = Adapter.GetFormatInfo(m.FormatID); return fi.ColorBits == 24 && fi.TotalBits == 32 ? 0 : 1; })
-                .ThenBy(m => Program.FormatTypePriority(Adapter.GetFormatInfo(m.FormatID).ColorFormatType))
-                .ThenByDescending(m => Adapter.GetFormatInfo(m.FormatID).ColorBits)
-                .First();
+            DesctopDisplayMode = desctopDisplayMode;
             ImmediateContext = Device.ImmediateContext;
-            SwapChain = swapChain;
-            Window = swapChain.Window;
+            SwapChain = Device.PrimarySwapChain;
+            Window = SwapChain.Window;
             Keyboard = Window.Input.Keyboard;
             Mouse = Window.Input.Mouse;
-
-            eye.NewFrame += NewFrame;
         }
 
-        public void Run()
-        {
-            Initialize();
-            Eye.RunLoop(Window);
-        }
-
-        public void Dispose()
-        {
-            Eye.TerminateLoop();
-            
-        }
-
-        protected abstract void Initialize();
-
-        protected virtual void NewFrame(IRealTime realTime)
-        {
-            if (Window.Input.Keyboard.KeyReleased(Keys.F))
-            {
-                SwapChainDescription sd;
-                Eye.Device.PrimarySwapChain.GetDescription(out sd);
-                DisplayMode dm = DesctopDisplayMode;
-                sd.ColorBufferFormatID = dm.FormatID;
-                Eye.Device.PrimarySwapChain.ResetToFullscreen(ref dm, ref sd);
-            }
-            else if (Window.Input.Keyboard.KeyReleased(Keys.W))
-            {
-                SwapChainDescription sd;
-                Eye.Device.PrimarySwapChain.GetDescription(out sd);
-                Eye.Device.PrimarySwapChain.Reset(ref sd);
-            }
-            else if (Window.Input.Keyboard.KeyReleased(Keys.P))
-            {
-                SwapChainDescription sd;
-                Eye.Device.PrimarySwapChain.GetDescription(out sd);
-                Eye.Device.PrimarySwapChain.ResetToPseudoFullscreen(ref sd);
-            }
-        }
+        public abstract void NewFrame(IRealTime realTime);
     }
 }

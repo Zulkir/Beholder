@@ -176,22 +176,17 @@ float4 Color : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
         const int ParticleCount = 512;
         const float ParticleSpeed = 0.75f;
 
-        IShaderCombination shaderCombination;
-        IBuffer vertexBuffer;
-        IVertexLayout vertexLayout;
+        readonly IShaderCombination shaderCombination;
+        readonly IBuffer vertexBuffer;
+        readonly IVertexLayout vertexLayout;
 
-        IBuffer timeBuffer;
-        IBuffer cameraBuffer;
+        readonly IBuffer timeBuffer;
+        readonly IBuffer cameraBuffer;
 
-        IBlendState blendState;
+        readonly IBlendState blendState;
 
-        public ColorfulSpaceScene(IEye eye, int displayFormatID, ISwapChain swapChain)
-            : base(eye, displayFormatID, swapChain)
-        {
-            
-        }
-
-        protected override void Initialize()
+        public ColorfulSpaceScene(IEye eye, DisplayMode desctopDisplayMode)
+            : base(eye, desctopDisplayMode)
         {
             var vertexShader = Device.Create.VertexShader(ShaderParser.Parse(VertexShaderText));
             var geometryShader = Device.Create.GeometryShader(ShaderParser.Parse(GeometryShaderText));
@@ -200,7 +195,7 @@ float4 Color : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
 
             var vertexData = new Vertex[ParticleCount];
             for (int i = 0; i < vertexData.Length; i++)
-                vertexData[i] = new Vertex((float) i/ParticleCount);
+                vertexData[i] = new Vertex((float)i / ParticleCount);
 
             vertexBuffer = Device.Create.Buffer(new BufferDescription
             {
@@ -233,10 +228,8 @@ float4 Color : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
             blendState = Device.Create.BlendState(BlendDescription.Additive);
         }
 
-        protected unsafe override void NewFrame(IRealTime realTime)
+        public unsafe override void NewFrame(IRealTime realTime)
         {
-            base.NewFrame(realTime);
-
             if (SwapChain.BeginScene())
             {
                 var time = new Time { CurrentTime = realTime.TotalRealTime * ParticleSpeed };
