@@ -21,7 +21,10 @@ THE SOFTWARE.
 */
 
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using Beholder;
 using Beholder.Platform;
@@ -40,11 +43,43 @@ namespace Launcher
             }
         }
 
+        static IEnumerable<Exception> UnrollException(Exception ex)
+        {
+            while (ex != null)
+            {
+                yield return ex;
+                ex = ex.InnerException;
+            }
+        }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main(string[] args)
+        {
+            try
+            {
+                Run(args);
+            }
+            catch (Exception ex)
+            {
+                var builder = new StringBuilder();
+                foreach (var innerException in UnrollException(ex))
+                {
+                    builder.AppendLine("--- Exception ---");
+                    builder.AppendLine(innerException.Message);
+                    builder.AppendLine();
+                    builder.AppendLine(innerException.StackTrace);
+                    builder.AppendLine();
+                }
+
+                File.WriteAllText("error.txt", builder.ToString());
+                throw;
+            }
+        }
+
+        static void Run(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
