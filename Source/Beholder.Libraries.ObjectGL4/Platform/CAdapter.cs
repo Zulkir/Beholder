@@ -38,8 +38,6 @@ namespace Beholder.Libraries.ObjectGL4.Platform
         readonly AdapterDescription adapterDesc;
         readonly ReadonlyArrayWrapper<COutput> roOutputs;
 
-        readonly List<Format> supportedDisplayFormats;
-
         readonly ApiVersion apiVersion;
         readonly AdapterRestrictions restrictions;
         
@@ -52,7 +50,7 @@ namespace Beholder.Libraries.ObjectGL4.Platform
         
         public CAdapter()
         {
-            var tempWindow = new GameWindow(1, 1, new GraphicsMode(new ColorFormat(8, 8, 8, 8), 24, 8));
+            var tempWindow = new GameWindow();
             GraphicsMode bestMode = tempWindow.Context.GraphicsMode;
             var tempContext = new Context(tempWindow.Context);
             var implementation = tempContext.Implementation;
@@ -93,23 +91,22 @@ namespace Beholder.Libraries.ObjectGL4.Platform
 
             roOutputs = new ReadonlyArrayWrapper<COutput>(GetAvailableDisplays().Select((d, i) => new COutput(d, i)).ToArray());
 
-            supportedDisplayFormats = new List<Format>();
-            foreach (var format in DisplayColorFormats)
-            {
-                var expectedColorFormat = CtObjectGL.ColorFormat(format);
-
-                tempWindow = new GameWindow(1, 1, new GraphicsMode(expectedColorFormat, bestMode.Depth, bestMode.Stencil));
-                var actualColorFormat = tempWindow.Context.GraphicsMode.ColorFormat;
-                tempWindow.Dispose();
-
-                if (expectedColorFormat.Red == actualColorFormat.Red &&
-                    expectedColorFormat.Green == actualColorFormat.Green &&
-                    expectedColorFormat.Blue == actualColorFormat.Blue &&
-                    expectedColorFormat.Alpha == actualColorFormat.Alpha)
-                {
-                    supportedDisplayFormats.Add(format);
-                }
-            }
+            //foreach (var format in DisplayColorFormats)
+            //{
+            //    var expectedColorFormat = CtObjectGL.ColorFormat(format);
+            //
+            //    tempWindow = new GameWindow(1, 1, new GraphicsMode(expectedColorFormat, bestMode.Depth, bestMode.Stencil));
+            //    var actualColorFormat = tempWindow.Context.GraphicsMode.ColorFormat;
+            //    tempWindow.Dispose();
+            //
+            //    if (expectedColorFormat.Red == actualColorFormat.Red &&
+            //        expectedColorFormat.Green == actualColorFormat.Green &&
+            //        expectedColorFormat.Blue == actualColorFormat.Blue &&
+            //        expectedColorFormat.Alpha == actualColorFormat.Alpha)
+            //    {
+            //        supportedDisplayFormats.Add(format);
+            //    }
+            //}
         }
 
         static IEnumerable<DisplayDevice> GetAvailableDisplays()
@@ -240,12 +237,12 @@ namespace Beholder.Libraries.ObjectGL4.Platform
         static readonly Format[] DisplayColorFormats = 
         {
             #region DisplayColorFormats
-            Format.Rgba32f,
+            //Format.Rgba32f,
             //Format.Rgb32f,
-            Format.Rgba16,
+            //Format.Rgba16,
             //Format.Rg32f,
-            Format.Rgb10A2,
-            Format.R11fG11fB10f,
+            //Format.Rgb10A2,
+            //Format.R11fG11fB10f,
             Format.Rgba8,
             //Format.Rg16,
             //Format.R32f,
@@ -426,7 +423,7 @@ namespace Beholder.Libraries.ObjectGL4.Platform
 
         public IEnumerable<IFormatInfo> GetSupportedWindowedDisplayFormats()
         {
-            return supportedDisplayFormats.Select(f => DisplayColorFormatInfos.First(fi => fi.ID == (int)f));
+            return DisplayColorFormatInfos;
         }
         /*
         public IEnumerable<IDepthStencilFormatInfo> GetSupportedDepthStencilFormats()

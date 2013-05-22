@@ -40,9 +40,10 @@ namespace Beholder.Libraries.ObjectGL4
                 case 128: return Format.Rgba32f;
                 case 64: return Format.Rgba16f;
                 case 32: return Format.Rgba8;
+                case 24: return Format.Rgba8;
                 case 16: return Format.R16;
                 case 8: return Format.R8;
-                default: throw new ArgumentOutOfRangeException("bpp");
+                default: throw new ArgumentOutOfRangeException("bpp", bpp + " is an invalid value");
             }
         }
         #endregion

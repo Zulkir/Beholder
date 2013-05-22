@@ -25,6 +25,7 @@ using System.Globalization;
 using System.Linq;
 using Beholder.Math;
 using Beholder.Platform;
+using ObjectGL.GL42;
 using OpenTK;
 
 namespace Beholder.Libraries.ObjectGL4.Platform
@@ -57,7 +58,7 @@ namespace Beholder.Libraries.ObjectGL4.Platform
             {
                 Width = r.Width,
                 Height = r.Height,
-                FormatID = (int)CtObjectGL.ColorAlphaFormat(r.BitsPerPixel),
+                FormatID = (int)Format.Rgba8,
                 RefreshRate = new Rational((int)(1000f * r.RefreshRate), 1000)
             });
         }

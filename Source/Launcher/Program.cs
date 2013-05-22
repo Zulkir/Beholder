@@ -126,10 +126,8 @@ namespace Launcher
                 var windowHandle = eye.CreateNewWindow(400, 400, "Beholder Demo", true);
                 eye.Initialize(adapter, windowHandle, new SwapChainDescription(2, desctopDisplayMode.FormatID, true, depthStencilFormat.ID, new Sampling(4, 0), true), flags);
 
-                using (var metaScene = new MetaScene(eye, desctopDisplayMode))
-                {
-                    metaScene.Run();
-                }
+                var metaScene = new MetaScene(eye, desctopDisplayMode);
+                metaScene.Run();
             }
         }
     }

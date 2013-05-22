@@ -224,7 +224,7 @@ float4 Color : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
             });
             targetDsv = depthStencilTexture.ViewAsDepthStencil(dsFormatInfo.ID, DepthStencilViewFlags.None, 0);
 
-            var diffuseTexture = Device.Load.Texture2D("../Textures/DiffuseTEST.png");
+            var diffuseTexture = Device.Load.Texture2D("../Textures/DiffuseTest.png");
             diffuseView = diffuseTexture.ViewAsShaderResource(diffuseTexture.FormatID, 0, diffuseTexture.MipLevels);
 
             samplerState = Device.Create.SamplerState(SamplerDescription.Anisotropic);

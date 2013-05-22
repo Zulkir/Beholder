@@ -28,7 +28,7 @@ using Beholder.Platform;
 
 namespace Launcher
 {
-    class MetaScene : IDisposable
+    class MetaScene
     {
         readonly IEye eye;
         readonly IWindow window;
@@ -48,12 +48,6 @@ namespace Launcher
         {
             currentScene = CreateAndInitializeScene(0);
             eye.RunLoop(window);
-        }
-
-        public void Dispose()
-        {
-            eye.TerminateLoop();
-
         }
 
         protected virtual void NewFrame(IRealTime realTime)
