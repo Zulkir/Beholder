@@ -395,11 +395,9 @@
     <Compile Include="Utility\Patterns\ICleanable.cs" />
     <Compile Include="Utility\Patterns\ICleanableObserver.cs" />
     <Compile Include="Utility\Collections\IndexValuePair.cs" />
-    <Compile Include="Utility\Collections\Readonly\IReadonlyDictionary.cs" />
     <Compile Include="Utility\Collections\LazyList.cs" />
     <Compile Include="Utility\Structures\Pair.cs" />
     <Compile Include="Utility\Structures\Quadruple.cs" />
-    <Compile Include="Utility\Collections\Readonly\ReadonlyDictionaryWrapper.cs" />
     <Compile Include="Utility\ShouldNeverHappenException.cs" />
     <Compile Include="Utility\DataProcessing\TextParsingException.cs" />
     <Compile Include="Utility\Structures\ThreeTuple.cs" />
