@@ -20,14 +20,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+using System.Collections.Generic;
 using Beholder.Shaders;
-using Beholder.Utility.Collections.Readonly;
 
 namespace Beholder.Core
 {
     public interface IVertexLayout : IDeviceChild
     {
         IVertexShader VertexShader { get; }
-        IReadonlyList<VertexLayoutElement> Elements { get; } 
+        IReadOnlyList<VertexLayoutElement> Elements { get; } 
     }
 }

@@ -21,23 +21,23 @@ THE SOFTWARE.
 */
 
 using System;
+using System.Collections.Generic;
 using Beholder.Libraries.ObjectGL4.Platform;
 using Beholder.Platform;
-using Beholder.Utility.Collections.Readonly;
 using Beholder.Utility.ForImplementations.Platform;
 
 namespace Beholder.Eyes.ObjectGL4.Default
 {
     public class DefaultEye : IEye
     {
-        readonly ReadonlyArrayWrapper<CAdapter> adapters = new ReadonlyArrayWrapper<CAdapter>(new[] {new CAdapter()});
+        readonly CAdapter[] adapters = new[] { new CAdapter() };
         DefaultDevice device;
         DefaultWindow loopWindow;
         LoopTimer loopTimer;
         bool initialized;
         bool isDisposed;
 
-        public IReadonlyList<IAdapter> Adapters { get { return adapters; } }
+        public IReadOnlyList<IAdapter> Adapters { get { return adapters; } }
 
         public IWindowHandle PrepareExistingWindow(object platformWindow)
         {

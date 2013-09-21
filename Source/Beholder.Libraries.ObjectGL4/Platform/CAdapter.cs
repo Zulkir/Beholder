@@ -24,7 +24,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Beholder.Core;
 using Beholder.Platform;
-using Beholder.Utility.Collections.Readonly;
 using Beholder.Utility.ForImplementations.Platform;
 using ObjectGL.GL42;
 using OpenTK;
@@ -36,7 +35,7 @@ namespace Beholder.Libraries.ObjectGL4.Platform
     public class CAdapter : IAdapter
     {
         readonly AdapterDescription adapterDesc;
-        readonly ReadonlyArrayWrapper<COutput> roOutputs;
+        readonly COutput[] outputs;
 
         readonly ApiVersion apiVersion;
         readonly AdapterRestrictions restrictions;
@@ -45,7 +44,7 @@ namespace Beholder.Libraries.ObjectGL4.Platform
         public Api Api { get { return Api.OpenGL; } }
         public ApiVersion ApiVersion { get { return apiVersion; } }
         public IAdapterRestrictions Restrictions { get { return restrictions; } }
-        public IReadonlyList<IOutput> Outputs { get { return roOutputs; } }
+        public IReadOnlyList<IOutput> Outputs { get { return outputs; } }
         public void GetDescription(out AdapterDescription desc) { desc = adapterDesc; }
         
         public CAdapter()
@@ -89,7 +88,7 @@ namespace Beholder.Libraries.ObjectGL4.Platform
 
             tempWindow.Dispose();
 
-            roOutputs = new ReadonlyArrayWrapper<COutput>(GetAvailableDisplays().Select((d, i) => new COutput(d, i)).ToArray());
+            outputs = GetAvailableDisplays().Select((d, i) => new COutput(d, i)).ToArray();
 
             //foreach (var format in DisplayColorFormats)
             //{

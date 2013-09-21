@@ -20,24 +20,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+using System.Collections.Generic;
 using Beholder.Core;
 using Beholder.Shaders;
-using Beholder.Utility.Collections.Readonly;
 
 namespace Beholder.Utility.ForImplementations.Core
 {
     public abstract class VertexLayoutBase<T> : DeviceChildBase<T>, IVertexLayout where T : IDevice
     {
         readonly IVertexShader vertexShader;
-        readonly ReadonlyArrayWrapper<VertexLayoutElement> roElements;
+        readonly VertexLayoutElement[] elements;
 
         public IVertexShader VertexShader { get { return vertexShader; } }
-        public IReadonlyList<VertexLayoutElement> Elements { get { return roElements; } }
+        public IReadOnlyList<VertexLayoutElement> Elements { get { return elements; } }
 
         protected VertexLayoutBase(T device, IVertexShader vertexShader, VertexLayoutElement[] elements) : base(device)
         {
             this.vertexShader = vertexShader;
-            roElements = new ReadonlyArrayWrapper<VertexLayoutElement>(elements);
+            this.elements = elements;
         }
     }
 }

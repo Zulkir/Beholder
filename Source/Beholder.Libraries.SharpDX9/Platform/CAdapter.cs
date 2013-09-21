@@ -25,7 +25,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Beholder.Core;
 using Beholder.Platform;
-using Beholder.Utility.Collections.Readonly;
 using Beholder.Utility.ForImplementations.Platform;
 using SharpDX.Direct3D9;
 using DisplayMode = SharpDX.Direct3D9.DisplayMode;
@@ -44,11 +43,11 @@ namespace Beholder.Libraries.SharpDX9.Platform
         readonly AdapterDescription adapterDesc;
         readonly OutputDescription outputDesc;
 
-        readonly ReadonlyArrayWrapper<CAdapter> roOutputs;
+        readonly CAdapter[] outputs;
         readonly Dictionary<Format, FormatSupport> formatSupports;
 
         public int Index { get { return index; } }
-        public IReadonlyList<IOutput> Outputs { get { return roOutputs; } }
+        public IReadOnlyList<IOutput> Outputs { get { return outputs; } }
         void IAdapter.GetDescription(out AdapterDescription desc) { desc = adapterDesc; }
         void IOutput.GetDescription(out OutputDescription description) { description = outputDesc; }
         public AdapterInformation Info { get { return adapterInfo; } }
@@ -107,8 +106,7 @@ namespace Beholder.Libraries.SharpDX9.Platform
                 MonitorHandle = adapterInfo.Monitor
             };
 
-            var outputs = new[] { this };
-            roOutputs = new ReadonlyArrayWrapper<CAdapter>(outputs);
+            outputs = new[] { this };
 
             formatSupports = ((Format[])Enum.GetValues(typeof(Format))).ToDictionary(f => f, GetFormatSupport);
         }

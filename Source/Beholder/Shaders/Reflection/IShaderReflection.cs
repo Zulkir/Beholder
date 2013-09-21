@@ -21,7 +21,6 @@ THE SOFTWARE.
 */
 
 using System.Collections.Generic;
-using Beholder.Utility.Collections.Readonly;
 
 namespace Beholder.Shaders.Reflection
 {
@@ -29,21 +28,21 @@ namespace Beholder.Shaders.Reflection
     {
         IEnumerable<KeyValuePair<string, string>> Meta { get; } 
         bool TryGetMeta(string metaName, out string metaValue);
-        IReadonlyList<ShaderValueStructureType> Structures { get; } 
-        IReadonlyList<ShaderUniformBufferVariable> UniformBuffers { get; }
-        IReadonlyList<ShaderSamplerVariable> Samplers { get; } 
-        IReadonlyList<ShaderObjectVariable> Srvs { get; } 
-        IReadonlyList<ShaderObjectVariable> Uavs { get; } 
-        IReadonlyList<ShaderIOVariable> Input { get; } 
-        IReadonlyList<ShaderIOVariable> InputExtra { get; } 
-        IReadonlyList<ShaderIOVariable> InputPatch { get; } 
-        IReadonlyList<ShaderIOVariable> InputPatchExtra { get; } 
-        IReadonlyList<ShaderIOVariable> Output { get; }
-        IReadonlyList<ShaderIOVariable> OutputPatch { get; }
-        IReadonlyList<IReadonlyList<ShaderIOVariable>> OutputStreams { get; }
-        IReadonlyList<ShaderFixedSamplingPair> FixedSamplingPairs { get; } 
-        IReadonlyList<string> CodeGlobalLines { get; } 
-        IReadonlyList<string> CodeMainLines { get; } 
-        IReadonlyList<string> CodePatchLines { get; } 
+        IReadOnlyList<ShaderValueStructureType> Structures { get; } 
+        IReadOnlyList<ShaderUniformBufferVariable> UniformBuffers { get; }
+        IReadOnlyList<ShaderSamplerVariable> Samplers { get; } 
+        IReadOnlyList<ShaderObjectVariable> Srvs { get; } 
+        IReadOnlyList<ShaderObjectVariable> Uavs { get; } 
+        IReadOnlyList<ShaderIOVariable> Input { get; } 
+        IReadOnlyList<ShaderIOVariable> InputExtra { get; } 
+        IReadOnlyList<ShaderIOVariable> InputPatch { get; } 
+        IReadOnlyList<ShaderIOVariable> InputPatchExtra { get; } 
+        IReadOnlyList<ShaderIOVariable> Output { get; }
+        IReadOnlyList<ShaderIOVariable> OutputPatch { get; }
+        IReadOnlyList<IReadOnlyList<ShaderIOVariable>> OutputStreams { get; }
+        IReadOnlyList<ShaderFixedSamplingPair> FixedSamplingPairs { get; } 
+        IReadOnlyList<string> CodeGlobalLines { get; } 
+        IReadOnlyList<string> CodeMainLines { get; } 
+        IReadOnlyList<string> CodePatchLines { get; } 
     }
 }

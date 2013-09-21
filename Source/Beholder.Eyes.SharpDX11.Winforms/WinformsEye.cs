@@ -26,7 +26,6 @@ using System.Linq;
 using System.Windows.Forms;
 using Beholder.Libraries.SharpDX11.Platform;
 using Beholder.Platform;
-using Beholder.Utility.Collections.Readonly;
 using SharpDX.DXGI;
 using Beholder.Libraries.Windows.Forms;
 using BSwapChainDescription = Beholder.Platform.SwapChainDescription;
@@ -37,7 +36,6 @@ namespace Beholder.Eyes.SharpDX11.Winforms
     {
         readonly Factory1 factory;
         readonly CAdapter[] adapters;
-        readonly ReadonlyArrayWrapper<CAdapter> roAdapters;
         readonly List<ControlWindow> windows;
 
         WinformsDevice device;
@@ -46,7 +44,7 @@ namespace Beholder.Eyes.SharpDX11.Winforms
         public event Action<IRealTime> NewFrame;
         public event Action<PreventEventArgs> LoopTerminating;
 
-        public IReadonlyList<IAdapter> Adapters { get { return roAdapters; } }
+        public IReadOnlyList<IAdapter> Adapters { get { return adapters; } }
         public bool IsInitialized { get; private set; }
         public bool IsDisposed { get; private set; }
         public IDevice Device { get { return device; } }
@@ -55,7 +53,6 @@ namespace Beholder.Eyes.SharpDX11.Winforms
         {
             factory = new Factory1();
             adapters = Enumerable.Range(0, factory.GetAdapterCount1()).Select(i => new CAdapter(factory.GetAdapter1(i), i)).ToArray();
-            roAdapters = new ReadonlyArrayWrapper<CAdapter>(adapters);
             windows = new List<ControlWindow>();
         }
 

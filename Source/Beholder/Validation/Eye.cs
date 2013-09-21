@@ -21,25 +21,25 @@ THE SOFTWARE.
 */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Beholder.Platform;
-using Beholder.Utility.Collections.Readonly;
 using Beholder.Validation.Platform;
 
 namespace Beholder.Validation
 {
     public class Eye : Wrapper<IEye>, IEye
     {
-        readonly ReadonlyArrayWrapper<Adapter> roAdapters;
+        readonly Adapter[] adapters;
         bool loopIsRunning;
 
         public Eye(IEye real) : base (real)
         {
-            roAdapters = new ReadonlyArrayWrapper<Adapter>(Real.Adapters.Select(Wrappers.Get).Cast<Adapter>().ToArray());
+            adapters = Real.Adapters.Select(Wrappers.Get).Cast<Adapter>().ToArray();
             Wrappers.InitializeEye(this);
         }
 
-        public IReadonlyList<IAdapter> Adapters { get { return roAdapters; } }
+        public IReadOnlyList<IAdapter> Adapters { get { return adapters; } }
         public bool IsInitialized { get { return Real.IsInitialized; } }
         public bool IsDisposed { get { return Real.IsDisposed; } }
 

@@ -25,7 +25,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Beholder.Core;
 using Beholder.Platform;
-using Beholder.Utility.Collections.Readonly;
 using Beholder.Utility.ForImplementations.Platform;
 using SharpDX.DXGI;
 using SharpDX.Direct3D11;
@@ -50,7 +49,6 @@ namespace Beholder.Libraries.SharpDX11.Platform
         readonly ApiVersion apiVersion;
         readonly AdapterRestrictions restrictions;
         readonly COutput[] outputs;
-        readonly ReadonlyArrayWrapper<COutput> roOutputs;
 
         
         readonly FormatSupport[] formatsSupport;
@@ -64,7 +62,7 @@ namespace Beholder.Libraries.SharpDX11.Platform
         public Api Api { get { return Api.Direct3D; } }
         public ApiVersion ApiVersion { get { return apiVersion; } }
         public IAdapterRestrictions Restrictions { get { return restrictions; } }
-        public IReadonlyList<IOutput> Outputs { get { return roOutputs; } }
+        public IReadOnlyList<IOutput> Outputs { get { return outputs; } }
         public void GetDescription(out AdapterDescription bAdapterDesc) { bAdapterDesc = desc; }
 
         public CAdapter(Adapter1 dxgiAdapter, int index)
@@ -89,7 +87,6 @@ namespace Beholder.Libraries.SharpDX11.Platform
             };
 
             outputs = dxgiAdapter.Outputs.Select(o => new COutput(o)).ToArray();
-            roOutputs = new ReadonlyArrayWrapper<COutput>(outputs);
 
             using (var d3dDevice = new Device(dxgiAdapter))
             {

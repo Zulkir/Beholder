@@ -24,21 +24,20 @@ using System.Collections.Generic;
 using System.Linq;
 using Beholder.Core;
 using Beholder.Platform;
-using Beholder.Utility.Collections.Readonly;
 
 namespace Beholder.Validation.Platform
 {
     class Adapter : Wrapper<IAdapter>, IAdapter
     {
-        readonly ReadonlyArrayWrapper<Output> roOutputs;
+        readonly Output[] outputs;
 
         public Adapter(IAdapter real) : base (real)
         {
-            roOutputs = new ReadonlyArrayWrapper<Output>(real.Outputs.Select(Wrappers.Get).ToArray());
+            outputs = real.Outputs.Select(Wrappers.Get).ToArray();
         }
 
         public int Index { get { return Real.Index; } }
-        public IReadonlyList<IOutput> Outputs { get { return roOutputs; } }
+        public IReadOnlyList<IOutput> Outputs { get { return outputs; } }
         public void GetDescription(out AdapterDescription adapterDesc) { Real.GetDescription(out adapterDesc); }
         public Api Api { get { return Real.Api; } }
         public ApiVersion ApiVersion { get { return Real.ApiVersion; } }

@@ -24,13 +24,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Beholder.Utility.Collections.Readonly;
 using Beholder.Utility.Helpers;
 using Beholder.Utility.Structures;
 
 namespace Beholder.Shaders.Reflection
 {
-    public class ShaderStructureElementCollection : IReadonlyList<ShaderValueStructureElement>, IEquatable<ShaderStructureElementCollection>
+    public class ShaderStructureElementCollection : IReadOnlyList<ShaderValueStructureElement>, IEquatable<ShaderStructureElementCollection>
     {
         readonly ShaderValueStructureElement[] elements;
 
@@ -54,7 +53,7 @@ namespace Beholder.Shaders.Reflection
             }
         }
 
-        #region Implementation of IReadonlyList<out ShaderValueStructureElement>
+        #region Implementation of IReadOnlyList<out ShaderValueStructureElement>
 
         public ShaderValueStructureElement this[int index]
         {

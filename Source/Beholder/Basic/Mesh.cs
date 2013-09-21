@@ -20,8 +20,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+using System.Collections.Generic;
 using Beholder.Core;
-using Beholder.Utility.Collections.Readonly;
 
 namespace Beholder.Basic
 {
@@ -29,13 +29,13 @@ namespace Beholder.Basic
     {
         public VertexSource Vertices { get; private set; }
         public IndexSource Indices { get; private set; }
-        public ReadonlyArrayWrapper<MeshSubset> Subsets { get; private set; }
+        public IReadOnlyList<MeshSubset> Subsets { get; private set; }
 
         public Mesh(VertexSource vertices, IndexSource indices, params MeshSubset[] subsets)
         {
             Vertices = vertices;
             Indices = indices;
-            Subsets = new ReadonlyArrayWrapper<MeshSubset>(subsets);
+            Subsets = subsets;
         }
     }
 }

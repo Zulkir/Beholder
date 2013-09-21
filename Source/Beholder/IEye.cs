@@ -21,8 +21,8 @@ THE SOFTWARE.
 */
 
 using System;
+using System.Collections.Generic;
 using Beholder.Platform;
-using Beholder.Utility.Collections.Readonly;
 
 namespace Beholder
 {
@@ -37,7 +37,7 @@ namespace Beholder
         /// Gets a list of all the graphical adapters available. 
         /// The adapter with the zero index is the most prefered adpater to be used.
         /// </summary>
-        IReadonlyList<IAdapter> Adapters { get; }
+        IReadOnlyList<IAdapter> Adapters { get; }
 
         /// <summary>
         /// Prepares the existing platform-specific window to hold a swap chain.

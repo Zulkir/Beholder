@@ -21,10 +21,10 @@ THE SOFTWARE.
 */
 
 using System;
+using System.Collections.Generic;
 using Beholder.Core;
 using Beholder.Shaders;
 using Beholder.Shaders.Reflection;
-using Beholder.Utility.Collections.Readonly;
 using System.Linq;
 
 namespace Beholder.Validation.Core
@@ -34,7 +34,7 @@ namespace Beholder.Validation.Core
         public VertexLayout(IVertexLayout real) : base(real) { }
 
         public IVertexShader VertexShader { get { return Wrappers.Get(Real.VertexShader); } }
-        public IReadonlyList<VertexLayoutElement> Elements { get { return Real.Elements; } }
+        public IReadOnlyList<VertexLayoutElement> Elements { get { return Real.Elements; } }
 
         public static void ValidateElements(IVertexShader vertexShader, VertexLayoutElement[] elements)
         {

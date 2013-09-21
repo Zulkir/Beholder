@@ -22,7 +22,6 @@ THE SOFTWARE.
 
 using System.Collections.Generic;
 using Beholder.Core;
-using Beholder.Utility.Collections.Readonly;
 
 namespace Beholder.Platform
 {
@@ -39,7 +38,7 @@ namespace Beholder.Platform
         /// <summary>
         /// Outputs (monitors) that are bound to this adapter.
         /// </summary>
-        IReadonlyList<IOutput> Outputs { get; }
+        IReadOnlyList<IOutput> Outputs { get; }
 
         /// <summary>
         /// Gets the description of the adapter.
