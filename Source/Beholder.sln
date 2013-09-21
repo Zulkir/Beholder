@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beholder", "Beholder\Beholder.csproj", "{0C3E4959-2E29-4AF9-9570-C2216DF28E43}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beholder.Libraries.Windows.Forms", "Beholder.Libraries.Windows.Forms\Beholder.Libraries.Windows.Forms.csproj", "{37BF68D2-5886-499F-B68E-937995F0C092}"
