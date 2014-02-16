@@ -114,7 +114,7 @@ namespace Launcher
                     .OrderByDescending(m => m.Width * m.Height)
                     .ThenByDescending(m => m.RefreshRate == 60 ? int.MaxValue : m.RefreshRate.Round())
                     .ThenBy(m => { var fi = adapter.GetFormatInfo(m.FormatID); return fi.ColorBits == 24 && fi.TotalBits == 32 ? 0 : 1; })
-                    .ThenBy(m => Program.FormatTypePriority(adapter.GetFormatInfo(m.FormatID).ColorFormatType))
+                    .ThenBy(m => FormatTypePriority(adapter.GetFormatInfo(m.FormatID).ColorFormatType))
                     .ThenByDescending(m => adapter.GetFormatInfo(m.FormatID).ColorBits)
                     .First();
 
