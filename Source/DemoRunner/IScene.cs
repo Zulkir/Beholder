@@ -26,7 +26,6 @@ namespace DemoRunner
 {
     public interface IScene
     {
-        void Initialize();
         void OnNewFrame(IRealTime realTime);
     }
 }

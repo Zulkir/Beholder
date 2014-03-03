@@ -60,9 +60,9 @@ namespace Beholder.Math
         }
         #endregion
 
-        public float R { get { return Data.X; } }
-        public float G { get { return Data.Y; } }
-        public float B { get { return Data.Z; } }
+        public float R { get { return Data.X; } set { Data.X = value; } }
+        public float G { get { return Data.Y; } set { Data.Y = value; } }
+        public float B { get { return Data.Z; } set { Data.Z = value; } }
 
         public float this[int index]
         {

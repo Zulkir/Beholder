@@ -125,10 +125,10 @@ namespace Beholder.Math
         }
         #endregion
 
-        public float R { get { return Data.X; } }
-        public float G { get { return Data.Y; } }
-        public float B { get { return Data.Z; } }
-        public float A { get { return Data.W; } }
+        public float R { get { return Data.X; } set { Data.X = value; } }
+        public float G { get { return Data.Y; } set { Data.Y = value; } }
+        public float B { get { return Data.Z; } set { Data.Z = value; } }
+        public float A { get { return Data.W; } set { Data.W = value; } }
 
         public float this[int index]
         {
