@@ -26,6 +26,7 @@ using System.Runtime.InteropServices;
 using Beholder;
 using Beholder.Core;
 using Beholder.Math;
+using Beholder.Platform;
 using Beholder.Resources;
 using Beholder.Shaders;
 
@@ -35,6 +36,7 @@ namespace DemoRunner.Scenes.EarthlitNight
     {
         private readonly int starCount;
         private readonly IShaderCombination shaders;
+        private readonly IBuffer timeUbuffer;
         private readonly IVertexLayout vertexLayout;
         private readonly IBuffer vertexBuffer;
         private readonly IBuffer indexBuffer;
@@ -46,6 +48,7 @@ namespace DemoRunner.Scenes.EarthlitNight
         {
             this.starCount = starCount;
             shaders = CreateShaders(device);
+            timeUbuffer = CreateTimeUbuffer(device);
             vertexLayout = CreateVertexLayout(device, shaders.VertexShader);
             vertexBuffer = CreateVertexBuffer(device, starCount);
             indexBuffer = CreateIndexBuffer(device, starCount);
@@ -54,9 +57,13 @@ namespace DemoRunner.Scenes.EarthlitNight
             blendState = CreateBlendState(device);
         }
 
-        public void Draw(IDeviceContext context)
+        public unsafe void Draw(IDeviceContext context, IRealTime realTime)
         {
             context.ShadersForDrawing = shaders;
+
+            float totalRealTime = realTime.TotalRealTime;
+            context.SetSubresourceData(timeUbuffer, 0, new SubresourceData(new IntPtr(&totalRealTime)));
+            context.VertexStage.UniformBuffers[0] = timeUbuffer;
 
             context.InputAssembler.PrimitiveTopology = PrimitiveTopology.TriangleList;
             context.InputAssembler.VertexLayout = vertexLayout;
@@ -91,10 +98,15 @@ ProfileDX9 = vs_2_0
 ProfileDX10 = vs_4_0
 ProfileGL3 = 150
 
+%ubuffers
+ubuffer Time : slot = 0, slotGL3 = 0, slotDX9 = c0
+	float CurrentTime
+
 %input
-float2 Position : SDX9 = POSITION, SDX10 = %name, SGL3 = %name
-float2 TexCoord : SDX9 = TEXCOORD, SDX10 = %name, SGL3 = %name
-float3 Color    : SDX9 = COLOR,    SDX10 = %name, SGL3 = %name
+float2 Position    : SDX9 = POSITION,  SDX10 = %name, SGL3 = %name
+float2 TexCoord    : SDX9 = TEXCOORD,  SDX10 = %name, SGL3 = %name
+float3 Color       : SDX9 = COLOR,     SDX10 = %name, SGL3 = %name
+float  ShinePeriod : SDX9 = TEXCOORD2, SDX10 = %name, SGL3 = %name
 
 %output
 float4 Position : SDX9 = POSITION0, SDX10 = SV_Position, SGL3 = gl_Position
@@ -104,7 +116,10 @@ float3 Color    : SDX9 = COLOR,     SDX10 = %name, SGL3 = %name
 %code_main
     OUTPUT(Position) = float4(INPUT(Position), 0.0, 1.0);
     OUTPUT(TexCoord) = INPUT(TexCoord);
-	OUTPUT(Color) = INPUT(Color);
+    float twoPi = 6.28;
+    float shinePhase = 0.5 * (1.0 + sin(twoPi * CurrentTime / INPUT(ShinePeriod)));
+    float shininess = 0.35 + 0.65 * shinePhase;
+	OUTPUT(Color) = shininess * INPUT(Color);
 ";
 
         const string PixelShaderText = @"
@@ -137,6 +152,28 @@ float4 Color    : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
 
         #endregion
 
+        #region Ubuffers
+
+        [StructLayout(LayoutKind.Sequential, Pack = 4)]
+        private struct TimeUbuffer
+        {
+            public float CurrentTime;
+
+            public const int SizeInBytes = sizeof(float);
+        }
+
+        private IBuffer CreateTimeUbuffer(IDevice device)
+        {
+            return device.Create.Buffer(new BufferDescription
+            {
+                BindFlags = BindFlags.UniformBuffer,
+                Usage = Usage.Dynamic,
+                SizeInBytes = TimeUbuffer.SizeInBytes
+            });
+        }
+
+        #endregion
+
         #region Vertices
 
         [StructLayout(LayoutKind.Sequential, Pack = 4)]
@@ -145,7 +182,7 @@ float4 Color    : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
             public Vector2 Position;
             public Vector2 TexCoord;
             public Color3 Color;
-            private readonly float padding;
+            public float ShinePeriod;
 
             public const int SizeInBytes = 2 * 4 * sizeof(float);
         }
@@ -167,7 +204,8 @@ float4 Color    : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
             {
                 new VertexLayoutElement(ExplicitFormat.R32G32_FLOAT, 0, 0),
                 new VertexLayoutElement(ExplicitFormat.R32G32_FLOAT, 0, 2 * sizeof(float)),
-                new VertexLayoutElement(ExplicitFormat.R32G32B32_FLOAT, 0, 4 * sizeof(float))
+                new VertexLayoutElement(ExplicitFormat.R32G32B32_FLOAT, 0, 4 * sizeof(float)),
+                new VertexLayoutElement(ExplicitFormat.R32_FLOAT, 0, 7 * sizeof(float)),
             });
         }
 
@@ -188,10 +226,11 @@ float4 Color    : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
             var radius = RandomInRange(0.001f, 0.005f, x => (float)Math.Pow(x, 6));
             var color = new Color3(RandomInRange(0.8f, 1.0f), 0.0f, RandomInRange(0.8f, 1.0f));
             color.G = Math.Min(color.R, color.B);
-            return CreateVertexQuad(center, radius, color);
+            var shinePeriod = RandomInRange(1f, 5f);
+            return CreateVertexQuad(center, radius, color, shinePeriod);
         }
 
-        private static VertexQuad CreateVertexQuad(Vector2 center, float radius, Color3 color)
+        private static VertexQuad CreateVertexQuad(Vector2 center, float radius, Color3 color, float shinePeriod)
         {
             return new VertexQuad
             {
@@ -199,25 +238,29 @@ float4 Color    : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
                 {
                     Position = center + new Vector2(-radius, -radius),
                     TexCoord = new Vector2(-1f, -1f),
-                    Color = color
+                    Color = color,
+                    ShinePeriod = shinePeriod
                 },
                 TopRight = new Vertex
                 {
                     Position = center + new Vector2(radius, -radius),
                     TexCoord = new Vector2(1f, -1f),
-                    Color = color
+                    Color = color,
+                    ShinePeriod = shinePeriod
                 },
                 BottomRight = new Vertex
                 {
                     Position = center + new Vector2(radius, radius),
                     TexCoord = new Vector2(1f, 1f),
-                    Color = color
+                    Color = color,
+                    ShinePeriod = shinePeriod
                 },
                 BottomLeft = new Vertex
                 {
                     Position = center + new Vector2(-radius, radius),
                     TexCoord = new Vector2(-1f, 1f),
-                    Color = color
+                    Color = color,
+                    ShinePeriod = shinePeriod
                 }
             };
         }

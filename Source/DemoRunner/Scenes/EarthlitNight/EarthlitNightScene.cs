@@ -104,7 +104,7 @@ namespace DemoRunner.Scenes.EarthlitNight
                 context.Rasterizer.Viewports.Set(new Viewport(swapChain.Width, swapChain.Height));
                 context.OutputMerger.RenderTargets.Set(swapChain.GetCurrentColorBuffer());
 
-                stars.Draw(context);
+                stars.Draw(context, realTime);
 
                 swapChain.EndScene();
                 swapChain.Present();
