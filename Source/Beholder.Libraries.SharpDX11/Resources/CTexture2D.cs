@@ -125,7 +125,7 @@ namespace Beholder.Libraries.SharpDX11.Resources
 
                         if (box.RowPitch == rowPitch)
                         {
-                            Utilities.CopyMemory(destinationStartPointer, data.Pointer, rowPitch);
+                            Utilities.CopyMemory(destinationStartPointer, data.Pointer, totalSize);
                         }
                         else
                         {
