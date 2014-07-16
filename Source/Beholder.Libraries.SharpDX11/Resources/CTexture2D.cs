@@ -115,12 +115,12 @@ namespace Beholder.Libraries.SharpDX11.Resources
             {
                 case Usage.Default:
                     {
-                        deviceContext.UpdateSubresource(d3dTexture2D, subresourceIndex, null, data.Pointer, rowPitch, 0);
+                        deviceContext.UpdateSubresourceInternal(d3dTexture2D, subresourceIndex, null, data.Pointer, rowPitch, 0);
                     }
                     break;
                 case Usage.Dynamic:
                     {
-                        var box = deviceContext.MapSubresource(d3dTexture2D, subresourceIndex, MapMode.WriteDiscard, MapFlags.None);
+                        var box = deviceContext.MapSubresourceInternal(d3dTexture2D, subresourceIndex, MapMode.WriteDiscard, MapFlags.None);
                         var destinationStartPointer = box.DataPointer;
 
                         if (box.RowPitch == rowPitch)
@@ -136,7 +136,7 @@ namespace Beholder.Libraries.SharpDX11.Resources
                                 Utilities.CopyMemory(writePointer, data.Pointer + rowPitch * y, sizeToWrite);
                             }
                         }
-                        deviceContext.UnmapSubresource(d3dTexture2D, subresourceIndex);
+                        deviceContext.UnmapSubresourceInternal(d3dTexture2D, subresourceIndex);
                     }
                     break;
                 default:

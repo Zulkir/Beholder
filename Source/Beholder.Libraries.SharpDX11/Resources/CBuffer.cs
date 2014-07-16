@@ -28,6 +28,7 @@ using SharpDX;
 using SharpDX.Direct3D11;
 using Buffer = SharpDX.Direct3D11.Buffer;
 using BufferDescription = Beholder.Resources.BufferDescription;
+using MapFlags = SharpDX.Direct3D11.MapFlags;
 using RenderTargetViewDescription = Beholder.Resources.RenderTargetViewDescription;
 using ShaderResourceViewDescription = Beholder.Resources.ShaderResourceViewDescription;
 using UnorderedAccessViewDescription = Beholder.Resources.UnorderedAccessViewDescription;
@@ -76,14 +77,14 @@ namespace Beholder.Libraries.SharpDX11.Resources
             {
                 case Usage.Default:
                     {
-                        deviceContext.UpdateSubresource(d3dBuffer, 0, null, data.Pointer, 0, 0);
+                        deviceContext.UpdateSubresourceInternal(d3dBuffer, 0, null, data.Pointer, 0, 0);
                     }
                     break;
                 case Usage.Dynamic:
                     {
-                        var box = deviceContext.MapSubresource(d3dBuffer, 0, MapMode.WriteDiscard, MapFlags.None);
+                        var box = deviceContext.MapSubresourceInternal(d3dBuffer, 0, MapMode.WriteDiscard, MapFlags.None);
                         Utilities.CopyMemory(box.DataPointer, data.Pointer, desc.SizeInBytes);
-                        deviceContext.UnmapSubresource(d3dBuffer, 0);
+                        deviceContext.UnmapSubresourceInternal(d3dBuffer, 0);
                     }
                     break;
                 default:

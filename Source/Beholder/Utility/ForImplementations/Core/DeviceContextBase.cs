@@ -53,6 +53,12 @@ namespace Beholder.Utility.ForImplementations.Core
         public abstract void ClearDepthStencilView(IDepthStencilView depthStencilView, ClearDepthStencilFlags flags, float depth, byte stencil);
         public abstract void ClearUnorderedAccessView(IUnorderedAccessView unorderedAccessView, Vector4 value);
         public abstract void ClearUnorderedAccessView(IUnorderedAccessView unorderedAccessView, IntVector4 value);
+        public abstract void CopyResource(IResource dstResource, IResource srcResource);
+        public abstract void CopySubresourceRegion(IResource dstResource, int dstSubresource, int dstX, int dstY, int dstZ, IResource srcResource, int srcSubresource, Box? srcBox);
+        public abstract void GenerateMips(IShaderResourceView shaderResourceView);
+        public abstract MappedSubresource Map(IResource resource, int subresource, MapType mapType, MapFlags mapFlags);
+        public abstract void SetSubresourceData(IResource resource, int subresourceIndex, SubresourceData data);
+        public abstract void Unmap(IResource resource, int subresource);
 
         readonly DirtyProperty<IComputeShader> shaderForDispatching;
         readonly DeviceContextBaseComputeShaderStage computeStage;
@@ -103,10 +109,6 @@ namespace Beholder.Utility.ForImplementations.Core
         public abstract void DrawIndexedInstancedIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs);
         public abstract void DrawInstanced(int vertexCountPerInstance, int instanceCount, int startVertexLocation, int startInstanceLocation);
         public abstract void DrawInstancedIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs);
-
-        public abstract void GenerateMips(IShaderResourceView shaderResourceView);
-
-        public abstract void SetSubresourceData(IResource resource, int subresourceIndex, SubresourceData data);
 
         protected void MarkAsDirty()
         {

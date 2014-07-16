@@ -75,7 +75,11 @@
     <Compile Include="Platform\ModeRotation.cs" />
     <Compile Include="Platform\PlatformExtensionMethods.cs" />
     <Compile Include="Core\ExplicitFormat.cs" />
+    <Compile Include="Resources\Box.cs" />
     <Compile Include="Resources\ITexture.cs" />
+    <Compile Include="Resources\MapFlags.cs" />
+    <Compile Include="Resources\MappedSubresource.cs" />
+    <Compile Include="Resources\MapType.cs" />
     <Compile Include="Resources\ResourceDimension.cs" />
     <Compile Include="Shaders\Reflection\GeometryShaderInputPrimitiveType.cs" />
     <Compile Include="Shaders\Reflection\GeometryShaderOutputPrimitiveType.cs" />

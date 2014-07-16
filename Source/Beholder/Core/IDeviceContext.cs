@@ -33,16 +33,8 @@ namespace Beholder.Core
     {
         DeviceContextType ContextType { get; }
 
-        void ClearRenderTargetView(IRenderTargetView renderTargetView, Color4 color);
-        void ClearDepthStencilView(IDepthStencilView depthStencilView, ClearDepthStencilFlags flags, float depth, byte stencil);
-        void ClearUnorderedAccessView(IUnorderedAccessView unorderedAccessView, Vector4 value);
-        void ClearUnorderedAccessView(IUnorderedAccessView unorderedAccessView, IntVector4 value);
-
         IComputeShader ShaderForDispatching { get; set; }
         IDeviceContextComputeShaderStage ComputeStage { get; }
-        
-        void Dispatch(int threadGroupCountX, int threadGroupCountY, int threadGroupCountZ);
-        void DispatchIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs);
 
         IShaderCombination ShadersForDrawing { get; set; }
         IDeviceContextInputAssembler InputAssembler { get; }
@@ -55,6 +47,21 @@ namespace Beholder.Core
         IDeviceContextShaderStage PixelStage { get; }
         IDeviceContextOutputMerger OutputMerger { get; }
 
+        void ClearRenderTargetView(IRenderTargetView renderTargetView, Color4 color);
+        void ClearDepthStencilView(IDepthStencilView depthStencilView, ClearDepthStencilFlags flags, float depth, byte stencil);
+        void ClearUnorderedAccessView(IUnorderedAccessView unorderedAccessView, Vector4 value);
+        void ClearUnorderedAccessView(IUnorderedAccessView unorderedAccessView, IntVector4 value);
+
+        void CopyResource(IResource dstResource, IResource srcResource);
+        void CopySubresourceRegion(IResource dstResource, int dstSubresource, int dstX, int dstY, int dstZ, IResource srcResource, int srcSubresource, Box? srcBox);
+        void GenerateMips(IShaderResourceView shaderResourceView);
+        MappedSubresource Map(IResource resource, int subresource, MapType mapType, MapFlags mapFlags);
+        void SetSubresourceData(IResource resource, int subresourceIndex, SubresourceData data);
+        void Unmap(IResource resource, int subresource);
+
+        void Dispatch(int threadGroupCountX, int threadGroupCountY, int threadGroupCountZ);
+        void DispatchIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs);
+
         void Draw(int vertexCount, int startVertexLocation);
         void DrawAuto();
         void DrawIndexed(int indexCount, int startIndexLocation, int baseVertexLocation);
@@ -62,9 +69,5 @@ namespace Beholder.Core
         void DrawIndexedInstancedIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs);
         void DrawInstanced(int vertexCountPerInstance, int instanceCount, int startVertexLocation, int startInstanceLocation);
         void DrawInstancedIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs);
-
-        void GenerateMips(IShaderResourceView shaderResourceView);
-
-        void SetSubresourceData(IResource resource, int subresourceIndex, SubresourceData data);
     }
 }

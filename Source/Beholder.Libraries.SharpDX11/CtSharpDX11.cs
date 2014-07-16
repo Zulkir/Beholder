@@ -21,8 +21,6 @@ THE SOFTWARE.
 */
 
 using System;
-using Beholder.Core;
-using SharpDX.DXGI;
 
 namespace Beholder.Libraries.SharpDX11
 {
@@ -374,7 +372,7 @@ namespace Beholder.Libraries.SharpDX11
         #endregion
 
         #region VertexLayoutClassification
-        public static SharpDX.Direct3D11.InputClassification InputClassification(VertexLayoutClassification bVertexLayoutClassification)
+        public static SharpDX.Direct3D11.InputClassification InputClassification(Beholder.Core.VertexLayoutClassification bVertexLayoutClassification)
         {
             return (SharpDX.Direct3D11.InputClassification)bVertexLayoutClassification;
         }
@@ -388,20 +386,41 @@ namespace Beholder.Libraries.SharpDX11
         #endregion
 
         #region Format
-        public static Format Format(ExplicitFormat bExplicitFormat)
+        public static SharpDX.DXGI.Format Format(Beholder.Core.ExplicitFormat bExplicitFormat)
         {
-            return (Format)bExplicitFormat;
+            return (SharpDX.DXGI.Format)bExplicitFormat;
         }
 
-        public static Format Format(IndexFormat bIndexFormat)
+        public static SharpDX.DXGI.Format Format(Beholder.Core.IndexFormat bIndexFormat)
         {
             switch (bIndexFormat)
             {
-                case IndexFormat.Undefined: return SharpDX.DXGI.Format.Unknown;
-                case IndexFormat.SixteenBit: return SharpDX.DXGI.Format.R16_UInt;
-                case IndexFormat.ThirtyTwoBit: return SharpDX.DXGI.Format.R32_UInt;
+                case Beholder.Core.IndexFormat.Undefined: return SharpDX.DXGI.Format.Unknown;
+                case Beholder.Core.IndexFormat.SixteenBit: return SharpDX.DXGI.Format.R16_UInt;
+                case Beholder.Core.IndexFormat.ThirtyTwoBit: return SharpDX.DXGI.Format.R32_UInt;
                 default: throw new ArgumentOutOfRangeException("bIndexFormat");
             }
+        }
+        #endregion
+
+        #region ResourceRegion
+        public static SharpDX.Direct3D11.ResourceRegion ResourceRegion(Beholder.Resources.Box bBox)
+        {
+            return new SharpDX.Direct3D11.ResourceRegion(bBox.Left, bBox.Top, bBox.Front, bBox.Right, bBox.Bottom, bBox.Back);
+        }
+        #endregion
+
+        #region MapMode
+        public static SharpDX.Direct3D11.MapMode MapMode(Beholder.Resources.MapType bMapType)
+        {
+            return (SharpDX.Direct3D11.MapMode)bMapType;
+        }
+        #endregion
+
+        #region MapFlags
+        public static SharpDX.Direct3D11.MapFlags MapFlags(Beholder.Resources.MapFlags bMapFlags)
+        {
+            return (SharpDX.Direct3D11.MapFlags)bMapFlags;
         }
         #endregion
     }

@@ -33,6 +33,7 @@ using Color4 = Beholder.Math.Color4;
 using Vector4 = Beholder.Math.Vector4;
 using Viewport = Beholder.Core.Viewport;
 using Beholder.Utility.Extensions;
+using Box = Beholder.Resources.Box;
 
 namespace Beholder.Libraries.SharpDX9.Core
 {
@@ -151,6 +152,35 @@ namespace Beholder.Libraries.SharpDX9.Core
         public override void ClearUnorderedAccessView(IUnorderedAccessView unorderedAccessView, IntVector4 value)
         {
             throw new NotSupportedException("UAVs are not supported by D3D9");
+        }
+
+        public override void CopyResource(IResource dstResource, IResource srcResource)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void CopySubresourceRegion(IResource dstResource, int dstSubresource, int dstX, int dstY, int dstZ, IResource srcResource, int srcSubresource, Box? srcBox)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void GenerateMips(IShaderResourceView shaderResourceView)
+        {
+        }
+
+        public override MappedSubresource Map(IResource resource, int subresource, MapType mapType, MapFlags mapFlags)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void SetSubresourceData(IResource resource, int subresourceIndex, SubresourceData data)
+        {
+            ((ICResource)resource).SetSubresourceData(subresourceIndex, data);
+        }
+
+        public override void Unmap(IResource resource, int subresource)
+        {
+            throw new NotImplementedException();
         }
 
         public override void Dispatch(int threadGroupCountX, int threadGroupCountY, int threadGroupCountZ)
@@ -385,15 +415,6 @@ namespace Beholder.Libraries.SharpDX9.Core
         public override void DrawInstancedIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs)
         {
             throw new NotSupportedException("DrawInstancedIndirect is not supported by D3D9");
-        }
-
-        public override void GenerateMips(IShaderResourceView shaderResourceView)
-        {
-        }
-
-        public override void SetSubresourceData(IResource resource, int subresourceIndex, SubresourceData data)
-        {
-            ((ICResource)resource).SetSubresourceData(subresourceIndex, data);
         }
     }
 }

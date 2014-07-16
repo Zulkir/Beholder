@@ -37,6 +37,8 @@ using Rectangle = SharpDX.Rectangle;
 using Vector4 = Beholder.Math.Vector4;
 using Viewport = SharpDX.Direct3D11.Viewport;
 using Beholder.Utility.Extensions;
+using BMapFlags = Beholder.Resources.MapFlags;
+using SMapFlags = SharpDX.Direct3D11.MapFlags;
 
 namespace Beholder.Libraries.SharpDX11.Core
 {
@@ -100,6 +102,53 @@ namespace Beholder.Libraries.SharpDX11.Core
         public unsafe override void ClearUnorderedAccessView(IUnorderedAccessView unorderedAccessView, IntVector4 value)
         {
             d3dDeviceContext.ClearUnorderedAccessView(((CUnorderedAccessView)unorderedAccessView).D3DUnorderedAccessView, *(Int4*)&value);
+        }
+
+        public override void CopyResource(IResource dstResource, IResource srcResource)
+        {
+            d3dDeviceContext.CopyResource(((ICResource)srcResource).D3DResource, ((ICResource)dstResource).D3DResource);
+        }
+
+        public override unsafe void CopySubresourceRegion(IResource dstResource, int dstSubresource, int dstX, int dstY, int dstZ, IResource srcResource, int srcSubresource, Box? srcBox)
+        {
+            var sourceRegion = srcBox.HasValue ? CtSharpDX11.ResourceRegion(srcBox.Value) : (ResourceRegion?)null;
+            d3dDeviceContext.CopySubresourceRegion(((ICResource)srcResource).D3DResource, srcSubresource, sourceRegion, ((ICResource)dstResource).D3DResource, dstSubresource, dstX, dstY, dstZ);
+        }
+
+        public override void GenerateMips(IShaderResourceView shaderResourceView)
+        {
+            d3dDeviceContext.GenerateMips(((CShaderResourceView)shaderResourceView).D3DShaderResourceView);
+        }
+
+        public override MappedSubresource Map(IResource resource, int subresource, MapType mapType, BMapFlags mapFlags)
+        {
+            var d3dBox = MapSubresourceInternal(((ICResource)resource).D3DResource, subresource, CtSharpDX11.MapMode(mapType), CtSharpDX11.MapFlags(mapFlags));
+            return CtBeholder.MappedSubresource(d3dBox);
+        }
+
+        public override void SetSubresourceData(IResource resource, int subresourceIndex, SubresourceData data)
+        {
+            ((ICResource)resource).SetSubresourceData(this, subresourceIndex, data);
+        }
+
+        public override void Unmap(IResource resource, int subresource)
+        {
+            UnmapSubresourceInternal(((ICResource)resource).D3DResource, subresource);
+        }
+
+        internal void UpdateSubresourceInternal(Resource d3dResource, int subresourceIndex, ResourceRegion? subresourceRegion, IntPtr data, int rowPitch, int depthPitch)
+        {
+            d3dDeviceContext.UpdateSubresource(d3dResource, subresourceIndex, subresourceRegion, data, rowPitch, depthPitch);
+        }
+
+        internal DataBox MapSubresourceInternal(Resource d3dResource, int subresourceIndex, MapMode mapMode, SMapFlags mapFlags)
+        {
+            return d3dDeviceContext.MapSubresource(d3dResource, subresourceIndex, mapMode, mapFlags);
+        }
+
+        internal void UnmapSubresourceInternal(Resource d3dResource, int subresourceIndex)
+        {
+            d3dDeviceContext.UnmapSubresource(d3dResource, subresourceIndex);
         }
 
         void PreDispatch()
@@ -346,31 +395,6 @@ namespace Beholder.Libraries.SharpDX11.Core
         {
             PreDraw();
             d3dDeviceContext.DrawInstancedIndirect(((CBuffer)bufferForArgs).D3DBuffer, alignedByteOffsetForArgs);
-        }
-
-        public override void GenerateMips(IShaderResourceView shaderResourceView)
-        {
-            d3dDeviceContext.GenerateMips(((CShaderResourceView)shaderResourceView).D3DShaderResourceView);
-        }
-
-        public override void SetSubresourceData(IResource resource, int subresourceIndex, SubresourceData data)
-        {
-            ((ICResource)resource).SetSubresourceData(this, subresourceIndex, data);
-        }
-
-        internal void UpdateSubresource(Resource d3dResource, int subresourceIndex, ResourceRegion? subresourceRegion, IntPtr data, int rowPitch, int depthPitch)
-        {
-            d3dDeviceContext.UpdateSubresource(d3dResource, subresourceIndex, subresourceRegion, data, rowPitch, depthPitch);
-        }
-
-        internal DataBox MapSubresource(Resource d3dResource, int subresourceIndex, MapMode mapMode, MapFlags mapFlags)
-        {
-            return d3dDeviceContext.MapSubresource(d3dResource, subresourceIndex, mapMode, mapFlags);
-        }
-
-        internal void UnmapSubresource(Resource d3dResource, int subresourceIndex)
-        {
-            d3dDeviceContext.UnmapSubresource(d3dResource, subresourceIndex);
         }
     }
 }

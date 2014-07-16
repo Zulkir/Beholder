@@ -106,14 +106,14 @@ namespace Beholder.Libraries.SharpDX11.Resources
             {
                 case Usage.Default:
                     {
-                        deviceContext.UpdateSubresource(d3dTexture1D, subresourceIndex, null, data.Pointer, 0, 0);
+                        deviceContext.UpdateSubresourceInternal(d3dTexture1D, subresourceIndex, null, data.Pointer, 0, 0);
                     }
                     break;
                 case Usage.Dynamic:
                     {
-                        var box = deviceContext.MapSubresource(d3dTexture1D, subresourceIndex, MapMode.WriteDiscard, MapFlags.None);
+                        var box = deviceContext.MapSubresourceInternal(d3dTexture1D, subresourceIndex, MapMode.WriteDiscard, MapFlags.None);
                         Utilities.CopyMemory(box.DataPointer, data.Pointer, totalSize);
-                        deviceContext.UnmapSubresource(d3dTexture1D, subresourceIndex);
+                        deviceContext.UnmapSubresourceInternal(d3dTexture1D, subresourceIndex);
                     }
                     break;
                 default:

@@ -70,30 +70,6 @@ namespace Beholder.Libraries.SharpDX11
             };
         }
         #endregion
-        /*
-        #region DepthStencilFormatInfo
-        public static Platform.IDepthStencilFormatInfo DepthStencilFormatInfo(SharpDX.DXGI.Format dxgiFormat)
-        {
-            int depthBits;
-            Platform.FormatElementType depthFormatType;
-            int stencilBits;
-            int totalBits;
-
-            Utility.Helpers.FormatHelper.GetExplicitDepthStencilFormatInfo((Platform.ExplicitFormat)dxgiFormat, 
-                out depthBits, out depthFormatType, out stencilBits, out totalBits);
-
-            return new CDepthStencilFormatInfo
-            {
-                ID = (int)dxgiFormat,
-                Description = dxgiFormat.ToString(),
-                ExplicitFormat = (Platform.ExplicitFormat)dxgiFormat,
-                DepthBits = depthBits,
-                DepthFormatType = depthFormatType,
-                StencilBits = stencilBits,
-                TotalBits = totalBits
-            };
-        }
-        #endregion*/
 
         #region ModeRoataion
         public static ModeRotation ModeRotation(SharpDX.DXGI.DisplayModeRotation dxgiModeRotation)
@@ -156,6 +132,13 @@ namespace Beholder.Libraries.SharpDX11
         public static DeviceContextType DeviceContextType(SharpDX.Direct3D11.DeviceContextType d3dDeviceContextType)
         {
             return (DeviceContextType)d3dDeviceContextType;
+        }
+        #endregion
+
+        #region MappedSubresource
+        public static MappedSubresource MappedSubresource(SharpDX.DataBox d3dDataBox)
+        {
+            return new MappedSubresource(d3dDataBox.DataPointer, d3dDataBox.RowPitch, d3dDataBox.SlicePitch);
         }
         #endregion
     }

@@ -59,33 +59,6 @@ namespace Beholder.Validation.Core
 
         public DeviceContextType ContextType { get { return Real.ContextType; } }
 
-        public void ClearRenderTargetView(IRenderTargetView renderTargetView, Color4 color)
-        {
-            Check.ExistingInternal(renderTargetView, "renderTargetView");
-            Real.ClearRenderTargetView(renderTargetView.GetReal(), color);
-        }
-
-        public void ClearDepthStencilView(IDepthStencilView depthStencilView, ClearDepthStencilFlags flags, float depth, byte stencil)
-        {
-            Check.ExistingInternal(depthStencilView, "depthStencilView");
-            Check.Flags(flags, "flags");
-            if (depth < 0.0f || depth > 1.0f)
-                throw new ArgumentException("Depth must be in the range from 0.0 to 1.0");
-            Real.ClearDepthStencilView(((DepthStencilView)depthStencilView).Real, flags, depth, stencil);
-        }
-
-        public void ClearUnorderedAccessView(IUnorderedAccessView unorderedAccessView, Vector4 value)
-        {
-            Check.ExistingInternal(unorderedAccessView, "unorderedAccessView");
-            Real.ClearUnorderedAccessView(unorderedAccessView.GetReal(), value);
-        }
-
-        public void ClearUnorderedAccessView(IUnorderedAccessView unorderedAccessView, IntVector4 value)
-        {
-            Check.ExistingInternal(unorderedAccessView, "unorderedAccessView");
-            Real.ClearUnorderedAccessView(unorderedAccessView.GetReal(), value);
-        }
-
         public IComputeShader ShaderForDispatching
         {
             get { return Real.ShaderForDispatching; }
@@ -99,41 +72,6 @@ namespace Beholder.Validation.Core
         public IDeviceContextComputeShaderStage ComputeStage
         {
             get { return computeStage; }
-        }
-
-        public void Dispatch(int threadGroupCountX, int threadGroupCountY, int threadGroupCountZ)
-        {
-            Check.Positive(threadGroupCountX, "threadGroupCountX");
-            if (threadGroupCountX > Real.Device.Adapter.Restrictions.MaxThreadGroupsX)
-                throw new ArgumentException(string.Format(
-                    "threadGroupCountX exceeds the maximum value ({0}) supported by the adapter with this implementation of Beholder", 
-                    Device.Adapter.Restrictions.MaxThreadGroupsX));
-            
-            Check.Positive(threadGroupCountY, "threadGroupCountY");
-            if (threadGroupCountY > Real.Device.Adapter.Restrictions.MaxThreadGroupsY)
-                throw new ArgumentException(string.Format(
-                    "threadGroupCountY exceeds the maximum value ({0}) supported by the adapter with this implementation of Beholder",
-                    Device.Adapter.Restrictions.MaxThreadGroupsY));
-
-            Check.Positive(threadGroupCountZ, "threadGroupCountZ");
-            if (threadGroupCountZ > Real.Device.Adapter.Restrictions.MaxThreadGroupsZ)
-                throw new ArgumentException(string.Format(
-                    "threadGroupCountZ exceeds the maximum value ({0}) supported by the adapter with this implementation of Beholder",
-                    Device.Adapter.Restrictions.MaxThreadGroupsZ));
-
-            if (threadGroupCountX * threadGroupCountY * threadGroupCountZ > Real.Device.Adapter.Restrictions.MaxThreadGroupsTotal)
-                throw new ArgumentException(string.Format(
-                    "Total number of thread groups exceeds the maximum value ({0}) supported by the adapter with this implementation of Beholder",
-                    Device.Adapter.Restrictions.MaxThreadGroupsTotal));
-
-            Real.Dispatch(threadGroupCountX, threadGroupCountY, threadGroupCountZ);
-        }
-
-        public void DispatchIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs)
-        {
-            Check.ExistingInternal(bufferForArgs, "bufferForArgs");
-            Check.NotNegative(alignedByteOffsetForArgs, "alignedByteOffsetForArgs");
-            Real.DispatchIndirect(bufferForArgs.GetReal(), alignedByteOffsetForArgs);
         }
 
         public IShaderCombination ShadersForDrawing
@@ -185,6 +123,128 @@ namespace Beholder.Validation.Core
         public IDeviceContextOutputMerger OutputMerger
         {
             get { return outputMerger; }
+        }
+
+        public void ClearRenderTargetView(IRenderTargetView renderTargetView, Color4 color)
+        {
+            Check.ExistingInternal(renderTargetView, "renderTargetView");
+            Real.ClearRenderTargetView(renderTargetView.GetReal(), color);
+        }
+
+        public void ClearDepthStencilView(IDepthStencilView depthStencilView, ClearDepthStencilFlags flags, float depth, byte stencil)
+        {
+            Check.ExistingInternal(depthStencilView, "depthStencilView");
+            Check.Flags(flags, "flags");
+            if (depth < 0.0f || depth > 1.0f)
+                throw new ArgumentException("Depth must be in the range from 0.0 to 1.0");
+            Real.ClearDepthStencilView(((DepthStencilView)depthStencilView).Real, flags, depth, stencil);
+        }
+
+        public void ClearUnorderedAccessView(IUnorderedAccessView unorderedAccessView, Vector4 value)
+        {
+            Check.ExistingInternal(unorderedAccessView, "unorderedAccessView");
+            Real.ClearUnorderedAccessView(unorderedAccessView.GetReal(), value);
+        }
+
+        public void ClearUnorderedAccessView(IUnorderedAccessView unorderedAccessView, IntVector4 value)
+        {
+            Check.ExistingInternal(unorderedAccessView, "unorderedAccessView");
+            Real.ClearUnorderedAccessView(unorderedAccessView.GetReal(), value);
+        }
+
+        public void CopyResource(IResource dstResource, IResource srcResource)
+        {
+            // todo: validate
+            Real.CopyResource(dstResource, srcResource);
+        }
+
+        public void CopySubresourceRegion(IResource dstResource, int dstSubresource, int dstX, int dstY, int dstZ, IResource srcResource, int srcSubresource, Box? srcBox)
+        {
+            // todo: validate
+            Real.CopySubresourceRegion(dstResource, dstSubresource, dstX, dstY, dstZ, srcResource, srcSubresource, srcBox);
+        }
+
+        public void GenerateMips(IShaderResourceView shaderResourceView)
+        {
+            Check.ExistingInternal(shaderResourceView, "shaderResourceView");
+            Real.GenerateMips(shaderResourceView.GetReal());
+        }
+
+        public MappedSubresource Map(IResource resource, int subresource, MapType mapType, MapFlags mapFlags)
+        {
+            // todo: validate
+            return Real.Map(resource, subresource, mapType, mapFlags);
+        }
+
+        public void SetSubresourceData(IResource resource, int subresourceIndex, SubresourceData data)
+        {
+            Check.ExistingInternal(resource, "resource");
+            switch (resource.Dimension)
+            {
+                case ResourceDimension.Buffer:
+                    if (subresourceIndex < 0)
+                        throw new ArgumentOutOfRangeException("subresourceIndex");
+                    break;
+                case ResourceDimension.Texture1D:
+                    var tex1D = (ITexture1D)resource;
+                    if (subresourceIndex >= tex1D.ArraySize * tex1D.MipLevels)
+                        throw new ArgumentOutOfRangeException("subresourceIndex");
+                    break;
+                case ResourceDimension.Texture2D:
+                    var tex2D = (ITexture2D)resource;
+                    if (subresourceIndex >= tex2D.ArraySize * tex2D.MipLevels)
+                        throw new ArgumentOutOfRangeException("subresourceIndex");
+                    break;
+                case ResourceDimension.Texture3D:
+                    var tex3D = (ITexture3D)resource;
+                    if (subresourceIndex >= tex3D.MipLevels)
+                        throw new ArgumentOutOfRangeException("subresourceIndex");
+                    break;
+            }
+            if (data.Pointer == IntPtr.Zero)
+                throw new ArgumentException("data.Pointer cannot be 0");
+            Real.SetSubresourceData(resource.GetReal(), subresourceIndex, data);
+        }
+
+        public void Unmap(IResource resource, int subresource)
+        {
+            // todo: validate
+            Real.Unmap(resource, subresource);
+        }
+
+        public void Dispatch(int threadGroupCountX, int threadGroupCountY, int threadGroupCountZ)
+        {
+            Check.Positive(threadGroupCountX, "threadGroupCountX");
+            if (threadGroupCountX > Real.Device.Adapter.Restrictions.MaxThreadGroupsX)
+                throw new ArgumentException(string.Format(
+                    "threadGroupCountX exceeds the maximum value ({0}) supported by the adapter with this implementation of Beholder",
+                    Device.Adapter.Restrictions.MaxThreadGroupsX));
+
+            Check.Positive(threadGroupCountY, "threadGroupCountY");
+            if (threadGroupCountY > Real.Device.Adapter.Restrictions.MaxThreadGroupsY)
+                throw new ArgumentException(string.Format(
+                    "threadGroupCountY exceeds the maximum value ({0}) supported by the adapter with this implementation of Beholder",
+                    Device.Adapter.Restrictions.MaxThreadGroupsY));
+
+            Check.Positive(threadGroupCountZ, "threadGroupCountZ");
+            if (threadGroupCountZ > Real.Device.Adapter.Restrictions.MaxThreadGroupsZ)
+                throw new ArgumentException(string.Format(
+                    "threadGroupCountZ exceeds the maximum value ({0}) supported by the adapter with this implementation of Beholder",
+                    Device.Adapter.Restrictions.MaxThreadGroupsZ));
+
+            if (threadGroupCountX * threadGroupCountY * threadGroupCountZ > Real.Device.Adapter.Restrictions.MaxThreadGroupsTotal)
+                throw new ArgumentException(string.Format(
+                    "Total number of thread groups exceeds the maximum value ({0}) supported by the adapter with this implementation of Beholder",
+                    Device.Adapter.Restrictions.MaxThreadGroupsTotal));
+
+            Real.Dispatch(threadGroupCountX, threadGroupCountY, threadGroupCountZ);
+        }
+
+        public void DispatchIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs)
+        {
+            Check.ExistingInternal(bufferForArgs, "bufferForArgs");
+            Check.NotNegative(alignedByteOffsetForArgs, "alignedByteOffsetForArgs");
+            Real.DispatchIndirect(bufferForArgs.GetReal(), alignedByteOffsetForArgs);
         }
 
         void ValidateDraw(bool indexed)
@@ -307,42 +367,6 @@ namespace Beholder.Validation.Core
             Check.NotNegative(alignedByteOffsetForArgs, "alignedByteOffsetForArgs");
             ValidateDraw(false);
             Real.DrawInstancedIndirect(bufferForArgs.GetReal(), alignedByteOffsetForArgs);
-        }
-
-        public void GenerateMips(IShaderResourceView shaderResourceView)
-        {
-            Check.ExistingInternal(shaderResourceView, "shaderResourceView");
-            Real.GenerateMips(shaderResourceView.GetReal());
-        }
-
-        public void SetSubresourceData(IResource resource, int subresourceIndex, SubresourceData data)
-        {
-            Check.ExistingInternal(resource, "resource");
-            switch (resource.Dimension)
-            {
-                case ResourceDimension.Buffer:
-                    if (subresourceIndex < 0)
-                        throw new ArgumentOutOfRangeException("subresourceIndex");
-                    break;
-                case ResourceDimension.Texture1D:
-                    var tex1D = (ITexture1D)resource;
-                    if (subresourceIndex >= tex1D.ArraySize * tex1D.MipLevels)
-                        throw new ArgumentOutOfRangeException("subresourceIndex");
-                    break;
-                case ResourceDimension.Texture2D:
-                    var tex2D = (ITexture2D)resource;
-                    if (subresourceIndex >= tex2D.ArraySize * tex2D.MipLevels)
-                        throw new ArgumentOutOfRangeException("subresourceIndex");
-                    break;
-                case ResourceDimension.Texture3D:
-                    var tex3D = (ITexture3D)resource;
-                    if (subresourceIndex >= tex3D.MipLevels)
-                        throw new ArgumentOutOfRangeException("subresourceIndex");
-                    break;
-            }
-            if (data.Pointer == IntPtr.Zero)
-                throw new ArgumentException("data.Pointer cannot be 0");
-            Real.SetSubresourceData(resource.GetReal(), subresourceIndex, data);
         }
 
         #endregion

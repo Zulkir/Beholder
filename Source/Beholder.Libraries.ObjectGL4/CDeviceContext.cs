@@ -115,6 +115,36 @@ namespace Beholder.Libraries.ObjectGL4
             throw new NotImplementedException();
         }
 
+        public override void CopyResource(IResource dstResource, IResource srcResource)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void CopySubresourceRegion(IResource dstResource, int dstSubresource, int dstX, int dstY, int dstZ, IResource srcResource, int srcSubresource, Box? srcBox)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void GenerateMips(IShaderResourceView shaderResourceView)
+        {
+            ((CShaderResourceView)shaderResourceView).GLTexture.GenerateMipmap(glContext);
+        }
+
+        public override MappedSubresource Map(IResource resource, int subresource, MapType mapType, MapFlags mapFlags)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void SetSubresourceData(IResource resource, int subresourceIndex, SubresourceData data)
+        {
+            ((ICResource)resource).SetSubresourceData(this, subresourceIndex, data);
+        }
+
+        public override void Unmap(IResource resource, int subresource)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Dispatch(int threadGroupCountX, int threadGroupCountY, int threadGroupCountZ)
         {
             throw new NotImplementedException();
@@ -486,16 +516,6 @@ namespace Beholder.Libraries.ObjectGL4
             var mode = GetBeginMode();
             glPipeline.DrawIndirectBuffer = ((CBuffer)bufferForArgs).GLBuffer;
             glContext.DrawArraysIndirect(mode, alignedByteOffsetForArgs);
-        }
-
-        public override void GenerateMips(IShaderResourceView shaderResourceView)
-        {
-            ((CShaderResourceView)shaderResourceView).GLTexture.GenerateMipmap(glContext);
-        }
-
-        public override void SetSubresourceData(IResource resource, int subresourceIndex, SubresourceData data)
-        {
-            ((ICResource)resource).SetSubresourceData(this, subresourceIndex, data);
         }
     }
 }
