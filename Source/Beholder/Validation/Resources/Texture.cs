@@ -52,6 +52,8 @@ namespace Beholder.Validation.Resources
             Check.Positive(arraySize, "ArraySize");
             Check.Positive(mipLevels, "MipLevels");
             // todo: check max values also
+            if (usage == Usage.Dynamic && mipLevels != 1)
+                throw new ArgumentException("Dynamic texture must have exactly 1 mip level");
             if (mipLevels > TextureHelper.MipLevels(width, height, depth))
                 throw new ArgumentException(string.Format(
                     "MipLevels value of {0} is greamter than the maximum for a {1}x{2}x{3} texture, which is is {4}",
