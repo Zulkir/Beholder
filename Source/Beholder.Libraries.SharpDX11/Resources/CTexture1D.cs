@@ -59,7 +59,7 @@ namespace Beholder.Libraries.SharpDX11.Resources
                 Format = (Format)desc.FormatID,
                 Usage = CtSharpDX11.ResourceUsage(desc.Usage),
                 BindFlags = CtSharpDX11.BindFlags(desc.BindFlags),
-                CpuAccessFlags = (desc.Usage & Usage.Dynamic) != 0 ? CpuAccessFlags.Write : CpuAccessFlags.None,
+                CpuAccessFlags = CtSharpDX11.CpuAccessFlags(desc.Usage),
                 OptionFlags = CtSharpDX11.ResourceOptionFlags(desc.MiscFlags)
             };
 

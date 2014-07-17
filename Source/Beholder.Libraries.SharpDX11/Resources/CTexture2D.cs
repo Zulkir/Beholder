@@ -29,7 +29,6 @@ using Beholder.Utility.Helpers;
 using SharpDX;
 using SharpDX.DXGI;
 using SharpDX.Direct3D11;
-using CpuAccessFlags = SharpDX.Direct3D11.CpuAccessFlags;
 using DepthStencilViewDescription = Beholder.Resources.DepthStencilViewDescription;
 using MapFlags = SharpDX.Direct3D11.MapFlags;
 using RenderTargetViewDescription = Beholder.Resources.RenderTargetViewDescription;
@@ -61,7 +60,7 @@ namespace Beholder.Libraries.SharpDX11.Resources
                 SampleDescription = CtSharpDX11.SampleDescription(desc.Sampling),
                 Usage = CtSharpDX11.ResourceUsage(desc.Usage),
                 BindFlags = CtSharpDX11.BindFlags(desc.BindFlags),
-                CpuAccessFlags = (desc.Usage & Usage.Dynamic) != 0 ? CpuAccessFlags.Write : CpuAccessFlags.None,
+                CpuAccessFlags = CtSharpDX11.CpuAccessFlags(desc.Usage),
                 OptionFlags = CtSharpDX11.ResourceOptionFlags(desc.MiscFlags)
             };
 
