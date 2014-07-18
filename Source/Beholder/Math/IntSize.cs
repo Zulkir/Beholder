@@ -26,7 +26,7 @@ using System.Runtime.InteropServices;
 namespace Beholder.Math
 {
     [Serializable]
-    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct IntSize : IEquatable<IntSize>
     {
         public int Width;
@@ -53,7 +53,7 @@ namespace Beholder.Math
 
         public override int GetHashCode()
         {
-            return Width + Height << 16;
+            return Width | (Height << 16);
         }
 
         public override string ToString()
@@ -65,11 +65,22 @@ namespace Beholder.Math
                 "; }";
         }
 
-        public static bool Equals(ref IntSize size1, ref IntSize size2)
+        public static bool Equals(ref IntSize s1, ref IntSize s2)
         {
-            return
-                size1.Width == size2.Width &&
-                size1.Height == size2.Height;
+            return s1.Width == s2.Width &&
+                   s1.Height == s2.Height;
+        }
+
+        public static bool operator ==(IntSize s1, IntSize s2)
+        {
+            return s1.Width == s2.Width &&
+                   s1.Height == s2.Height;
+        }
+
+        public static bool operator !=(IntSize s1, IntSize s2)
+        {
+            return s1.Width != s2.Width ||
+                   s1.Height != s2.Height;
         }
     }
 }

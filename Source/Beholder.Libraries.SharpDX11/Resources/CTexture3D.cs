@@ -29,7 +29,6 @@ using Beholder.Utility.Helpers;
 using SharpDX;
 using SharpDX.DXGI;
 using SharpDX.Direct3D11;
-using CpuAccessFlags = SharpDX.Direct3D11.CpuAccessFlags;
 using MapFlags = SharpDX.Direct3D11.MapFlags;
 using RenderTargetViewDescription = Beholder.Resources.RenderTargetViewDescription;
 using Resource = SharpDX.Direct3D11.Resource;
