@@ -22,8 +22,11 @@ THE SOFTWARE.
 
 using System;
 using System.IO;
+using System.Text;
 using Beholder.Shaders;
+using Beholder.Shaders.Reflection;
 using Beholder.Utility.ForImplementations;
+using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;
 
 namespace Beholder.Libraries.SharpDX11.Shaders
@@ -34,15 +37,51 @@ namespace Beholder.Libraries.SharpDX11.Shaders
         public ComputeShader D3DComputeShader { get; private set; }
         public ComputeShaderProfile Profile { get; private set; }
 
+        public int ThreadCountX { get; private set; }
+        public int ThreadCountY { get; private set; }
+        public int ThreadCountZ { get; private set; }
+
         public CComputeShader(ICDevice device, CShaderReflection reflection) 
             : base(device, reflection)
         {
-            throw new NotImplementedException();
+            Profile = ParseProfile(reflection.Profile);
+            ThreadCountX = reflection.GetThreadCountX();
+            ThreadCountY = reflection.GetThreadCountY();
+            ThreadCountZ = reflection.GetThreadCountZ();
+
+            var text = GenerateText<CComputeShader>(WriteIOAndCode);
+            CompilationResult bytecode;
+            try
+            {
+                bytecode = ShaderBytecode.Compile(text, "main", ProfileToString(Profile),
+                    ShaderFlags.PackMatrixColumnMajor | ShaderFlags.OptimizationLevel3, EffectFlags.None, Name);
+            }
+            catch (Exception e)
+            {
+                throw new ArgumentException(string.Format("Failed to compile a compute shader '{0}'\r\n--- Code ---\r\n{1}\r\n--- Errors ---\r\n{2}", Name, text, e.Message), e);
+            }
+            D3DComputeShader = new ComputeShader(device.D3DDevice, bytecode);
         }
 
         public void DisposeInternal()
         {
             D3DComputeShader.Dispose();
+        }
+
+        static void WriteIOAndCode(StringBuilder builder, CComputeShader shader)
+        {
+            var reflection = shader.Reflection;
+            WriteCodeLines(builder, reflection.CodeGlobalLines);
+            builder.AppendLine();
+
+            builder.AppendLine("#define INPUT(X) bs_input.##X");
+            WriteIOStructure(builder, reflection.Input, "BS_Input");
+
+            builder.AppendLine(string.Format("[numthreads({0}, {1}, {2})]", shader.ThreadCountX, shader.ThreadCountY, shader.ThreadCountZ));
+            builder.AppendLine("void main(BS_Input bs_input)");
+            builder.AppendLine("{");
+            WriteCodeLines(builder, reflection.CodeMainLines);
+            builder.AppendLine("}");
         }
 
         public static ComputeShaderProfile ParseProfile(string profileString)

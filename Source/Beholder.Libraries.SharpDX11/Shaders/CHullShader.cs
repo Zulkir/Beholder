@@ -66,7 +66,7 @@ namespace Beholder.Libraries.SharpDX11.Shaders
             }
             catch (Exception e)
             {
-                throw new ArgumentException(string.Format("Failed to compile a geometry shader '{0}'\r\n--- Code ---\r\n{1}\r\n--- Errors ---\r\n{2}", Name, text, e.Message), e);
+                throw new ArgumentException(string.Format("Failed to compile a hull shader '{0}'\r\n--- Code ---\r\n{1}\r\n--- Errors ---\r\n{2}", Name, text, e.Message), e);
             }
             D3DHullShader = new HullShader(device.D3DDevice, bytecode);
         }

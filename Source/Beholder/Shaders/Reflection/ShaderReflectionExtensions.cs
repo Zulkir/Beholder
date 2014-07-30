@@ -135,5 +135,20 @@ namespace Beholder.Shaders.Reflection
         {
             return GetRequiredMetaFloat(reflection, "MaxTessFactor");
         }
+
+        public static int GetThreadCountX(this IShaderReflection reflection)
+        {
+            return GetRequiredMetaInt(reflection, "ThreadCountX");
+        }
+
+        public static int GetThreadCountY(this IShaderReflection reflection)
+        {
+            return GetRequiredMetaInt(reflection, "ThreadCountY");
+        }
+
+        public static int GetThreadCountZ(this IShaderReflection reflection)
+        {
+            return GetRequiredMetaInt(reflection, "ThreadCountZ");
+        }
     }
 }
