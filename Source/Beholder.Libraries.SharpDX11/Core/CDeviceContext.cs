@@ -57,7 +57,7 @@ namespace Beholder.Libraries.SharpDX11.Core
         readonly Dictionary<int, StreamOutputBufferBinding[]> streamOutputBufferArrays;
         readonly Dictionary<int, RenderTargetView[]> renderTargetArrays;
         readonly Dictionary<int, UnorderedAccessView[]> unorderedAccessViewArrays;
-        readonly Dictionary<int, int[]> initialCountArrays; 
+        readonly Dictionary<int, int[]> initialCountArrays;
 
         public CDeviceContext(ICDevice device, DeviceContext d3dDeviceContext) : base(device)
         {
@@ -109,7 +109,7 @@ namespace Beholder.Libraries.SharpDX11.Core
             d3dDeviceContext.CopyResource(((ICResource)srcResource).D3DResource, ((ICResource)dstResource).D3DResource);
         }
 
-        public override unsafe void CopySubresourceRegion(IResource dstResource, int dstSubresource, int dstX, int dstY, int dstZ, IResource srcResource, int srcSubresource, Box? srcBox)
+        public override void CopySubresourceRegion(IResource dstResource, int dstSubresource, int dstX, int dstY, int dstZ, IResource srcResource, int srcSubresource, Box? srcBox)
         {
             var sourceRegion = srcBox.HasValue ? CtSharpDX11.ResourceRegion(srcBox.Value) : (ResourceRegion?)null;
             d3dDeviceContext.CopySubresourceRegion(((ICResource)srcResource).D3DResource, srcSubresource, sourceRegion, ((ICResource)dstResource).D3DResource, dstSubresource, dstX, dstY, dstZ);
@@ -153,37 +153,14 @@ namespace Beholder.Libraries.SharpDX11.Core
 
         void PreDispatch()
         {
-            if (ShaderForDispatching.IsDirty)
-            {
-                d3dDeviceContext.ComputeShader.Set(((CComputeShader)ShaderForDispatching.Value).D3DComputeShader);
-                ShaderForDispatching.Clean();
-            }
+            VertexStage.ShaderResources.MarkAsDirty();
+            HullStage.ShaderResources.MarkAsDirty();
+            DomainStage.ShaderResources.MarkAsDirty();
+            GeometryStage.ShaderResources.MarkAsDirty();
+            PixelStage.ShaderResources.MarkAsDirty();
 
-            ConsumeShaderStage(d3dDeviceContext.ComputeShader, ComputeStage);
-            if (ComputeStage.UnorderedAccessResources.IsDirty || ComputeStage.InitialCountChangedIndices.Count != 0)
-            {
-                foreach (var indexViewCount in ComputeStage.GetChangedIndexViewCountTuples())
-                {
-                    d3dDeviceContext.ComputeShader.SetUnorderedAccessView(
-                        indexViewCount.First,
-                        indexViewCount.Second.NullOrFunc(v => ((CUnorderedAccessView)v).D3DUnorderedAccessView),
-                        indexViewCount.Third);
-                }
-                ComputeStage.UnorderedAccessResources.Clean();
-                ComputeStage.InitialCountChangedIndices.Clear();
-            }
-        }
-
-        public override void Dispatch(int threadGroupCountX, int threadGroupCountY, int threadGroupCountZ)
-        {
-            PreDispatch();
-            d3dDeviceContext.Dispatch(threadGroupCountX, threadGroupCountY, threadGroupCountZ);
-        }
-
-        public override void DispatchIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs)
-        {
-            PreDispatch();
-            d3dDeviceContext.DispatchIndirect(((CBuffer)bufferForArgs).D3DBuffer, alignedByteOffsetForArgs);
+            ConsumeOutputMerger();
+            ConsumeShadersForDispatching();
         }
 
         void PreDraw()
@@ -192,6 +169,7 @@ namespace Beholder.Libraries.SharpDX11.Core
             ConsumeStreamOutput();
             ConsumeRasterizer();
             ConsumeOutputMerger();
+            ConsumeShadersForDispatching();
             ConsumeShadersForDrawing();
         }
 
@@ -200,22 +178,33 @@ namespace Beholder.Libraries.SharpDX11.Core
             if (ShadersForDrawing.IsDirty)
             {
                 var shaders = ((CShaderCombination)ShadersForDrawing.Value);
-                d3dDeviceContext.VertexShader.Set(shaders.D3DVertexShader);
-                d3dDeviceContext.HullShader.Set(shaders.D3DHullShader);
-                d3dDeviceContext.DomainShader.Set(shaders.D3DDomainShader);
-                d3dDeviceContext.GeometryShader.Set(shaders.D3DGeometryShader);
-                d3dDeviceContext.PixelShader.Set(shaders.D3DPixelShader);
+                d3dDeviceContext.VertexShader.Set(shaders.NullOrFunc(x => x.D3DVertexShader));
+                d3dDeviceContext.HullShader.Set(shaders.NullOrFunc(x => x.D3DHullShader));
+                d3dDeviceContext.DomainShader.Set(shaders.NullOrFunc(x => x.D3DDomainShader));
+                d3dDeviceContext.GeometryShader.Set(shaders.NullOrFunc(x => x.D3DGeometryShader));
+                d3dDeviceContext.PixelShader.Set(shaders.NullOrFunc(x => x.D3DPixelShader));
                 ShadersForDrawing.Clean();
             }
 
-            ConsumeShaderStage(d3dDeviceContext.VertexShader, VertexStage);
-            ConsumeShaderStage(d3dDeviceContext.HullShader, HullStage);
-            ConsumeShaderStage(d3dDeviceContext.DomainShader, DomainStage);
-            ConsumeShaderStage(d3dDeviceContext.GeometryShader, GeometryStage);
-            ConsumeShaderStage(d3dDeviceContext.PixelShader, PixelStage);
+            ConsumeCommonShaderStage(d3dDeviceContext.VertexShader, VertexStage);
+            ConsumeCommonShaderStage(d3dDeviceContext.HullShader, HullStage);
+            ConsumeCommonShaderStage(d3dDeviceContext.DomainShader, DomainStage);
+            ConsumeCommonShaderStage(d3dDeviceContext.GeometryShader, GeometryStage);
+            ConsumeCommonShaderStage(d3dDeviceContext.PixelShader, PixelStage);
         }
 
-        void ConsumeShaderStage(CommonShaderStage d3dStage, DeviceContextBaseShaderStage bStage)
+        void ConsumeShadersForDispatching()
+        {
+            if (ShaderForDispatching.IsDirty)
+            {
+                d3dDeviceContext.ComputeShader.Set(((CComputeShader)ShaderForDispatching.Value).NullOrFunc(x => x.D3DComputeShader));
+                ShaderForDispatching.Clean();
+            }
+
+            ConsumeComputeShaderStage(d3dDeviceContext.ComputeShader, ComputeStage);
+        }
+
+        void ConsumeCommonShaderStage(CommonShaderStage d3dStage, DeviceContextBaseShaderStage bStage)
         {
             foreach (var dirtyIndex in bStage.UniformBuffers.DirtyIndices)
                 d3dStage.SetConstantBuffer(dirtyIndex, bStage.UniformBuffers[dirtyIndex].NullOrFunc(b => ((CBuffer)b).D3DBuffer));
@@ -228,6 +217,26 @@ namespace Beholder.Libraries.SharpDX11.Core
             foreach (var dirtyIndex in bStage.ShaderResources.DirtyIndices)
                 d3dStage.SetShaderResource(dirtyIndex, bStage.ShaderResources[dirtyIndex].NullOrFunc(r => ((CShaderResourceView)r).D3DShaderResourceView));
             bStage.ShaderResources.Clean();
+        }
+
+        void ConsumeShaderStageUavs(ComputeShaderStage d3dStage, DeviceContextBaseComputeShaderStage bStage)
+        {
+            if (bStage.UnorderedAccessResources.IsDirty || bStage.InitialCountChangedIndices.Count != 0)
+            {
+                foreach (var indexViewCount in ComputeStage.GetChangedIndexViewCountTuples())
+                    d3dStage.SetUnorderedAccessView(
+                        indexViewCount.First,
+                        indexViewCount.Second.NullOrFunc(v => ((CUnorderedAccessView)v).D3DUnorderedAccessView),
+                        indexViewCount.Third);
+                bStage.UnorderedAccessResources.Clean();
+                bStage.InitialCountChangedIndices.Clear();
+            }
+        }
+
+        void ConsumeComputeShaderStage(ComputeShaderStage d3dStage, DeviceContextBaseComputeShaderStage bStage)
+        {
+            ConsumeCommonShaderStage(d3dStage, bStage);
+            ConsumeShaderStageUavs(d3dStage, bStage);
         }
 
         void ConsumeInputAssembler()
@@ -248,7 +257,7 @@ namespace Beholder.Libraries.SharpDX11.Core
 
             if (InputAssembler.VertexLayout.IsDirty)
             {
-                d3dDeviceContext.InputAssembler.InputLayout = ((CVertexLayout)InputAssembler.VertexLayout.Value).D3DInputLayout;
+                d3dDeviceContext.InputAssembler.InputLayout = InputAssembler.VertexLayout.Value.NullOrFunc(x => ((CVertexLayout)x).D3DInputLayout);
                 InputAssembler.VertexLayout.Clean();
             }
 
@@ -353,6 +362,18 @@ namespace Beholder.Libraries.SharpDX11.Core
                 d3dDeviceContext.OutputMerger.SetDepthStencilState(((CDepthStencilState)OutputMerger.DepthStencilState.Value ?? defaultDepthStencilState).D3DDepthStencilState, OutputMerger.StencilReference.Value);
                 OutputMerger.DepthStencilState.Clean();
             }
+        }
+
+        public override void Dispatch(int threadGroupCountX, int threadGroupCountY, int threadGroupCountZ)
+        {
+            PreDispatch();
+            d3dDeviceContext.Dispatch(threadGroupCountX, threadGroupCountY, threadGroupCountZ);
+        }
+
+        public override void DispatchIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs)
+        {
+            PreDispatch();
+            d3dDeviceContext.DispatchIndirect(((CBuffer)bufferForArgs).D3DBuffer, alignedByteOffsetForArgs);
         }
 
         public override void Draw(int vertexCount, int startVertexLocation)
