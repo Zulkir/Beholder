@@ -212,6 +212,12 @@ namespace Beholder.Validation.Core
             Real.Unmap(resource, subresource);
         }
 
+        public void ConsumeDispatchPipeline()
+        {
+            // todo: validate
+            Real.ConsumeDispatchPipeline();
+        }
+
         public void Dispatch(int threadGroupCountX, int threadGroupCountY, int threadGroupCountZ)
         {
             Check.Positive(threadGroupCountX, "threadGroupCountX");
@@ -245,6 +251,12 @@ namespace Beholder.Validation.Core
             Check.ExistingInternal(bufferForArgs, "bufferForArgs");
             Check.NotNegative(alignedByteOffsetForArgs, "alignedByteOffsetForArgs");
             Real.DispatchIndirect(bufferForArgs.GetReal(), alignedByteOffsetForArgs);
+        }
+
+        public void ConsumeDrawPipeline()
+        {
+            // todo: validate
+            Real.ConsumeDrawPipeline();
         }
 
         void ValidateDraw(bool indexed)

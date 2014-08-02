@@ -145,6 +145,11 @@ namespace Beholder.Libraries.ObjectGL4
             throw new NotImplementedException();
         }
 
+        public override void ConsumeDispatchPipeline()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Dispatch(int threadGroupCountX, int threadGroupCountY, int threadGroupCountZ)
         {
             throw new NotImplementedException();
@@ -155,7 +160,7 @@ namespace Beholder.Libraries.ObjectGL4
             throw new NotImplementedException();
         }
 
-        void PreDraw()
+        public override void ConsumeDrawPipeline()
         {
             glPipeline.VertexArray = glVertexArray;
             glPipeline.Framebuffer = glFramebufferForDrawing;
@@ -450,7 +455,7 @@ namespace Beholder.Libraries.ObjectGL4
 
         public override void Draw(int vertexCount, int startVertexLocation)
         {
-            PreDraw();
+            ConsumeDrawPipeline();
             var mode = GetBeginMode();
             glContext.DrawArrays(mode,startVertexLocation, vertexCount);
         }
@@ -462,7 +467,7 @@ namespace Beholder.Libraries.ObjectGL4
 
         public override void DrawIndexed(int indexCount, int startIndexLocation, int baseVertexLocation)
         {
-            PreDraw();
+            ConsumeDrawPipeline();
             var mode = GetBeginMode();
             var indexType = GetDrawElementsType();
 
@@ -474,7 +479,7 @@ namespace Beholder.Libraries.ObjectGL4
 
         public override void DrawIndexedInstanced(int indexCountPerInstance, int instanceCount, int startIndexLocation, int baseVertexLocation, int startInstanceLocation)
         {
-            PreDraw();
+            ConsumeDrawPipeline();
             var mode = GetBeginMode();
             var indexType = GetDrawElementsType();
 
@@ -492,7 +497,7 @@ namespace Beholder.Libraries.ObjectGL4
 
         public override void DrawIndexedInstancedIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs)
         {
-            PreDraw();
+            ConsumeDrawPipeline();
             var mode = GetBeginMode();
             var indexType = GetDrawElementsType();
             glPipeline.DrawIndirectBuffer = ((CBuffer)bufferForArgs).GLBuffer;
@@ -501,7 +506,7 @@ namespace Beholder.Libraries.ObjectGL4
 
         public override void DrawInstanced(int vertexCountPerInstance, int instanceCount, int startVertexLocation, int startInstanceLocation)
         {
-            PreDraw();
+            ConsumeDrawPipeline();
             var mode = GetBeginMode();
 
             if (startInstanceLocation == 0)
@@ -512,7 +517,7 @@ namespace Beholder.Libraries.ObjectGL4
 
         public override void DrawInstancedIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs)
         {
-            PreDraw();
+            ConsumeDrawPipeline();
             var mode = GetBeginMode();
             glPipeline.DrawIndirectBuffer = ((CBuffer)bufferForArgs).GLBuffer;
             glContext.DrawArraysIndirect(mode, alignedByteOffsetForArgs);

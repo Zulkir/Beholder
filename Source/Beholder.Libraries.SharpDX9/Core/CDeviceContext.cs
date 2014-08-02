@@ -183,6 +183,11 @@ namespace Beholder.Libraries.SharpDX9.Core
             throw new NotImplementedException();
         }
 
+        public override void ConsumeDispatchPipeline()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Dispatch(int threadGroupCountX, int threadGroupCountY, int threadGroupCountZ)
         {
             throw new NotSupportedException("Dispatch pipeline is not supported by D3D9");
@@ -193,7 +198,7 @@ namespace Beholder.Libraries.SharpDX9.Core
             throw new NotSupportedException("Dispatch pipeline is not supported by D3D9");
         }
 
-        void PreDraw()
+        public override void ConsumeDrawPipeline()
         {
             ConsumeInputAssembler();
             ConsumeRasterizer();
@@ -377,7 +382,7 @@ namespace Beholder.Libraries.SharpDX9.Core
 
         public override void Draw(int vertexCount, int startVertexLocation)
         {
-            PreDraw();
+            ConsumeDrawPipeline();
             var d3dPrimitiveType = CtSharpDX9.PrimitiveType(InputAssembler.PrimitiveTopology.Value);
             d3dDevice.DrawPrimitives(d3dPrimitiveType, startVertexLocation, CtSharpDX9.PrimitiveCount(d3dPrimitiveType, vertexCount));
         }
@@ -389,7 +394,7 @@ namespace Beholder.Libraries.SharpDX9.Core
 
         public override void DrawIndexed(int indexCount, int startIndexLocation, int baseVertexLocation)
         {
-            PreDraw();
+            ConsumeDrawPipeline();
             var d3dPrimitiveType = CtSharpDX9.PrimitiveType(InputAssembler.PrimitiveTopology.Value);
             var cIndexBuffer = ((CBufferIndex)InputAssembler.IndexSource.Value.Buffer);
             int minVertexIndex = cIndexBuffer.GetMinVrtexIndex();

@@ -151,7 +151,7 @@ namespace Beholder.Libraries.SharpDX11.Core
             d3dDeviceContext.UnmapSubresource(d3dResource, subresourceIndex);
         }
 
-        void PreDispatch()
+        public override void ConsumeDispatchPipeline()
         {
             VertexStage.ShaderResources.MarkAsDirty();
             HullStage.ShaderResources.MarkAsDirty();
@@ -163,7 +163,7 @@ namespace Beholder.Libraries.SharpDX11.Core
             ConsumeShadersForDispatching();
         }
 
-        void PreDraw()
+        public override void ConsumeDrawPipeline()
         {
             ConsumeInputAssembler();
             ConsumeStreamOutput();
@@ -366,55 +366,55 @@ namespace Beholder.Libraries.SharpDX11.Core
 
         public override void Dispatch(int threadGroupCountX, int threadGroupCountY, int threadGroupCountZ)
         {
-            PreDispatch();
+            ConsumeDispatchPipeline();
             d3dDeviceContext.Dispatch(threadGroupCountX, threadGroupCountY, threadGroupCountZ);
         }
 
         public override void DispatchIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs)
         {
-            PreDispatch();
+            ConsumeDispatchPipeline();
             d3dDeviceContext.DispatchIndirect(((CBuffer)bufferForArgs).D3DBuffer, alignedByteOffsetForArgs);
         }
 
         public override void Draw(int vertexCount, int startVertexLocation)
         {
-            PreDraw();
+            ConsumeDrawPipeline();
             d3dDeviceContext.Draw(vertexCount, startVertexLocation);
         }
 
         public override void DrawAuto()
         {
-            PreDraw();
+            ConsumeDrawPipeline();
             d3dDeviceContext.DrawAuto();
         }
 
         public override void DrawIndexed(int indexCount, int startIndexLocation, int baseVertexLocation)
         {
-            PreDraw();
+            ConsumeDrawPipeline();
             d3dDeviceContext.DrawIndexed(indexCount, startIndexLocation, baseVertexLocation);
         }
 
         public override void DrawIndexedInstanced(int indexCountPerInstance, int instanceCount, int startIndexLocation, int baseVertexLocation, int startInstanceLocation)
         {
-            PreDraw();
+            ConsumeDrawPipeline();
             d3dDeviceContext.DrawIndexedInstanced(indexCountPerInstance, instanceCount, startIndexLocation, baseVertexLocation, startInstanceLocation);
         }
 
         public override void DrawIndexedInstancedIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs)
         {
-            PreDraw();
+            ConsumeDrawPipeline();
             d3dDeviceContext.DrawIndexedInstancedIndirect(((CBuffer)bufferForArgs).D3DBuffer, alignedByteOffsetForArgs);
         }
 
         public override void DrawInstanced(int vertexCountPerInstance, int instanceCount, int startVertexLocation, int startInstanceLocation)
         {
-            PreDraw();
+            ConsumeDrawPipeline();
             d3dDeviceContext.DrawInstanced(vertexCountPerInstance, instanceCount, startVertexLocation, startInstanceLocation);
         }
 
         public override void DrawInstancedIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs)
         {
-            PreDraw();
+            ConsumeDrawPipeline();
             d3dDeviceContext.DrawInstancedIndirect(((CBuffer)bufferForArgs).D3DBuffer, alignedByteOffsetForArgs);
         }
     }

@@ -59,7 +59,7 @@ namespace Beholder.Utility.ForImplementations.Core
         public abstract MappedSubresource Map(IResource resource, int subresource, MapType mapType, MapFlags mapFlags);
         public abstract void SetSubresourceData(IResource resource, int subresourceIndex, SubresourceData data);
         public abstract void Unmap(IResource resource, int subresource);
-
+        
         readonly DirtyProperty<IComputeShader> shaderForDispatching;
         readonly DeviceContextBaseComputeShaderStage computeStage;
         readonly DirtyProperty<IShaderCombination> shadersForDrawing;
@@ -99,9 +99,11 @@ namespace Beholder.Utility.ForImplementations.Core
         IDeviceContextShaderStage IDeviceContext.PixelStage { get { return pixelStage; } }
         IDeviceContextOutputMerger IDeviceContext.OutputMerger { get { return outputMerger; } }
 
+        public abstract void ConsumeDispatchPipeline();
         public abstract void Dispatch(int threadGroupCountX, int threadGroupCountY, int threadGroupCountZ);
         public abstract void DispatchIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs);
-
+        
+        public abstract void ConsumeDrawPipeline();
         public abstract void Draw(int vertexCount, int startVertexLocation);
         public abstract void DrawAuto();
         public abstract void DrawIndexed(int indexCount, int startIndexLocation, int baseVertexLocation);

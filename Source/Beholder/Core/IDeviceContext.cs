@@ -59,9 +59,11 @@ namespace Beholder.Core
         void SetSubresourceData(IResource resource, int subresourceIndex, SubresourceData data);
         void Unmap(IResource resource, int subresource);
 
+        void ConsumeDispatchPipeline();
         void Dispatch(int threadGroupCountX, int threadGroupCountY, int threadGroupCountZ);
         void DispatchIndirect(IBuffer bufferForArgs, int alignedByteOffsetForArgs);
 
+        void ConsumeDrawPipeline();
         void Draw(int vertexCount, int startVertexLocation);
         void DrawAuto();
         void DrawIndexed(int indexCount, int startIndexLocation, int baseVertexLocation);
