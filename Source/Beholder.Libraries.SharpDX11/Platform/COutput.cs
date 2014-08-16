@@ -34,6 +34,7 @@ namespace Beholder.Libraries.SharpDX11.Platform
         readonly Output dxgiOutput;
         readonly OutputDescription desc;
 
+        public Output DXGIOutput { get { return dxgiOutput; } }
         public void GetDescription(out OutputDescription description) { description = desc; }
 
         internal COutput(Output dxgiOutput)
