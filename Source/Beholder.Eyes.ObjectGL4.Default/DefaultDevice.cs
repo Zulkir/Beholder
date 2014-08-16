@@ -31,7 +31,7 @@ using OpenTK;
 
 namespace Beholder.Eyes.ObjectGL4.Default
 {
-    class DefaultDevice : ICDevice, IDisposable
+    public class DefaultDevice : ICDevice, IDisposable
     {
         readonly DefaultEye eye;
         readonly CAdapter adapter;

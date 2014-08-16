@@ -40,7 +40,7 @@ using BDisplayMode = Beholder.Platform.DisplayMode;
 
 namespace Beholder.Eyes.SharpDX9.Winforms
 {
-    class WinformsDevice : ICDevice, IPrimarySwapChain, IDisposable
+    public class WinformsDevice : ICDevice, IPrimarySwapChain, IDisposable
     {
         readonly WinformsEye eye;
         readonly CAdapter adapter;

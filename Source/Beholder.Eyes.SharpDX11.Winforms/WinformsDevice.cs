@@ -35,7 +35,7 @@ using SwapChainDescription = Beholder.Platform.SwapChainDescription;
 
 namespace Beholder.Eyes.SharpDX11.Winforms
 {
-    class WinformsDevice : ICDevice, IDisposable
+    public class WinformsDevice : ICDevice, IDisposable
     {
         readonly Factory1 dxgiFactory;
         readonly Device d3dDevice;

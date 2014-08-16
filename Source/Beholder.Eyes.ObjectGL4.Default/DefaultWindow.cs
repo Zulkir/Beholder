@@ -31,7 +31,7 @@ using OpenTK.Graphics;
 
 namespace Beholder.Eyes.ObjectGL4.Default
 {
-    class DefaultWindow : GameWindow, IPrimarySwapChain, IWindow, IInputHandler
+    public class DefaultWindow : GameWindow, IPrimarySwapChain, IWindow, IInputHandler
     {
         readonly Context glContext;
 
