@@ -22,7 +22,6 @@ THE SOFTWARE.
 
 using System;
 using Beholder.Libraries.SharpDX11.Core;
-using Beholder.Platform;
 using Beholder.Resources;
 using Beholder.Utility.ForImplementations.Resources;
 using Beholder.Utility.Helpers;
@@ -74,7 +73,8 @@ namespace Beholder.Libraries.SharpDX11.Resources
                 for (int i = 0; i < boxes.Length; i++)
                 {
                     int rowPitch, slicePitch, totalSize;
-                    LocalHelpers.GetTextureDataSettingParameters((Format)desc.FormatID, desc.Width, desc.Height, desc.Depth,
+                    LocalHelpers.GetTextureDataSettingParameters((Format)desc.FormatID,
+                        TextureHelper.MipSize(i, desc.Width), TextureHelper.MipSize(i, desc.Height), TextureHelper.MipSize(i, desc.Depth),
                         initialData[0].RowByteAlignment, out rowPitch, out slicePitch, out totalSize);
                     boxes[i] = new DataBox(initialData[i].Pointer, rowPitch, slicePitch);
                 }
@@ -167,24 +167,5 @@ namespace Beholder.Libraries.SharpDX11.Resources
         protected override IShaderResourceView CreateSrv(ref ShaderResourceViewDescription viewDescription) { return new CShaderResourceView(this, ref viewDescription); }
         protected override IUnorderedAccessView CreateUav(ref UnorderedAccessViewDescription viewDescription) { return new CUnorderedAccessView(this, ref viewDescription); }
         #endregion
-
-        public static CTexture3D FromFile(ICDevice device, IFileSystem fileSystem, string fileName, Action<CTexture3D> onRelease)
-        {
-            var d3dTexture3D = Resource.FromMemory<Texture3D>(device.D3DDevice, fileSystem.ReadBinary(fileName));
-            var d3dDesc = d3dTexture3D.Description;
-            var bDesc = new Texture3DDescription
-            {
-                Width = d3dDesc.Width,
-                Height = d3dDesc.Height,
-                Depth = d3dDesc.Depth,
-                MipLevels = d3dDesc.MipLevels,
-                FormatID = (int)d3dDesc.Format,
-                Usage = CtBeholder.Usage(d3dDesc.Usage),
-                BindFlags = CtBeholder.BindFlags(d3dDesc.BindFlags),
-                MiscFlags = CtBeholder.MiscFlags(d3dDesc.OptionFlags),
-                ExtraFlags = ExtraFlags.None
-            };
-            return new CTexture3D(device, d3dTexture3D, ref bDesc, onRelease);
-        }
     }
 }

@@ -35,7 +35,6 @@ using Color4 = Beholder.Math.Color4;
 using DeviceContextType = Beholder.Core.DeviceContextType;
 using Rectangle = SharpDX.Rectangle;
 using Vector4 = Beholder.Math.Vector4;
-using Viewport = SharpDX.Direct3D11.Viewport;
 using Beholder.Utility.Extensions;
 using BMapFlags = Beholder.Resources.MapFlags;
 using SMapFlags = SharpDX.Direct3D11.MapFlags;
@@ -53,7 +52,7 @@ namespace Beholder.Libraries.SharpDX11.Core
         readonly CSamplerState defaultSamplerState;
 
         readonly Dictionary<int, Rectangle[]> scissorRectangleArrays;
-        readonly Dictionary<int, Viewport[]> viewportArrays;
+        readonly Dictionary<int, ViewportF[]> viewportArrays;
         readonly Dictionary<int, StreamOutputBufferBinding[]> streamOutputBufferArrays;
         readonly Dictionary<int, RenderTargetView[]> renderTargetArrays;
         readonly Dictionary<int, UnorderedAccessView[]> unorderedAccessViewArrays;
@@ -70,7 +69,7 @@ namespace Beholder.Libraries.SharpDX11.Core
             defaultSamplerState = (CSamplerState)device.Create.SamplerState(SamplerDescription.Default);
 
             scissorRectangleArrays = new Dictionary<int, Rectangle[]>();
-            viewportArrays = new Dictionary<int, Viewport[]>();
+            viewportArrays = new Dictionary<int, ViewportF[]>();
             streamOutputBufferArrays = new Dictionary<int, StreamOutputBufferBinding[]>();
             renderTargetArrays = new Dictionary<int, RenderTargetView[]>();
             unorderedAccessViewArrays = new Dictionary<int, UnorderedAccessView[]>();
@@ -308,11 +307,11 @@ namespace Beholder.Libraries.SharpDX11.Core
 
             if (Rasterizer.Viewports.IsDirty)
             {
-                var viewportsArray = viewportArrays.GetOrAdd(Rasterizer.Viewports.CurrentCount, c => new Viewport[c]);
+                var viewportsArray = viewportArrays.GetOrAdd(Rasterizer.Viewports.CurrentCount, c => new ViewportF[c]);
                 for (int i = 0; i < viewportsArray.Length; i++)
                 {
                     var bViewport = Rasterizer.Viewports[i];
-                    viewportsArray[i] = new Viewport(bViewport.Left, bViewport.Top, bViewport.Width, bViewport.Height, bViewport.MinDepth, bViewport.MaxDepth);
+                    viewportsArray[i] = new ViewportF(bViewport.Left, bViewport.Top, bViewport.Width, bViewport.Height, bViewport.MinDepth, bViewport.MaxDepth);
                 }
                 d3dDeviceContext.Rasterizer.SetViewports(viewportsArray);
                 Rasterizer.Viewports.Clean();

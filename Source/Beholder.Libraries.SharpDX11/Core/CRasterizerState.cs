@@ -51,7 +51,7 @@ namespace Beholder.Libraries.SharpDX11.Core
                 IsAntialiasedLineEnabled = desc.AntialiasedLineEnable
             };
 
-            d3dRasterizerState = new RasterizerState(device.D3DDevice, ref d3dDesc);
+            d3dRasterizerState = new RasterizerState(device.D3DDevice, d3dDesc);
         }
 
         public void DisposeInternal()

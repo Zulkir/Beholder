@@ -188,11 +188,13 @@ float4 Color : SDX9 = COLOR, SDX10 = SV_Target, SGL3 = %name
             lightBuffer = Device.Create.Buffer(
                 new BufferDescription { SizeInBytes = Light.SizeInBytes, BindFlags = BindFlags.UniformBuffer, Usage = Usage.Dynamic });
 
-            var diffuseTexture = Device.Load.Texture2D("../Textures/DiffuseTest.png");
+            var textureLoader = new TextureLoader(Device);
+
+            var diffuseTexture = textureLoader.Load("../Textures/DiffuseTest.png");
             diffuseView = diffuseTexture.ViewAsShaderResource(diffuseTexture.FormatID, 0, diffuseTexture.MipLevels);
 
-            var specularTexture = Device.Load.Texture2D("../Textures/SpecularTest.png");
-            specualrView = specularTexture.ViewAsShaderResource(specularTexture.FormatID, 0, diffuseTexture.MipLevels);
+            var specularTexture = textureLoader.Load("../Textures/SpecularTest.png");
+            specualrView = specularTexture.ViewAsShaderResource(specularTexture.FormatID, 0, specularTexture.MipLevels);
 
             samplerState = Device.Create.SamplerState(SamplerDescription.Default);
             depthStencilState = Device.Create.DepthStencilState(DepthStencilDescription.Enabled);

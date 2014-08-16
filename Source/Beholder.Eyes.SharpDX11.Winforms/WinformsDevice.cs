@@ -46,7 +46,6 @@ namespace Beholder.Eyes.SharpDX11.Winforms
         readonly CSwapChain primarySwapChain;
         readonly CDeviceChildCreator creator;
         readonly CDeviceContext immediateContext;
-        readonly CDeviceChildLoader loader;
         readonly List<CSwapChain> additionalSwapChains;
 
         public Device D3DDevice { get { return d3dDevice; } }
@@ -58,7 +57,6 @@ namespace Beholder.Eyes.SharpDX11.Winforms
         public DeviceInitializationFlags Flags { get { return flags; } }
         public IPrimarySwapChain PrimarySwapChain { get { return primarySwapChain; } }
         public IDeviceChildCreator Create { get { return creator; } }
-        public IDeviceChildLoader Load { get { return loader; } }
         IDeviceContext IDevice.ImmediateContext { get { return immediateContext; } }
         
         public WinformsDevice(Factory1 dxgiFactory, WinformsEye eye, CAdapter adapter,
@@ -76,7 +74,6 @@ namespace Beholder.Eyes.SharpDX11.Winforms
                 pswc => { }, () => !primaryWindow.IsVisible && additionalSwapChains.All(aswc => !aswc.Window.IsVisible));
 
             creator = new CDeviceChildCreator(this);
-            loader = new CDeviceChildLoader(this, fileSystem);
             immediateContext = new CDeviceContext(this, d3dDevice.ImmediateContext);
 
             additionalSwapChains = new List<CSwapChain>();
@@ -85,7 +82,6 @@ namespace Beholder.Eyes.SharpDX11.Winforms
         public void Dispose()
         {
             immediateContext.Dispose();
-            loader.Dispose();
             creator.Dispose();
             foreach (var swc in additionalSwapChains)
                 swc.DisposeFinal();

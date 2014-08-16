@@ -22,7 +22,6 @@ THE SOFTWARE.
 
 using System;
 using Beholder.Libraries.SharpDX11.Core;
-using Beholder.Platform;
 using Beholder.Resources;
 using Beholder.Utility.ForImplementations.Resources;
 using Beholder.Utility.Helpers;
@@ -76,7 +75,8 @@ namespace Beholder.Libraries.SharpDX11.Resources
                 for (int i = 0; i < boxes.Length; i++)
                 {
                     int rowPitch, slicePitch, totalSize;
-                    LocalHelpers.GetTextureDataSettingParameters((Format)desc.FormatID, desc.Width, desc.Height, 1,
+                    LocalHelpers.GetTextureDataSettingParameters((Format)desc.FormatID, 
+                        TextureHelper.MipSize(i, desc.Width), TextureHelper.MipSize(i, desc.Height), 1,
                         initialData[0].RowByteAlignment, out rowPitch, out slicePitch, out totalSize);
                     boxes[i] = new DataBox(initialData[i].Pointer, rowPitch, 0);
                 }
@@ -161,26 +161,6 @@ namespace Beholder.Libraries.SharpDX11.Resources
         protected override IShaderResourceView CreateSrv(ref ShaderResourceViewDescription viewDescription) { return new CShaderResourceView(this, ref viewDescription); }
         protected override IUnorderedAccessView CreateUav(ref UnorderedAccessViewDescription viewDescription) { return new CUnorderedAccessView(this, ref viewDescription); }
         #endregion
-
-        public static CTexture2D FromFile(ICDevice device, IFileSystem fileSystem, string fileName, Action<CTexture2D> onRelease)
-        {
-            var d3dTexture2D = Resource.FromMemory<Texture2D>(device.D3DDevice, fileSystem.ReadBinary(fileName));
-            var d3dDesc = d3dTexture2D.Description;
-            var bDesc = new Texture2DDescription
-            {
-                Width = d3dDesc.Width,
-                Height = d3dDesc.Height,
-                MipLevels = d3dDesc.MipLevels,
-                ArraySize = d3dDesc.ArraySize,
-                FormatID = (int)d3dDesc.Format,
-                Sampling = CtBeholder.Sampling(d3dDesc.SampleDescription),
-                Usage = CtBeholder.Usage(d3dDesc.Usage),
-                BindFlags = CtBeholder.BindFlags(d3dDesc.BindFlags),
-                MiscFlags = CtBeholder.MiscFlags(d3dDesc.OptionFlags),
-                ExtraFlags = ExtraFlags.None
-            };
-            return new CTexture2D(device, d3dTexture2D, ref bDesc, onRelease);
-        }
     }
 }
 

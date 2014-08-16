@@ -22,7 +22,6 @@ THE SOFTWARE.
 
 using System;
 using Beholder.Libraries.SharpDX11.Core;
-using Beholder.Platform;
 using Beholder.Resources;
 using Beholder.Utility.ForImplementations.Resources;
 using Beholder.Utility.Helpers;
@@ -34,6 +33,7 @@ using MapFlags = SharpDX.Direct3D11.MapFlags;
 using RenderTargetViewDescription = Beholder.Resources.RenderTargetViewDescription;
 using Resource = SharpDX.Direct3D11.Resource;
 using ShaderResourceViewDescription = Beholder.Resources.ShaderResourceViewDescription;
+using Texture1D = SharpDX.Direct3D11.Texture1D;
 using Texture1DDescription = Beholder.Resources.Texture1DDescription;
 using UnorderedAccessViewDescription = Beholder.Resources.UnorderedAccessViewDescription;
 using Usage = Beholder.Resources.Usage;
@@ -137,23 +137,5 @@ namespace Beholder.Libraries.SharpDX11.Resources
         protected override IShaderResourceView CreateSrv(ref ShaderResourceViewDescription viewDescription) { return new CShaderResourceView(this, ref viewDescription); }
         protected override IUnorderedAccessView CreateUav(ref UnorderedAccessViewDescription viewDescription) { return new CUnorderedAccessView(this, ref viewDescription); }
         #endregion
-
-        public static CTexture1D FromFile(ICDevice device, IFileSystem fileSystem, string fileName, Action<CTexture1D> onRelease)
-        {
-            var d3dTexture1D = Resource.FromMemory<Texture1D>(device.D3DDevice, fileSystem.ReadBinary(fileName));
-            var d3dDesc = d3dTexture1D.Description;
-            var bDesc = new Texture1DDescription
-            {
-                Width = d3dDesc.Width,
-                MipLevels = d3dDesc.MipLevels,
-                ArraySize = d3dDesc.ArraySize,
-                FormatID = (int)d3dDesc.Format,
-                Usage = CtBeholder.Usage(d3dDesc.Usage),
-                BindFlags = CtBeholder.BindFlags(d3dDesc.BindFlags),
-                MiscFlags = CtBeholder.MiscFlags(d3dDesc.OptionFlags),
-                ExtraFlags = ExtraFlags.None
-            };
-            return new CTexture1D(device, d3dTexture1D, ref bDesc, onRelease);
-        }
     }
 }

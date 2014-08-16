@@ -99,16 +99,16 @@ namespace Beholder.Libraries.SharpDX9
         #endregion
 
         #region Viewport
-        public static SharpDX.Direct3D9.Viewport Viewport(Viewport bViewport)
+        public static SharpDX.Viewport Viewport(Viewport bViewport)
         {
-            return new SharpDX.Direct3D9.Viewport
+            return new SharpDX.Viewport
             {
                 X = (int)System.Math.Round(bViewport.Left),
                 Y = (int)System.Math.Round(bViewport.Top),
                 Width = (int)System.Math.Round(bViewport.Width),
                 Height = (int)System.Math.Round(bViewport.Height),
-                MinZ = (int)System.Math.Round(bViewport.MinDepth),
-                MaxZ = (int)System.Math.Round(bViewport.MaxDepth)
+                MinDepth = (int)System.Math.Round(bViewport.MinDepth),
+                MaxDepth = (int)System.Math.Round(bViewport.MaxDepth)
             };
         }
         #endregion

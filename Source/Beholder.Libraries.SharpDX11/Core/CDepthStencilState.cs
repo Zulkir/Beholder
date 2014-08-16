@@ -61,7 +61,7 @@ namespace Beholder.Libraries.SharpDX11.Core
                 }
             };
 
-            d3dDepthStencilState = new DepthStencilState(device.D3DDevice, ref d3dDesc);
+            d3dDepthStencilState = new DepthStencilState(device.D3DDevice, d3dDesc);
         }
 
         public void DisposeInternal()

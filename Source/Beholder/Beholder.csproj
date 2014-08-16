@@ -170,7 +170,6 @@
     <Compile Include="Utility\Helpers\TextureHelper.cs" />
     <Compile Include="Utility\Helpers\FormatHelper.cs" />
     <Compile Include="Utility\DataProcessing\IDataWriter.cs" />
-    <Compile Include="IDeviceChildLoader.cs" />
     <Compile Include="Utility\Patterns\ISimpleObservable.cs" />
     <Compile Include="Utility\Patterns\ISimpleObserver.cs" />
     <Compile Include="Utility\DataProcessing\MetaText.cs" />
@@ -251,7 +250,6 @@
     <Compile Include="Validation\Device.cs" />
     <Compile Include="Validation\DeviceChild.cs" />
     <Compile Include="Validation\DeviceChildCreator.cs" />
-    <Compile Include="Validation\DeviceChildLoader.cs" />
     <Compile Include="Validation\Core\DeviceContext.cs" />
     <Compile Include="Validation\Core\DeviceContextComputeShaderStage.cs" />
     <Compile Include="Validation\Core\DeviceContextComputeShaderStageUnorderedAccessResources.cs" />

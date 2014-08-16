@@ -52,6 +52,7 @@
     <Compile Include="FullscreenQuadScene.cs" />
     <Compile Include="MetaScene.cs" />
     <Compile Include="RenderToTextureScene.cs" />
+    <Compile Include="TextureLoader.cs" />
     <Compile Include="TriangleScene.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="Program.cs" />
@@ -97,6 +98,11 @@
       <Project>{37BF68D2-5886-499F-B68E-937995F0C092}</Project>
       <Name>Beholder.Libraries.Windows.Forms</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="d3dcompiler_47.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

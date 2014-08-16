@@ -34,7 +34,6 @@ namespace Beholder.Validation
         public IAdapter Adapter { get { return Wrappers.Get(Real.Adapter); } }
         public DeviceInitializationFlags Flags { get { return Real.Flags; } }
         public IDeviceChildCreator Create { get { return Wrappers.Get(Real.Create); } }
-        public IDeviceChildLoader Load { get { return Wrappers.Get(Real.Load); } }
         public IPrimarySwapChain PrimarySwapChain { get { return Wrappers.Get(Real.PrimarySwapChain); } }
         public IDeviceContext ImmediateContext { get { return Wrappers.Get(Real.ImmediateContext); } }
 

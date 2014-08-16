@@ -53,7 +53,6 @@ namespace Beholder.Eyes.SharpDX9.Winforms
         
         readonly List<CAdditionalSwapChain> additionalSwapChains;
         readonly CDeviceChildCreator creator;
-        readonly CDeviceChildLoader loader;
         readonly CDeviceContext immediateContext;
 
         CBackBuffer implicitBackBuffer;
@@ -72,7 +71,6 @@ namespace Beholder.Eyes.SharpDX9.Winforms
         public DeviceInitializationFlags Flags { get { return flags; } }
         public IPrimarySwapChain PrimarySwapChain { get { return this; } }
         public IDeviceChildCreator Create { get { return creator; } }
-        public IDeviceChildLoader Load { get { return loader; } }
         IDeviceContext IDevice.ImmediateContext { get { return immediateContext; } }
 
         public int Width { get { return primaryWindow.SwapChainWidth; } }
@@ -117,7 +115,6 @@ namespace Beholder.Eyes.SharpDX9.Winforms
             additionalSwapChains = new List<CAdditionalSwapChain>();
             creator = new CDeviceChildCreator(this);
             immediateContext = new CDeviceContext(this);
-            loader = new CDeviceChildLoader(this, fileSystem);
 
             lastSwapChainSize = new IntSize(primaryWindow.SwapChainWidth, primaryWindow.SwapChainHeight);
             fullscreenState = FullscreenState.Windowed;
@@ -171,7 +168,6 @@ namespace Beholder.Eyes.SharpDX9.Winforms
         /// </summary>
         void ResetProcedure()
         {
-            loader.OnDeviceLost();
             creator.OnDeviceLost();
             implicitDepthStencilBuffer.ReleaseIfExists();
             implicitBackBuffer.ReleaseIfExists();
@@ -186,7 +182,6 @@ namespace Beholder.Eyes.SharpDX9.Winforms
             foreach (CAdditionalSwapChain t in additionalSwapChains)
                 t.OnDeviceReset(fullscreenState == FullscreenState.Fullscreen);
             creator.OnDeviceReset();
-            loader.OnDeviceReset();
             immediateContext.OnDeviceReset();
         }
 
@@ -294,7 +289,6 @@ namespace Beholder.Eyes.SharpDX9.Winforms
 
         public void Dispose()
         {
-            loader.Dispose();
             creator.Dispose();
             implicitDepthStencilBuffer.ReleaseIfExists();
             implicitBackBuffer.ReleaseIfExists();

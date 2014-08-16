@@ -223,12 +223,12 @@ namespace Beholder.Libraries.SharpDX11
         #endregion
 
         #region Viewport
-        public static void Viewport(ref Beholder.Core.Viewport bViewport, out SharpDX.Direct3D11.Viewport d3dViewport)
+        public static void Viewport(ref Beholder.Core.Viewport bViewport, out SharpDX.ViewportF d3dViewport)
         {
-            d3dViewport = new SharpDX.Direct3D11.Viewport
+            d3dViewport = new SharpDX.ViewportF
             {
-                TopLeftX = bViewport.Left,
-                TopLeftY = bViewport.Top,
+                X = bViewport.Left,
+                Y = bViewport.Top,
                 Width = bViewport.Width,
                 Height = bViewport.Height,
                 MinDepth = bViewport.MinDepth,

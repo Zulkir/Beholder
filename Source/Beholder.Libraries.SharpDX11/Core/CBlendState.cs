@@ -62,7 +62,7 @@ namespace Beholder.Libraries.SharpDX11.Core
                 };
             }
 
-            d3dBlendState = new BlendState(device.D3DDevice, ref d3dDesc);
+            d3dBlendState = new BlendState(device.D3DDevice, d3dDesc);
         }
 
         public void DisposeInternal()

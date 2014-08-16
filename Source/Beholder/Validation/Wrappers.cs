@@ -91,7 +91,6 @@ namespace Beholder.Validation
         public static PrimarySwapChain Get(IPrimarySwapChain obj) { return GetGeneric(obj, o => new PrimarySwapChain(o)); }
         public static AdditionalSwapChain Get(IAdditionalSwapChain obj) { return GetGeneric(obj, o => new AdditionalSwapChain(o)); }
         public static DeviceChildCreator Get(IDeviceChildCreator obj) { return GetGeneric(obj, o => new DeviceChildCreator(o)); }
-        public static DeviceChildLoader Get(IDeviceChildLoader obj) { return GetGeneric(obj, o => new DeviceChildLoader(o)); }
         public static DeviceContext Get(IDeviceContext obj) { return GetGeneric(obj, o => new DeviceContext(o)); }
         public static BlendState Get(IBlendState obj) { return GetGeneric(obj, o => new BlendState(o)); }
         public static DepthStencilState Get(IDepthStencilState obj) { return GetGeneric(obj, o => new DepthStencilState(o)); }

@@ -69,7 +69,6 @@
     <Compile Include="Core\CDepthStencilState.cs" />
     <Compile Include="Resources\CDepthStencilView.cs" />
     <Compile Include="CDeviceChildCreator.cs" />
-    <Compile Include="CDeviceChildLoader.cs" />
     <Compile Include="Core\CDeviceContext.cs" />
     <Compile Include="Core\ConstantVariablesSetter.cs" />
     <Compile Include="Core\CRasterizerState.cs" />

@@ -60,7 +60,6 @@
     <Compile Include="Resources\CDepthStencilView.cs" />
     <Compile Include="CDeviceContext.cs" />
     <Compile Include="CDeviceChildCreator.cs" />
-    <Compile Include="CDeviceChildLoader.cs" />
     <Compile Include="Platform\COutput.cs" />
     <Compile Include="Core\CRasterizerState.cs" />
     <Compile Include="Resources\CRenderTargetView.cs" />

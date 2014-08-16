@@ -37,7 +37,7 @@ namespace Beholder.Libraries.SharpDX11.Platform
 {
     public class CAdapter : IAdapter
     {
-        const FormatSupport DisplaySupportMask = FormatSupport.RenderTarget | FormatSupport.Display | FormatSupport.MultisampleRendertarget;
+        const FormatSupport DisplaySupportMask = FormatSupport.RenderTarget | FormatSupport.Display | FormatSupport.MultisampleRenderTarget;
         const FormatSupport DepthStencilSupportMask = FormatSupport.DepthStencil;
         const FormatSupport VertexElementSupportMask = FormatSupport.InputAssemblyVertexBuffer;
 
@@ -118,7 +118,7 @@ namespace Beholder.Libraries.SharpDX11.Platform
                     MaxThreadGroupsTotal = d3dDevice.FeatureLevel == FeatureLevel.Level_11_0 ? ComputeShaderStage.ThreadGroupMaximumThreadsPerGroup : 768
                 };
 
-                var allFormats = (Format[])Enum.GetValues(typeof(Format));
+                var allFormats = ((ExplicitFormat[])Enum.GetValues(typeof(ExplicitFormat))).Select(x => (Format)x).ToArray();
 
                 formatsSupport = allFormats.Select(d3dDevice.CheckFormatSupport).ToArray();
                 formatInfos = allFormats.Where(f => f != 0).Select(CtBeholder.FormatInfo).ToArray();

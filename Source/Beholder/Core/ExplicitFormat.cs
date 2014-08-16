@@ -123,6 +123,22 @@ namespace Beholder.Core
         BC6H_SF16 = 96,
         BC7_TYPELESS = 97,
         BC7_UNORM = 98,
-        BC7_UNORM_SRGB = 99,
+        BC7_UNORM_SRGB = 99,/*
+        AYUV = 100,
+        Y410 = 101,
+        Y416 = 102,
+        NV12 = 103,
+        P010 = 104,
+        P016 = 105,
+        OPAQUE_420 = 106,
+        YUV2 = 107,
+        Y210 = 108,
+        Y216 = 109,
+        NV11 = 110,
+        AI44 = 111,
+        IA44 = 112,
+        P8 = 113,
+        A8P8 = 114,
+        B4G4R4A4_UNORM = 115*/
     }
 }

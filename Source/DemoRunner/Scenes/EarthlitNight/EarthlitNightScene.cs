@@ -88,9 +88,9 @@ namespace DemoRunner.Scenes.EarthlitNight
                 MiscFlags = MiscFlags.TextureCube | MiscFlags.GenerateMips
             });
 
-            earthTexture = device.Load.Texture2D("../Textures/BasicTest.png");
+            var textureLoader = new TextureLoader(device);
 
-
+            earthTexture = textureLoader.Load("../Textures/BasicTest.png");
         }
 
         public void OnNewFrame(IRealTime realTime)

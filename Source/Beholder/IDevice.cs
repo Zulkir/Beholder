@@ -36,7 +36,6 @@ namespace Beholder
         DeviceInitializationFlags Flags { get; }
 
         IDeviceChildCreator Create { get; }
-        IDeviceChildLoader Load { get; }
 
         IPrimarySwapChain PrimarySwapChain { get; }
         IDeviceContext ImmediateContext { get; }

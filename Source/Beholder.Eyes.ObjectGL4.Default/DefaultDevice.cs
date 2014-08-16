@@ -40,7 +40,6 @@ namespace Beholder.Eyes.ObjectGL4.Default
         readonly Context glContext;
         readonly DefaultWindow primaryWindow;
         readonly CDeviceChildCreator creator;
-        readonly CDeviceChildLoader loader;
         readonly CDeviceContext immediateContext;
 
         public Context GetCurrentContext() { return glContext; }
@@ -51,7 +50,6 @@ namespace Beholder.Eyes.ObjectGL4.Default
         public IPrimarySwapChain PrimarySwapChain { get { return primaryWindow; } }
         public DefaultWindow DefaultWindow { get { return primaryWindow; } }
         public IDeviceChildCreator Create { get { return creator; } }
-        public IDeviceChildLoader Load { get { return loader; } }
         public CDeviceContext ImmediateContext { get { return immediateContext; } }
         IDeviceContext IDevice.ImmediateContext { get { return immediateContext; } }
 
@@ -69,7 +67,6 @@ namespace Beholder.Eyes.ObjectGL4.Default
 
             creator = new CDeviceChildCreator(this);
             immediateContext = new CDeviceContext(this, glContext);
-            loader = new CDeviceChildLoader(this, fileSystem);
         }
 
         public IAdditionalSwapChain CreateAdditionalSwapChain(IWindowHandle windowHandle, SwapChainDescription swapChainDesc)
@@ -80,7 +77,6 @@ namespace Beholder.Eyes.ObjectGL4.Default
         public void Dispose()
         {
             immediateContext.Dispose();
-            loader.Dispose();
             creator.Dispose();
             primaryWindow.Close();
             primaryWindow.Dispose();
