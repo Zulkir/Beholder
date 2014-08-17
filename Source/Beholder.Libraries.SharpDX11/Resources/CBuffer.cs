@@ -35,7 +35,7 @@ using UnorderedAccessViewDescription = Beholder.Resources.UnorderedAccessViewDes
 
 namespace Beholder.Libraries.SharpDX11.Resources
 {
-    class CBuffer : BufferBase<ICDevice>, ICResource
+    public class CBuffer : BufferBase<ICDevice>, ICResource
     {
         readonly Buffer d3dBuffer;
 
@@ -64,6 +64,12 @@ namespace Beholder.Libraries.SharpDX11.Resources
                 d3dBuffer = new Buffer(device.D3DDevice, initialData.Pointer, d3dDesc);
                 initialData.UnpinPointer();
             }
+        }
+
+        public CBuffer(ICDevice device, Buffer d3dBuffer, ref BufferDescription desc, Action<CBuffer> onRelease)
+            : base(device, ref desc, t => onRelease((CBuffer)t))
+        {
+            this.d3dBuffer = d3dBuffer;
         }
 
         protected override void DisposeOfNative()

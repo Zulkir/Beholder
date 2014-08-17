@@ -39,7 +39,7 @@ using Usage = Beholder.Resources.Usage;
 
 namespace Beholder.Libraries.SharpDX11.Resources
 {
-    class CTexture2D : Texture2DBase<ICDevice>, ICResource
+    public class CTexture2D : Texture2DBase<ICDevice>, ICResource
     {
         readonly Texture2D d3dTexture2D;
 
@@ -88,7 +88,7 @@ namespace Beholder.Libraries.SharpDX11.Resources
             }
         }
 
-        private CTexture2D(ICDevice device, Texture2D d3dTexture2D, ref Texture2DDescription desc, Action<CTexture2D> onRelease)
+        public CTexture2D(ICDevice device, Texture2D d3dTexture2D, ref Texture2DDescription desc, Action<CTexture2D> onRelease)
             : base(device, ref desc, t => onRelease((CTexture2D)t))
         {
             this.d3dTexture2D = d3dTexture2D;
