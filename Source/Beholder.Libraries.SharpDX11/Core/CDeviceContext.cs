@@ -234,8 +234,8 @@ namespace Beholder.Libraries.SharpDX11.Core
 
         void ConsumeComputeShaderStage(ComputeShaderStage d3dStage, DeviceContextBaseComputeShaderStage bStage)
         {
-            ConsumeCommonShaderStage(d3dStage, bStage);
             ConsumeShaderStageUavs(d3dStage, bStage);
+            ConsumeCommonShaderStage(d3dStage, bStage);
         }
 
         void ConsumeInputAssembler()
