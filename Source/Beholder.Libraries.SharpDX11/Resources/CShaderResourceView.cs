@@ -29,7 +29,7 @@ using ShaderResourceViewDescription = Beholder.Resources.ShaderResourceViewDescr
 
 namespace Beholder.Libraries.SharpDX11.Resources
 {
-    class CShaderResourceView : ShaderResourceViewBase<ICDevice>
+    public class CShaderResourceView : ShaderResourceViewBase<ICDevice>
     {
         readonly ShaderResourceView d3dSrv;
         readonly ICResource resource;

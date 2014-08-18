@@ -29,7 +29,7 @@ using RenderTargetViewDimension = Beholder.Resources.RenderTargetViewDimension;
 
 namespace Beholder.Libraries.SharpDX11.Resources
 {
-    class CRenderTargetView : RenderTargetViewBase<ICDevice, ICResource>
+    public class CRenderTargetView : RenderTargetViewBase<ICDevice, ICResource>
     {
         readonly RenderTargetView d3dRtv;
 

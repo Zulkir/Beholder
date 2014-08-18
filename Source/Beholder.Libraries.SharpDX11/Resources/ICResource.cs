@@ -26,7 +26,7 @@ using SharpDX.Direct3D11;
 
 namespace Beholder.Libraries.SharpDX11.Resources
 {
-    interface ICResource : IResource
+    public interface ICResource : IResource
     {
         new ICDevice Device { get; }
         Resource D3DResource { get; }

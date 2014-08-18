@@ -58,6 +58,8 @@ namespace Beholder.Libraries.SharpDX11.Core
         readonly Dictionary<int, UnorderedAccessView[]> unorderedAccessViewArrays;
         readonly Dictionary<int, int[]> initialCountArrays;
 
+        public DeviceContext D3DDeviceContext { get { return d3dDeviceContext; } }
+
         public CDeviceContext(ICDevice device, DeviceContext d3dDeviceContext) : base(device)
         {
             this.d3dDeviceContext = d3dDeviceContext;

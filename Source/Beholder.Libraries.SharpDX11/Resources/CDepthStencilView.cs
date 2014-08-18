@@ -29,7 +29,7 @@ using DepthStencilViewDimension = Beholder.Resources.DepthStencilViewDimension;
 
 namespace Beholder.Libraries.SharpDX11.Resources
 {
-    class CDepthStencilView : DepthStencilViewBase<ICDevice, ICResource>
+    public class CDepthStencilView : DepthStencilViewBase<ICDevice, ICResource>
     {
         readonly DepthStencilView d3dDsv;
 

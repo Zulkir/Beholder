@@ -30,7 +30,7 @@ using UnorderedAccessViewDimension = Beholder.Resources.UnorderedAccessViewDimen
 
 namespace Beholder.Libraries.SharpDX11.Resources
 {
-    class CUnorderedAccessView : UnorderedAccessViewBase<ICDevice>
+    public class CUnorderedAccessView : UnorderedAccessViewBase<ICDevice>
     {
         readonly UnorderedAccessView d3dUav;
         readonly ICResource resource;
